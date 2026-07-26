@@ -5,9 +5,12 @@
 
 ## 정체성 (한 줄 요약)
 
-**후르츠디노의 구버전(오리지널) Unity 클라이언트.** 현행 `Client/`와 결정적 차이는
-**전투가 클라이언트에서 실행되는 client-authoritative 구조**라는 점.
-즉 이후 서버권위(`Server/Main/Game/Battle/ServerWaveCore`)로 이관되기 **전 세대**의 코드다.
+> ⚠️ **중요 정정 (2026-07-26)**: Project_FruitDino는 현행 `Server/`+`Client/`(후르츠디노 RPG)의
+> "구버전"이 **아니다**. **전혀 다른 게임**이다. 따라서 현행 서버 전투코어(`ServerWaveCore`)와
+> **서버 로직을 공유할 수 없으며**, 이 게임의 **전투 판정은 클라이언트에 그대로 유지되어야 한다.**
+
+**독립적인 다른 게임의 Unity 클라이언트.** **전투가 클라이언트에서 실행되는 client-authoritative 구조**로,
+전투 판정·계산이 클라 내부에서 자기완결적으로 처리된다(서버 권위 아님).
 
 - 타겟: **.NET Framework 4.7.1** (`net471`, `packages.config` 기준)
 - 형태: Unity 프로젝트 (`.csproj`는 Unity가 생성 → 저장 안 됨)
@@ -83,25 +86,51 @@
 
 ---
 
-## 현행(Server/ + Client/) 대비 비교
+## 현행 후르츠디노 RPG(Server/ + Client/)와의 관계
 
-| 항목 | Project_FruitDino (구) | Server/ + Client/ (현행) |
+**둘은 서로 다른 게임이다.** 아래는 "같은 게임의 구/신 버전" 대조가 **아니라**, 별개 프로젝트의
+아키텍처 성격 비교다. 특히 전투 권위 모델이 근본적으로 달라 **서버 로직을 공유할 수 없다.**
+
+| 항목 | Project_FruitDino (별개 게임) | 후르츠디노 RPG `Server/`+`Client/` |
 |------|------|------|
-| 전투 권위 | **클라이언트** (`BattleManager` FSM) | **서버** (`ServerWaveCore`) |
+| 전투 권위 | **클라이언트** (`BattleManager` FSM, 판정 클라 내장) | **서버** (`ServerWaveCore`) |
 | 실시간 통신 | raw gRPC (로비 Unary만) | MagicOnion StreamingHub |
 | 타겟 프레임워크 | .NET Framework 4.7.1 | .NET 6 |
-| 데이터 | CSV(46 테이블) + S3/Cognito | 유사 CSV + 서버 테이블 |
+| 데이터 | CSV(로컬 Resources / 디바이스는 S3) | 유사 CSV + 서버 테이블 |
+| 코드 공유 | ❌ **서버 전투코어 공유 불가** — 클라 판정 유지 | — |
+
+---
+
+## 실행 / AWS 의존성 (오프라인 동작 확인)
+
+부팅 흐름 `Scenes/Main.cs` → `OnAssetManagerIntializeComplete()`에서 플랫폼별로 갈린다:
+
+| 환경 | 테이블 로딩 | AWS 필요? |
+|------|------|:---:|
+| **Editor / Windows / OSX** | `CSVDataManager.InitTables()` → 로컬 `Resources/CSV/*.csv`(24개) | ❌ 불필요 |
+| **Android(디바이스)** | `CSVDataManager.InitAWSData()` → S3 `game-data` | ✅ 필요 |
+
+- `InitAWSData()`는 `InitTables()` 안에서 **주석 처리**됨. 에디터 경로는 전적으로 로컬 CSV 사용.
+- **전투는 client-authoritative + 데이터 로컬** → 전투 자체는 서버/AWS 없이 클라에서 완결.
+- **막히는 지점 2곳**:
+  1. 타이틀 로그인 `TitleUiController.SendLogin` → **EC2 gRPC 로비서버**(`ec2-13-212-...:6565`).
+     실패 시 `response == null` → **`Application.Quit()`**.
+  2. 디바이스 빌드는 테이블을 S3에서 받으므로 AWS 필수.
+- **결론**: 에디터에서 로그인/`Quit()` 우회 또는 배틀 씬(`GameScene`/`main`/`Scenes/Tool/*`)을 직접 열면
+  **AWS 없이 전투 확인 가능**. 정상 부팅 플로우는 EC2 로그인에서 종료되므로 그대로는 안 됨.
+  → 클라 판정이 로컬·자기완결적이라 "클라 판정 그대로 유지" 방향과 구조가 부합.
 
 ---
 
 ## 전략적 시사점
 
-1. **WebGL 관점**: 이 구버전도 `Grpc.Core`(네이티브) 때문에 WebGL 불가 → 통신 레이어 전면 교체 대상.
-   [CLAUDE.md](CLAUDE.md)의 **ADR-001**(MagicOnion 포기, WebGL 필수)과 일관.
-2. **재활용 가치 있는 자산**: 전투 **연출/애니메이션 FSM**(`Character/Monster/SubState`), UI(`Contents`),
-   CSV 파이프라인, 풀링/Addressable 프레임워크(`Framework/Asset`). → 클라 자산으로 여전히 유용.
-3. **버려야 할 부분**: 전투 **판정/계산 로직**(`CalculateSystem` 등)은 서버권위(`ServerWaveCore`)로
-   이미 이관됐으므로 클라 전투 계산부는 제거 대상.
+1. **서버 로직 공유 불가**: 현행 후르츠디노 RPG와 **다른 게임**이므로 `ServerWaveCore` 등 서버 전투코어를
+   재사용할 수 없다. **전투 판정은 이 클라이언트 안에 그대로 유지**해야 한다(제거·서버 이관 대상 아님).
+2. **WebGL 관점**: `Grpc.Core`(네이티브) 때문에 이 클라도 WebGL 불가 → WebGL이 필요하면 통신/로그인
+   레이어(로비 gRPC) 교체가 선행돼야 함. 단 **전투 판정 자체는 클라 로컬이라 WebGL 이식과 무관하게 보존** 가능.
+3. **재활용 가치 있는 자산**: 전투 연출/애니메이션 FSM(`Character/Monster/SubState`), 전투 판정/계산
+   (`BattleManager` FSM, `CalculateSystem` 등), UI(`Contents`), CSV 파이프라인, 풀링/Addressable
+   프레임워크(`Framework/Asset`) — 이 게임의 핵심 자산으로 유지.
 
 ## ⚠️ 보안 이슈 (조치 필요)
 

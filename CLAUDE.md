@@ -4,7 +4,7 @@
 작업 폴더 `FruttiDino_RPG/`는 `.gitignore`로 **버전 관리에서 제외**되어 있습니다 (아래는 분석 기록용).
 
 ### 상세 분석 문서
-- [Project_FruitDino 상세 분석](Project_FruitDino_Analysis.md) — 구버전(client-authoritative) Unity 클라이언트: 전투 FSM·네트워크·CSV 파이프라인·프레임워크 + 보안 이슈.
+- [Project_FruitDino 상세 분석](Project_FruitDino_Analysis.md) — **후르츠디노 RPG와는 별개 게임**(client-authoritative). 전투 판정이 클라 로컬이라 서버 로직 공유 불가·클라 판정 유지 필요. 전투 FSM·네트워크·CSV 파이프라인·AWS 의존성·보안 이슈.
 
 ---
 
@@ -21,7 +21,7 @@
 | `Server/` | **메인 게임 서버** (.NET 6, `net6.0`). MagicOnion 서버 + gRPC. 실제 운영 대상. |
 | `Shared/` | 서버/콘솔 공용 프로젝트 (`Shared.csproj`, 인터페이스/메시지 정의). |
 | `Client/` | **Unity 클라이언트** (약 1,220 cs). MagicOnion.Unity, Addressables, Spine, DOTween, TextMeshPro. |
-| `Project_FruitDino/` | **구버전/원본** Unity 클라이언트 (약 1,329 cs, client-authoritative 전투). → [상세 분석](Project_FruitDino_Analysis.md) |
+| `Project_FruitDino/` | **별개 게임**의 Unity 클라이언트 (약 1,329 cs, client-authoritative 전투). 후르츠디노 RPG와 서버 로직 공유 불가. → [상세 분석](Project_FruitDino_Analysis.md) |
 | `FruttiDinoRPGConsol/` | Unity 기반 **콘솔 전투 테스트** 프로젝트 (약 252 cs). |
 | `FruttiDinoRPGConsolServer/` | 콘솔용 서버 (Server/Shared 재구성, 24 cs). |
 | `FruttiDinoRPGTest/` | Unity 테스트 프로젝트 (17 cs). |
@@ -96,8 +96,10 @@
 - 솔루션: `Server/Server.sln`, `Shared/Shared.sln`, `FruttiDinoRPGConsol/FruttiDinoRPGConsol.sln`.
 - 서버 빌드/실행: `Server/` 에서 `dotnet build` / `dotnet run` (net6.0). Docker는 `Server/Dockerfile`.
 - 코드/주석에 한국어가 많고, 일부 네임스페이스가 `k514`, `s0361` 등 코드명으로 되어 있음.
-- **레거시 주의**: `Battle_Legacy`(서버), `Project_FruitDino`(구 클라이언트)는 현행이 아닐 수 있으므로
-  현행 전투 로직은 `Server/Main/Game/Battle/ServerWaveCore/`, 현행 클라이언트는 `Client/`를 우선 참조.
+- **레거시 주의**: `Battle_Legacy`(서버)는 참고용 레거시. 현행 후르츠디노 RPG 전투 로직은
+  `Server/Main/Game/Battle/ServerWaveCore/`, 현행 클라이언트는 `Client/`를 우선 참조.
+- **`Project_FruitDino`는 별개 게임**(후르츠디노 RPG의 구버전이 아님) — client-authoritative 전투, 전투 판정을
+  클라에 유지해야 하며 서버 전투코어(`ServerWaveCore`) 공유 불가. → [상세 분석](Project_FruitDino_Analysis.md).
 
 ---
 
