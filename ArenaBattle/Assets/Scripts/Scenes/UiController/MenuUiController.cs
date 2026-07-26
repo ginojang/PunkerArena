@@ -110,7 +110,12 @@ public class MenuUiController : BaseUiController<MenuUiController>
 
 	IEnumerator SetPlayerCharacter()
 	{
-		UserData.CharacterSquadData data = GameDataManager.Instance.userData.serverSquadDic[modeType.Action][0];
+		// [OFFLINE GUARD] 서버 편성 데이터가 없으면(오프라인) 진행 중단
+		var squadDic = GameDataManager.Instance.userData.serverSquadDic;
+		if (squadDic == null || !squadDic.TryGetValue(modeType.Action, out var actionSquad)
+			|| actionSquad == null || !actionSquad.ContainsKey(0))
+			yield break;
+		UserData.CharacterSquadData data = actionSquad[0];
 
 		int count = 0;
 		

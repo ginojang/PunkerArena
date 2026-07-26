@@ -274,6 +274,8 @@ public class UiMenu : UiBase<UiMenu>, IDragHandler
 		
 		for (int i = 0; i < Definition.MAX_CHARACTER; i++)
 		{
+			// [OFFLINE GUARD] 캐릭터 리스트가 부족하면(오프라인 빈 편성) 중단
+			if (charList == null || i >= charList.Count) break;
 			Transform positionRoot = renderroot.transform.Find($"Character{i + 1}");
 			Transform positionObj = positionRoot.Find($"CharacterPos{i + 1}");
 
