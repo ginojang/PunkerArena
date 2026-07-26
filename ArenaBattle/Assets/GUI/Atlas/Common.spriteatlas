@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Common
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: DefaultTexturePlatform
+      m_MaxTextureSize: 2048
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: -1
+      m_TextureCompression: 2
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 2
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 0
+      enableTightPacking: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: 6e4c026d930d2b14d897cd656727f5dd, type: 3}
+    totalSpriteSurfaceArea: 22977
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: e80431a5116d7e246b70c29508d016ba, type: 3}
+  - {fileID: 21300000, guid: bde6b226895248340b00f5006708090d, type: 3}
+  - {fileID: 21300000, guid: 74a8ec76df2a5c34fb0b2f54e6a9c02e, type: 3}
+  - {fileID: 21300000, guid: 4ac545b7c3ded0c4f92fb712b07223e3, type: 3}
+  - {fileID: 21300000, guid: f1c016da60c015e4f84f83d287cd867d, type: 3}
+  - {fileID: 21300000, guid: a43aa4fc8c9bb3c4390f4c906c3eeca4, type: 3}
+  - {fileID: 21300000, guid: 8d1317be8630d8b44a57c1ac72a1129a, type: 3}
+  - {fileID: 21300000, guid: 3835eacfab194774c900e041bd7af2b5, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - UI_Common_Button2
+  - UI_Common_Popup
+  - UI_Common_IconClose
+  - UI_Common_Popup3
+  - UI_Common_Button3
+  - UI_Common_PopupTitle
+  - UI_Common_Button1
+  - UI_Common_Popup2
+  m_RenderDataMap: {}
+  m_Tag: Common
+  m_IsVariant: 0

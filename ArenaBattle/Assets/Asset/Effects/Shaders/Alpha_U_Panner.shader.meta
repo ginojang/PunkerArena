@@ -1,0 +1,11 @@
+fileFormatVersion: 2
+guid: 9afca151780429548bd8d27fadb18f8c
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures:
+  - _Tx_Aura_04_Alpha: {fileID: 2800000, guid: 61ccc6f3b7f6201488f7bde8e73f6985, type: 3}
+  nonModifiableTextures: []
+  preprocessorOverride: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

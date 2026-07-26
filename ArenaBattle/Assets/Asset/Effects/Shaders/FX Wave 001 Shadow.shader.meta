@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 5a9cb032296a9034bbd1bdc4d8321310
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures:
+  - _WaveTex2Mask: {fileID: 2800000, guid: 9d61fe1abf2674b43aebdbeb1ea57a6d, type: 3}
+  - _WaveTex1: {fileID: 2800000, guid: 75bcce8bd12bf694d9fa7fd14a0d545e, type: 3}
+  - _DissolveTex: {fileID: 2800000, guid: 6d8b7ab979ab9654aab7640a47b9f529, type: 3}
+  nonModifiableTextures: []
+  preprocessorOverride: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

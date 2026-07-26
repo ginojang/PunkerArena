@@ -1,0 +1,202 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: ice
+  m_Shader: {fileID: 4800000, guid: a34bbbbdac72efb4383d6e3636d7d266, type: 3}
+  m_ShaderKeywords: _RIMLIGHTUSE_ON
+  m_LightmapFlags: 0
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: 3000
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _GemTex01:
+        m_Texture: {fileID: 2800000, guid: 4eb60a1a101fb724d9f09dfabcfa9523, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _GemTex01Mask:
+        m_Texture: {fileID: 2800000, guid: d2d304831696f58438eb9ae66ecc0fae, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _GemTex02:
+        m_Texture: {fileID: 2800000, guid: c6aebe8d4dc42af4284cde1d838ee5d1, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _GemTex03:
+        m_Texture: {fileID: 2800000, guid: c6aebe8d4dc42af4284cde1d838ee5d1, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _GemTex2:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _GemTex3:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 981268db44882004288ce93116ac4355, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MaskTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord2:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _BumpScale: 1
+    - _CullMode: 2
+    - _Cutoff: 0.5
+    - _DetailNormalMapScale: 1
+    - _DstBlend: 0
+    - _DstBlendMod: 10
+    - _Emissive: 1
+    - _GemTex01RimlightBias: 0
+    - _GemTex01RimlightBias1: 0
+    - _GemTex01RimlightPower: 0
+    - _GemTex01RimlightPower1: 1
+    - _GemTex01RimlightScale: 1
+    - _GemTex01RimlightScale1: 1
+    - _GemTex01UOffset: 0
+    - _GemTex01UOffset1: 0
+    - _GemTex01USpeed: 0.5
+    - _GemTex01USpeed1: 0
+    - _GemTex01UTile: 1
+    - _GemTex01UTile1: 1
+    - _GemTex01VOffset: 0
+    - _GemTex01VOffset1: 0
+    - _GemTex01VSpeed: 0.3
+    - _GemTex01VSpeed1: 0
+    - _GemTex01VTile: 1
+    - _GemTex01VTile1: 1
+    - _GemTex02RimlightBias: 0
+    - _GemTex02RimlightBias1: 0
+    - _GemTex02RimlightPower: 2.5
+    - _GemTex02RimlightPower1: 1
+    - _GemTex02RimlightScale: 38.01
+    - _GemTex02RimlightScale1: 1
+    - _GemTex02UOffset: 0
+    - _GemTex02UOffset1: 0
+    - _GemTex02USpeed: 1
+    - _GemTex02USpeed1: 0
+    - _GemTex02UTile: 1.7
+    - _GemTex02UTile1: 1
+    - _GemTex02VOffset: 0
+    - _GemTex02VOffset1: 0
+    - _GemTex02VSpeed: 0.02
+    - _GemTex02VSpeed1: 0
+    - _GemTex02VTile: 0.9
+    - _GemTex02VTile1: 1
+    - _GemTex03RimlightBias: 0
+    - _GemTex03RimlightPower: 1
+    - _GemTex03RimlightScale: 1.9
+    - _GemTex03UOffset: 0
+    - _GemTex03USpeed: 0.02
+    - _GemTex03UTile: 2
+    - _GemTex03VOffset: 0
+    - _GemTex03VSpeed: 0.05
+    - _GemTex03VTile: 1
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _MainRimlightBias: 0
+    - _MainRimlightPower: 1.1
+    - _MainRimlightScale: 0.1
+    - _MainTexUOffset: 0
+    - _MainTexUSpeed: 0.01
+    - _MainTexUTile: 0.1
+    - _MainTexVOffset: 0
+    - _MainTexVSpeed: 0.02
+    - _MainTexVTile: 0.6
+    - _Metallic: 0
+    - _Mode: 0
+    - _Noise1Power: 1
+    - _Noise1USpeed: 2
+    - _Noise1UTile: 0.2
+    - _Noise1VSpeed: 0.2
+    - _Noise1VTile: 0.2
+    - _Noise2Power: 1
+    - _Noise2USpeed: 1
+    - _Noise2UTile: 0.25
+    - _Noise2VSpeed: 0.1
+    - _Noise2VTile: 0.25
+    - _NoisePower: 0.4
+    - _NoiseUse: 0
+    - _OcclusionStrength: 1
+    - _Parallax: 0.02
+    - _RimlightBias: 0
+    - _RimlightPower: 3.54
+    - _RimlightScale: 0.75
+    - _RimlightUse: 1
+    - _ScrBlendMod: 5
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _UVCustomVertexStreamUse: 0
+    - _UVSec: 0
+    - _ZWrite: 1
+    - __dirty: 0
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color0: {r: 2, g: 0.7058824, b: 0, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _GemTex01Color: {r: 5.278032, g: 5.278032, b: 5.278032, a: 1}
+    - _GemTex01Color1: {r: 1, g: 1, b: 1, a: 1}
+    - _GemTex01RimlightColor: {r: 0.8027793, g: 0.4707397, b: 0.15551223, a: 1}
+    - _GemTex01RimlightColor1: {r: 1, g: 1, b: 1, a: 1}
+    - _GemTex02Color: {r: 0.11119771, g: 1, b: 0, a: 1}
+    - _GemTex02Color1: {r: 1, g: 1, b: 1, a: 1}
+    - _GemTex02RimlightColor: {r: 0.9221513, g: 0.9221513, b: 0.9221513, a: 1}
+    - _GemTex03Color: {r: 0, g: 0.32987696, b: 0.11642717, a: 1}
+    - _MainColor: {r: 0, g: 0.49341255, b: 0.7924528, a: 1}
+    - _MainRimlightColor: {r: 1, g: 1, b: 1, a: 1}
+    - _RimlightColor: {r: 5.278032, g: 4.8226724, b: 2.4216852, a: 1}
+  m_BuildTextureStacks: []

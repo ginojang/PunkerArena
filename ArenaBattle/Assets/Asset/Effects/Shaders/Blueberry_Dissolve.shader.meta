@@ -1,0 +1,11 @@
+fileFormatVersion: 2
+guid: 3df73f5a6d2e27048be4e2da435d50e5
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures:
+  - _Tx_Voronoi_B: {fileID: 2800000, guid: 9e864b54f6d509848a0938ff4942f504, type: 3}
+  nonModifiableTextures: []
+  preprocessorOverride: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
