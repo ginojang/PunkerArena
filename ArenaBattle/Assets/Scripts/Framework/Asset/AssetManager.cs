@@ -191,9 +191,10 @@ public class AssetManager : SingletonWithMonoBehavior<AssetManager>
 		yield return new WaitUntil(() => initHandle.IsDone);
 
 		IResourceLocator rootLocator = Addressables.ResourceLocators.FirstOrDefault();
-		if (rootLocator.Equals(default(IResourceLocator)))
+		if (rootLocator == null || rootLocator.Equals(default(IResourceLocator)))
 		{
 			Debug.LogError("[BUNDLE] NOT found root locator");
+			completeEvent?.Invoke();
 			yield break;
 		}
 		Dictionary<string, List<IResourceLocation>> bundleLocations = new Dictionary<string, List<IResourceLocation>>();
