@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Monster
+  m_EditorClassIdentifier: 
+  m_GroupName: Monster
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 42fbf28c6e8e9cd4d9c8fd63e4bd827e
+  m_SerializeEntries:
+  - m_GUID: de1dcef5a9571a94ba671fb79b31fab8
+    m_Address: coconut_pirate_elite01
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 6021373126083132603, guid: de1dcef5a9571a94ba671fb79b31fab8, type: 3}
+    m_TargetAsset: {fileID: 6021373126083132603, guid: de1dcef5a9571a94ba671fb79b31fab8, type: 3}
+  - m_GUID: 15d9475574630834dbf9264b2eaf4549
+    m_Address: coconut_pirate_01
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 2494124425677438682, guid: 15d9475574630834dbf9264b2eaf4549, type: 3}
+    m_TargetAsset: {fileID: 2494124425677438682, guid: 15d9475574630834dbf9264b2eaf4549, type: 3}
+  - m_GUID: 14c5baf1968dd5f458d702c511098e2f
+    m_Address: coconut_pirate_02
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    m_MainAsset: {fileID: 0}
+    m_TargetAsset: {fileID: 0}
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 2505d887491734947882ace245b3f038, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 484832973928f9949b355768b7ba28b3, type: 2}

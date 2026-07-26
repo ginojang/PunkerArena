@@ -1,0 +1,13 @@
+﻿idx,key,type,value
+1,str_to_atk,2,0.5
+2,str_to_cri_dmg,2,0.5
+3,vit_to_hp,2,0.5
+4,vit_to_def,2,0.5
+5,agi_to_spd,2,0.5
+6,agi_to_avd,2,0.5
+7,dex_to_cri,2,0.5
+8,dex_to_hit,2,0.5
+9,luk_to_def_pen,2,0.5
+10,luk_to_res,2,0.5
+11,burst_guage_charge_turn_pass,1,20
+12,burst_guage_charge_action,1,5

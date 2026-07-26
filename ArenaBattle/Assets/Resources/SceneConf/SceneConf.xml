@@ -1,0 +1,25 @@
+<?xml version="1.0" standalone="yes" ?>
+<SceneConfig>
+  <SceneList>
+    <Scene Title="LogIn" LoadingScene="SceneLoading" LoadingGui="UiLoadingBasic">
+      <PreloadAssets>
+      </PreloadAssets>
+    </Scene>
+
+    <Scene Title="Patch" LoadingScene="SceneLoading" LoadingGui="UiLoadingBasic">
+      <PreloadAssets>
+      </PreloadAssets>
+    </Scene>
+    
+    <Scene Title="MainMenu" LoadingScene="SceneLoading" LoadingGui="UiLoadingBasic">
+      <PreloadAssets>
+      </PreloadAssets>
+    </Scene>
+
+    <Scene Title="Game" LoadingScene="SceneLoading" LoadingGui="UiLoadingBasic">
+      <PreloadAssets>
+      </PreloadAssets>
+    </Scene>
+
+  </SceneList>
+</SceneConfig>

@@ -1,0 +1,5 @@
+﻿idx,name_string,day_buff_atk,day_buff_def,night_buff_atk,night_buff_def,dawn_buff_atk,dawn_buff_def,eclipse_buff_atk,eclipse_buff_def,res_atlas,res_icon
+1,dino_attribute_1,1.3,1.3,1,1,1,1,1,1,ui_atlas_skill,ui_icon_attribute_1
+2,dino_attribute_2,1,1,1.3,1.3,1,1,1,1,ui_atlas_skill,ui_icon_attribute_2
+3,dino_attribute_3,1,1,1,1,1.3,1.3,1,1,ui_atlas_skill,ui_icon_attribute_3
+4,dino_attribute_4,1,1,1,1,1,1,1.3,1.3,ui_atlas_skill,ui_icon_attribute_4

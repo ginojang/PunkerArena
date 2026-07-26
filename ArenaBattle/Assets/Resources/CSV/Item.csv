@@ -1,0 +1,6 @@
+﻿idx,name_string,desc_string,type,grade,stack,get_info_id,value,res_atlas,res_icon
+1,item_name_1,item_desc_1,1,1,0,0,0,ui_atlas_item,ui_icon_item_1
+2,item_name_2,item_desc_2,2,2,0,0,0,ui_atlas_item,ui_icon_item_2
+3,item_name_3,item_desc_3,3,3,0,0,0,ui_atlas_item,ui_icon_item_3
+4,item_name_4,item_desc_4,4,1,1,0,0,ui_atlas_item,ui_icon_item_4
+5,item_name_5,item_desc_5,5,2,1,0,100,ui_atlas_item,ui_icon_item_5

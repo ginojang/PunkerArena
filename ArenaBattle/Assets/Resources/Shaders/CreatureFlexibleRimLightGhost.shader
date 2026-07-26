@@ -1,0 +1,123 @@
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+Shader "VESTINEL/CHA - RimLightGhost" {
+	Properties 
+	{
+		_MainTex ("Base (RGB)", 2D) = "white" {}
+		_MaskTex ("Mask (B:alpha)", 2D) = "black" {}
+
+		_RimLightColor ("Rim Light Color", Color) = (1,1,1,1)
+		//_RimLightParameter ("Rim Light Parameter", Vector) = (1,0,1,0)
+		_RimLightRangeBase ("Rim Light Range Base", Float) = 1
+		_RimLightRangeShift ("Rim Light Range Shift", Float) = 0
+		_RimLightIntensity ("Rim Light Intensity", Float) = 1
+		_RimLightDirection ("Rim Light Direction", Vector) = (0,0,-1)
+	}
+
+	SubShader
+	{
+		Tags { "Queue"="Transparent" "IgnoreProjector" = "True" "RenderType" = "Transparent" }
+		//Tags { "Queue"="Geometry+3" "IgnoreProjector"="True" "RenderType"="Opaque"}
+		LOD 80
+
+		// Non-lightmapped
+		Pass 
+		{
+			Tags { "LightMode" = "Vertex" }
+			Fog {Mode Off}
+
+			BLEND SrcAlpha OneMinusSrcAlpha
+
+			CGPROGRAM
+
+			#pragma target 3.0
+			#pragma vertex vert		//vertex shader naming
+			#pragma fragment frag	//fragment shader naming
+			#pragma fragmentoption ARB_precision_hint_fastest
+
+			#define FLEXIBLE_GHOST
+
+			#include "UnityCG.cginc"
+			#include "UtilFunctionsCG.cginc"
+			#include "LightFunctions.cginc"
+			#include "CreatureFlexibleForward.cginc"
+
+			ENDCG
+		}
+
+		// Pass to render object as a shadow caster
+		Pass 
+		{
+			Name "ShadowCaster"
+			Tags { "LightMode" = "ShadowCaster" }
+			
+			Fog {Mode Off}
+			ZWrite On ZTest LEqual Cull Off
+			Offset 1, 1
+
+			CGPROGRAM
+			#pragma vertex vert
+			#pragma fragment frag
+			#pragma multi_compile_shadowcaster
+			#include "UnityCG.cginc"
+
+			struct v2f { 
+				V2F_SHADOW_CASTER;
+			};
+
+			v2f vert( appdata_base v )
+			{
+				v2f o;
+				TRANSFER_SHADOW_CASTER(o)
+				return o;
+			}
+
+			float4 frag( v2f i ) : COLOR
+			{
+				SHADOW_CASTER_FRAGMENT(i)
+			}
+			ENDCG
+		}
+	
+		// Pass to render object as a shadow collector
+		// note: editor needs this pass as it has a collector pass.
+		Pass
+		{
+			Name "ShadowCollector"
+			Tags { "LightMode" = "ShadowCollector" }
+		
+			Fog {Mode Off}
+			ZWrite On ZTest LEqual
+
+			CGPROGRAM
+			#pragma vertex vert
+			#pragma fragment frag
+			#pragma multi_compile_shadowcollector
+
+			#define SHADOW_COLLECTOR_PASS
+			#include "UnityCG.cginc"
+
+			struct appdata {
+				float4 vertex : POSITION;
+			};
+
+			struct v2f {
+				V2F_SHADOW_COLLECTOR;
+			};
+
+			v2f vert (appdata v)
+			{
+				v2f o;
+				TRANSFER_SHADOW_COLLECTOR(o)
+				return o;
+			}
+
+			fixed4 frag (v2f i) : COLOR
+			{
+				SHADOW_COLLECTOR_FRAGMENT(i)
+			}
+			ENDCG
+		}
+	}
+CustomEditor "CreatureFlexibleMaterialInspector"
+}
