@@ -95,3 +95,36 @@
 - 코드/주석에 한국어가 많고, 일부 네임스페이스가 `k514`, `s0361` 등 코드명으로 되어 있음.
 - **레거시 주의**: `Battle_Legacy`(서버), `Project_FruitDino`(구 클라이언트)는 현행이 아닐 수 있으므로
   현행 전투 로직은 `Server/Main/Game/Battle/ServerWaveCore/`, 현행 클라이언트는 `Client/`를 우선 참조.
+
+---
+
+## 기술 결정 기록 (ADR)
+
+### ADR-001: 실시간 통신에서 MagicOnion 포기 (2026-07-26)
+
+**상태: 결정됨 — MagicOnion 폐기 / 대안은 미정(검토 중)**
+
+- **결정**: 인게임 실시간 통신 스택으로 **MagicOnion을 더 이상 사용하지 않는다.**
+- **이유(핵심)**: **Unity WebGL 지원이 필수**인데, MagicOnion의 기본 전송(gRPC over HTTP/2)은
+  브라우저 환경(WebGL)에서 동작하지 않는다. 브라우저는 raw HTTP/2 gRPC 스트리밍 소켓을 열 수 없다.
+- **보조 이유**: 현재 프로젝트가 `MagicOnion.Server 4.5.2` + **.NET 6**(EOL)로 3세대 뒤처져 있어,
+  유지하려면 어차피 `.NET 8 + MagicOnion 7` 대규모 업그레이드가 선행되어야 한다.
+
+**참고 — MagicOnion으로 WebGL이 불가능한 것은 아님(하지만 채택 안 함):**
+- Cysharp의 `GrpcWebSocketBridge`(gRPC over WebSocket/HTTP1)로 우회 가능.
+  단 **MagicOnion 7 + .NET 8 + Unity 6.3+** 필요, `WebGLThreadDispatcher` 등 세팅 까다롭고 알려진 이슈 존재.
+- 업그레이드 비용 + 브릿지 불안정성을 감수할 이유가 약해 **포기 결정**.
+
+**대안 후보 (아직 확정 안 됨):**
+| 후보 | WebGL | 기존 C# 서버 전투코어 재활용 | 메모 |
+|------|:---:|:---:|------|
+| **SignalR** (유력) | ✅ 네이티브 WebSocket | ✅ .NET 서버 유지, StreamingHub↔Hub 개념 유사 | 통신 계층만 교체, MessagePack 프로토콜 지원 |
+| Nakama | ✅ | ❌ Go+Lua/JS, 전투 재작성 | 매칭/소셜 필요 시 |
+| Photon Fusion/Quantum | ✅ | ❌ | 실시간 액션 특화, 턴제엔 과함 |
+| Colyseus | ✅ | ❌ Node/TS | 서버 전면 재작성 |
+
+**보존해야 할 자산(대안 선정 기준)**: 서버권위 전투 로직 `Server/Main/Game/Battle/ServerWaveCore/`
+(`WaveStatus` 상태머신, `AICore`, `Interaction/SkillContainer`). 이 C# 코어 재활용도가 대안 선택의 1순위 기준.
+
+**미결 사항(TODO)**: ① 대안 최종 확정(SignalR 유력) ② 로비(Protobuf gRPC)의 WebGL 호환성 재검토
+③ `.NET 8` 정렬 ④ Unity 클라 통신 레이어 교체 범위 산정.
