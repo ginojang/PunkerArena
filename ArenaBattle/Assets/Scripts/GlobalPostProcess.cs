@@ -19,8 +19,9 @@ public class GlobalPostProcess : MonoBehaviour
 {
     // ===== 튜닝 포인트 =====
     static readonly Tonemapper Tonemap = Tonemapper.ACES; // ACES(강한 압축) / Neutral(부드러움)
-    const float PostExposure = -1.4f; // 전체 밝기(EV). -0.4 대비 -1.0EV = 밝기 약 50%로. 더 어둡게: 더 낮춤
-    const float Temperature  = 12f;   // 화이트밸런스: 양수=따뜻, 음수=차갑게. (파란 바위/물은 의도된 오브젝트 색이라 이걸로 안 없어짐)
+    const float PostExposure = -0.8f; // 전체 밝기(EV). 파스텔은 밝게. 더 어둡게: 낮춤
+    const float Saturation   = 25f;   // 채도(+): ACES가 뺀 채도 보강 → 파스텔 팝
+    const float Temperature  = 8f;    // 화이트밸런스: 양수=따뜻, 음수=차갑게
     const float Tint         = 0f;    // 그린-마젠타 밸런스(필요시)
     // =====================
 
@@ -63,6 +64,8 @@ public class GlobalPostProcess : MonoBehaviour
         grade.temperature.value = Temperature;
         grade.tint.overrideState = true;
         grade.tint.value = Tint;
+        grade.saturation.overrideState = true;
+        grade.saturation.value = Saturation;
 
         var volGo = new GameObject("[GlobalPPVolume]") { layer = _volumeLayer };
         DontDestroyOnLoad(volGo);
@@ -100,7 +103,7 @@ public class GlobalPostProcess : MonoBehaviour
 
                 var layer = cam.gameObject.AddComponent<PostProcessLayer>();
                 layer.Init(_resources); // ★ 반드시 리소스 주입
-                layer.volumeLayer = 1 << _volumeLayer;
+                layer.volumeLayer = ~0;  // Everything: 씬 고유 Bloom/Vignette 등도 함께 적용(파스텔 룩)
                 layer.volumeTrigger = cam.transform;
                 layer.antialiasingMode = PostProcessLayer.Antialiasing.None;
             }
