@@ -19,7 +19,7 @@ public class GlobalPostProcess : MonoBehaviour
 {
     // ===== 튜닝 포인트 =====
     static readonly Tonemapper Tonemap = Tonemapper.ACES; // ACES(강한 압축) / Neutral(부드러움)
-    const float PostExposure = -0.4f; // 전체 밝기(EV). 더 어둡게: 낮춤(-1.0)
+    const float PostExposure = -1.4f; // 전체 밝기(EV). -0.4 대비 -1.0EV = 밝기 약 50%로. 더 어둡게: 더 낮춤
     // =====================
 
     static GlobalPostProcess _instance;
