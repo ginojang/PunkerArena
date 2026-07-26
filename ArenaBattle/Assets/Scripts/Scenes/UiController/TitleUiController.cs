@@ -18,10 +18,10 @@ public class TitleUiController : BaseUiController<TitleUiController>
         {
             if (response == null)
             {
-                // Popup으로 실패 했음을 알려주고 확인시 타이틀로 다시....
-                //GuiUtility.ShowNoticeOkPopUp("음성인식을 3회 실패해서 강제로 넘어갑니다.", OnClickGoBetia);
-
-                Application.Quit();
+                // [OFFLINE BYPASS] 서버(EC2) 미접속 시 종료(Application.Quit) 대신 임시 계정으로 진행.
+                // 원복 시 아래 두 줄을 지우고 Application.Quit(); 복구.
+                GameDataManager.Instance.userData.UID = 0;
+                GameDataManager.Instance.userData.SID = "offline";
             }
             else
             {

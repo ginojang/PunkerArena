@@ -25,11 +25,9 @@ public class UiTitle : UiBase<UiTitle>
         {
             if (response == null)
             {
-                // Popup으로 실패 했음을 알려주고 확인시 타이틀로 다시....
-                //GuiUtility.ShowNoticeOkPopUp("음성인식을 3회 실패해서 강제로 넘어갑니다.", OnClickGoBetia);
-
-                start_Btn.interactable = true;
-                PlayState.Instance.ChangePlayState(PlayState.STATES.Title);
+                // [OFFLINE BYPASS] 서버 미접속 시 Title 복귀 대신 유저데이터 없이 메뉴로 진입.
+                // 원복 시 아래 EntryGame(); 를 지우고 start_Btn.interactable=true; + ChangePlayState(Title); 복구.
+                EntryGame();
             }
             else
             {
