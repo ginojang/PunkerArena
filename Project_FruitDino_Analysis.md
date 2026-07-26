@@ -1,7 +1,7 @@
 # Project_FruitDino 상세 분석
 
 > 분석 대상: `FruttiDino_RPG/Project_FruitDino/` (gitignore 대상 폴더 — 분석 기록용)
-> 최초 작성: 2026-07-26 · 관련: [CLAUDE.md](../CLAUDE.md) 의 프로젝트 개요·ADR-001
+> 최초 작성: 2026-07-26 · 관련: [CLAUDE.md](CLAUDE.md) 의 프로젝트 개요·ADR-001
 
 ## 정체성 (한 줄 요약)
 
@@ -97,7 +97,7 @@
 ## 전략적 시사점
 
 1. **WebGL 관점**: 이 구버전도 `Grpc.Core`(네이티브) 때문에 WebGL 불가 → 통신 레이어 전면 교체 대상.
-   [CLAUDE.md](../CLAUDE.md)의 **ADR-001**(MagicOnion 포기, WebGL 필수)과 일관.
+   [CLAUDE.md](CLAUDE.md)의 **ADR-001**(MagicOnion 포기, WebGL 필수)과 일관.
 2. **재활용 가치 있는 자산**: 전투 **연출/애니메이션 FSM**(`Character/Monster/SubState`), UI(`Contents`),
    CSV 파이프라인, 풀링/Addressable 프레임워크(`Framework/Asset`). → 클라 자산으로 여전히 유용.
 3. **버려야 할 부분**: 전투 **판정/계산 로직**(`CalculateSystem` 등)은 서버권위(`ServerWaveCore`)로

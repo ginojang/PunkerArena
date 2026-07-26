@@ -3,8 +3,8 @@
 이 저장소는 **PunkerArena** (원격: `git@github.com:ginojang/PunkerArena.git`) 입니다.
 작업 폴더 `FruttiDino_RPG/`는 `.gitignore`로 **버전 관리에서 제외**되어 있습니다 (아래는 분석 기록용).
 
-### 상세 분석 문서 (docs/)
-- [Project_FruitDino 상세 분석](docs/Project_FruitDino_Analysis.md) — 구버전(client-authoritative) Unity 클라이언트: 전투 FSM·네트워크·CSV 파이프라인·프레임워크 + 보안 이슈.
+### 상세 분석 문서
+- [Project_FruitDino 상세 분석](Project_FruitDino_Analysis.md) — 구버전(client-authoritative) Unity 클라이언트: 전투 FSM·네트워크·CSV 파이프라인·프레임워크 + 보안 이슈.
 
 ---
 
@@ -21,7 +21,7 @@
 | `Server/` | **메인 게임 서버** (.NET 6, `net6.0`). MagicOnion 서버 + gRPC. 실제 운영 대상. |
 | `Shared/` | 서버/콘솔 공용 프로젝트 (`Shared.csproj`, 인터페이스/메시지 정의). |
 | `Client/` | **Unity 클라이언트** (약 1,220 cs). MagicOnion.Unity, Addressables, Spine, DOTween, TextMeshPro. |
-| `Project_FruitDino/` | **구버전/원본** Unity 클라이언트 (약 1,329 cs, client-authoritative 전투). → [상세 분석](docs/Project_FruitDino_Analysis.md) |
+| `Project_FruitDino/` | **구버전/원본** Unity 클라이언트 (약 1,329 cs, client-authoritative 전투). → [상세 분석](Project_FruitDino_Analysis.md) |
 | `FruttiDinoRPGConsol/` | Unity 기반 **콘솔 전투 테스트** 프로젝트 (약 252 cs). |
 | `FruttiDinoRPGConsolServer/` | 콘솔용 서버 (Server/Shared 재구성, 24 cs). |
 | `FruttiDinoRPGTest/` | Unity 테스트 프로젝트 (17 cs). |
