@@ -154,7 +154,7 @@ public class CSVTableHelper
 
         sbErr.Clear();
         sbErr.Append("CSVTable Value Error Row:" + nCurRow + " Column:" + str + "\n");
-        Debug.WriteLine(sbErr.ToString());
+        Debug.LogError(sbErr.ToString());
 #endif
 
     }

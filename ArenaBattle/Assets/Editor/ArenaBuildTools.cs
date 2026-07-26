@@ -9,14 +9,25 @@ using UnityEngine;
 public static class ArenaBuildTools
 {
     // Unity.exe -batchmode -quit -projectPath ... -executeMethod ArenaBuildTools.BuildAddressables
+    const string SettingsPath = "Assets/AddressableAssetsData/AddressableAssetSettings.asset";
+
     public static void BuildAddressables()
     {
         var settings = AddressableAssetSettingsDefaultObject.Settings;
         if (settings == null)
         {
-            Debug.LogError("[ArenaBuildTools] AddressableAssetSettings not found.");
-            EditorApplication.Exit(2);
-            return;
+            // Default object not registered (common after migrating the project folder).
+            // Load the settings asset directly and register it as the project default.
+            settings = AssetDatabase.LoadAssetAtPath<AddressableAssetSettings>(SettingsPath);
+            if (settings == null)
+            {
+                Debug.LogError($"[ArenaBuildTools] settings asset not found at {SettingsPath}");
+                EditorApplication.Exit(2);
+                return;
+            }
+            AddressableAssetSettingsDefaultObject.Settings = settings;
+            AssetDatabase.SaveAssets();
+            Debug.Log("[ArenaBuildTools] Registered default AddressableAssetSettings.");
         }
 
         AddressableAssetSettings.BuildPlayerContent(out var result);

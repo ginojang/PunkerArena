@@ -47,3 +47,6 @@ sysinfo.txt
 
 # 크래시 리포트
 crashlytics-build.properties
+
+# Addressables build output (regenerable via ArenaBuildTools.BuildAddressables)
+/ArenaBattle/HostedData/
