@@ -20,7 +20,7 @@ public class GlobalPostProcess : MonoBehaviour
     // ===== 튜닝 포인트 =====
     static readonly Tonemapper Tonemap = Tonemapper.ACES; // ACES(강한 압축) / Neutral(부드러움)
     const float PostExposure = -1.4f; // 전체 밝기(EV). -0.4 대비 -1.0EV = 밝기 약 50%로. 더 어둡게: 더 낮춤
-    const float Temperature  = 44f;   // 화이트밸런스: 양수=따뜻(블루톤 상쇄), 음수=차갑게
+    const float Temperature  = 12f;   // 화이트밸런스: 양수=따뜻, 음수=차갑게. (파란 바위/물은 의도된 오브젝트 색이라 이걸로 안 없어짐)
     const float Tint         = 0f;    // 그린-마젠타 밸런스(필요시)
     // =====================
 
