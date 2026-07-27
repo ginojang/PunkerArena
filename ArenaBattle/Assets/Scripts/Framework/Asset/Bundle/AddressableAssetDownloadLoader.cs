@@ -1,34 +1,37 @@
-﻿
 using UnityEngine;
-using UnityEngine.Networking;
-using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.AsyncOperations;
-using System.Collections;
+using UnityEngine.SceneManagement;
 
+/// <summary>
+/// [Addressables 제거] 기존 Addressables 다운로드/로드 대신 정적 AssetManifest에서
+/// 직접참조를 조회한다. AssetManager가 new AddressableAssetDownloadLoader&lt;T&gt;()로 생성하므로
+/// 클래스명/제네릭 시그니처는 그대로 유지(호출부 무수정). T는 더 이상 사용하지 않는다.
+///
+/// AssetManager.Update()가 매 프레임 !IsIdleState 로더만 Update() 펌핑한다.
+/// 에셋은 즉시(1펌프) 해석되고, 씬(isSceneAsset)은 Build Settings + SceneManager로 로드한다.
+/// </summary>
 public class AddressableAssetDownloadLoader<T> : AssetBundleLoader
 {
-    public override bool IsStarted { get { return downloadOperationHandle.IsValid() && downloadOperationHandle.Status != AsyncOperationStatus.None; } }
+    public override bool IsStarted => processState != PROCESS_STATE.NONE;
 
-    public override bool IsIdleState
-    {
-        get
-        {
-            bool bResult = false;
-            bResult |= (processState == PROCESS_STATE.LOADFAILED);
-            bResult |= (processState == PROCESS_STATE.LOADSUCCESSED);
-            return bResult;
-        }
-    }
+    public override bool IsIdleState =>
+        processState == PROCESS_STATE.LOADFAILED || processState == PROCESS_STATE.LOADSUCCESSED;
 
-    public float DownloadProgress { get { return downloadProgress; } }
+    public float DownloadProgress => processState == PROCESS_STATE.LOADSUCCESSED ? 100f : 0f;
+
     protected AssetLoader loader;
-    protected float downloadProgress;
-	protected AsyncOperationHandle downloadOperationHandle;
-	protected AsyncOperationHandle<T> loadOperationHandle;
-	protected bool isSceneAsset = false;
+    protected bool isSceneAsset = false;
+    AsyncOperation sceneOp;
 
-	public AddressableAssetDownloadLoader()
+    public override void SetDownloadFilePath(string _fullPath, AssetLoader _loader, bool _isSceneAsset = false)
     {
+        isSceneAsset = _isSceneAsset;
+        processState = PROCESS_STATE.NONE;
+        path = _fullPath;
+        loader = _loader;
+        sceneOp = null;
+#if UNITY_EDITOR && ASSET_LOAD_LOG
+        AssetManager.Instance.AddAssetByScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name, this);
+#endif
     }
 
     public override void Update()
@@ -36,186 +39,66 @@ public class AddressableAssetDownloadLoader<T> : AssetBundleLoader
         switch (processState)
         {
             case PROCESS_STATE.NONE:
-                {
-                    if (downloadOperationHandle.IsValid() == false)
-                    {
-						Debug.Log($"download start bundle {path}");
-						downloadOperationHandle = Addressables.DownloadDependenciesAsync(path);
-						processState = PROCESS_STATE.DOWNLOADING;
-						if (downloadOperationHandle.OperationException != null)
-						{
-							AssetLoadFailedEvent();
-						}
-					}
-					else if (downloadOperationHandle.Status == AsyncOperationStatus.Succeeded)
-                    {
-						processState = PROCESS_STATE.LOADSUCCESSED;
-						CallEventFuncs();
-					}
-					else if (downloadOperationHandle.Status == AsyncOperationStatus.Failed)
-					{
-						processState = PROCESS_STATE.LOADFAILED;
-						AssetLoadFailedEvent();
-					}
-				}
+                if (isSceneAsset) BeginSceneLoad();
+                else ResolveFromManifest();
                 break;
 
-            case PROCESS_STATE.DOWNLOADING:
-                {
-                    if (downloadOperationHandle.Status == AsyncOperationStatus.Failed)
-                    {
-						processState = PROCESS_STATE.LOADFAILED;
-						AssetLoadFailedEvent();
-					}
-
-					if (downloadOperationHandle.Status == AsyncOperationStatus.Succeeded)
-                    {
-                        processState = PROCESS_STATE.LOADING;
-                    }
-                    else
-                    {
-                        downloadProgress = downloadOperationHandle.PercentComplete * 100.0f;
-					}
-				}
-                break;
-
-            case PROCESS_STATE.LOADING:
-                {
-					if (downloadOperationHandle.Status == AsyncOperationStatus.Succeeded)
-                    {
-                        processState = PROCESS_STATE.LOADSUCCESSED;
-                        CallEventFuncs();
-                    }
-                    else
-                    {
-						processState = PROCESS_STATE.LOADFAILED;
-						AssetLoadFailedEvent();
-                    }
-                }
-                break;
-
-            case PROCESS_STATE.LOADSUCCESSED:
-                break;
-            case PROCESS_STATE.LOADFAILED:
+            case PROCESS_STATE.LOADING: // 씬 로드 진행 중
+                if (sceneOp != null && sceneOp.isDone)
+                    CompleteLoad();
                 break;
         }
     }
 
-	
-	public override void SetDownloadFilePath(string _fullPath, AssetLoader _loader, bool _isSceneAsset = false)
+    void ResolveFromManifest()
     {
-		isSceneAsset = _isSceneAsset;
-        processState = PROCESS_STATE.NONE;
-        path = _fullPath;
-        this.loader = _loader;
-#if UNITY_EDITOR && ASSET_LOAD_LOG
-		AssetManager.Instance.AddAssetByScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name, this);
-#endif
-	}
+        if (loader == null || loader.IsFailed) { Fail("loader null/failed"); return; }
 
-	public override void CallEventFuncs()
-    {
-		if (downloadOperationHandle.Result == null)
-            return;
-
-        if (loader == null)
-            return;
-
-		if (loader.IsFailed)
-			return;
-
-		if (isSceneAsset == true)
-		{
-			OnLoadSceneAssetComplete(downloadOperationHandle);
-		}
-		else
-		{
-			//TODO(ych):load 실패시 예외 처리 필요할까? (다운로드 후 사실상 동기 수준의 비동기)
-			loadOperationHandle = Addressables.LoadAssetAsync<T>(path);
-			loadOperationHandle.Completed += OnLoadAssetComplete;
-		}
-	}
-
-	private void AssetLoadFailedEvent()
-	{
-		Debug.LogError("############# Asset loading error reason : " + downloadOperationHandle.OperationException);
-		if (loader == null)
-		{
-			//Debug.LogError("############# Asset loader null : " + downloadOperationHandle.DebugName);
-			return;
-		}
-        processState = PROCESS_STATE.LOADFAILED;
-        loader.IsFailed = true;
-		loader = null;
-	}
-
-	private void OnLoadSceneAssetComplete(AsyncOperationHandle handle)
-	{
-		loader.IsLoadSucceed = true;
-		loader.CallEventFuncs();
-		loader.IsCallbackCalled = true;
-		loader = null;
-	}
-
-	private void OnLoadAssetComplete(AsyncOperationHandle<T> handle)
-	{
-		if (loader == null)
-		{
-			//Debug.LogError("############# Asset loader null : " + handle.DebugName);
-			return;
-		}
-
-		if (loader.MainAsset == null)
-		{
-			loader.MainAsset = handle.Result as UnityEngine.Object;
-		}
-		
-		loader.IsLoadSucceed = true;
-		loader.CallEventFuncs();
-		loader.IsCallbackCalled = true;
-		loader = null;
-	}
-
-	// 로드된 object 를 안전하게 unload
-	public override void UnloadSafe(bool clearMemory)
-    {
-        if (loadOperationHandle.Result == null)
+        var manifest = AssetManifest.Instance;
+        if (manifest != null && manifest.TryGet(path, out var asset) && asset != null)
         {
-            return;
-        }
-
-        if (clearMemory)
-        {
-            Release();
+            if (loader.MainAsset == null)
+                loader.MainAsset = asset;
+            CompleteLoad();
         }
         else
         {
-            if (true == IsLoadSucceed)
-            {
-				if (loadOperationHandle.Result != null)
-				{
-					Addressables.ReleaseInstance(loadOperationHandle);
-				}
-            }
+            Fail($"manifest key not found: {path}");
         }
-	}
-
-	//TODO(ych):downloadOperationHandle의 해제 타이밍은 언제?
-	public override void Release()
-    {
-        if (loadOperationHandle.Result == null)
-        {
-            return;
-        }
-
-        if (true == IsLoadSucceed)
-        {
-			if (loadOperationHandle.Result != null)
-			{
-				Addressables.Release(loadOperationHandle);
-			}
-		}
-
-        processState = PROCESS_STATE.NONE;
     }
+
+    void BeginSceneLoad()
+    {
+        if (loader == null || loader.IsFailed) { Fail("loader null/failed"); return; }
+
+        string sceneName = System.IO.Path.GetFileNameWithoutExtension(path);
+        if (string.IsNullOrEmpty(sceneName)) { Fail($"invalid scene path: {path}"); return; }
+
+        sceneOp = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Single);
+        if (sceneOp == null) { Fail($"scene not in Build Settings: {sceneName}"); return; }
+
+        processState = PROCESS_STATE.LOADING;
+    }
+
+    void CompleteLoad()
+    {
+        if (loader == null) { processState = PROCESS_STATE.LOADSUCCESSED; return; }
+        loader.IsLoadSucceed = true;
+        loader.CallEventFuncs();
+        loader.IsCallbackCalled = true;
+        processState = PROCESS_STATE.LOADSUCCESSED;
+        loader = null;
+    }
+
+    void Fail(string reason)
+    {
+        Debug.LogError($"[AssetLoad] fail ({path}): {reason}");
+        if (loader != null) loader.IsFailed = true;
+        processState = PROCESS_STATE.LOADFAILED;
+        loader = null;
+    }
+
+    // 매니페스트는 직접참조(공유 에셋)라 개별 언로드/해제 없음. 인스턴스 파괴는 호출측 책임.
+    public override void UnloadSafe(bool clearMemory) { }
+    public override void Release() { processState = PROCESS_STATE.NONE; }
 }
