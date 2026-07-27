@@ -1,0 +1,1475 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cd44123f5c219f4e9d7f0e0e41e818b, type: 3}
+  m_Name: AssetManifest
+  m_EditorClassIdentifier: Assembly-CSharp::AssetManifest
+  entries:
+  - key: UiMenu
+    asset: {fileID: 8500670361188241389, guid: 9a8915122432f1141ad673f47b79935b, type: 3}
+  - key: Assets/GUI/Prefabs/Contents/UiMenu/UiMenu.prefab
+    asset: {fileID: 8500670361188241389, guid: 9a8915122432f1141ad673f47b79935b, type: 3}
+  - key: UiPatch
+    asset: {fileID: 1712358455336453403, guid: 27e7fc38176fa834ca1d681c5a5e1e54, type: 3}
+  - key: Assets/GUI/Prefabs/Contents/UiPatch/UiPatch.prefab
+    asset: {fileID: 1712358455336453403, guid: 27e7fc38176fa834ca1d681c5a5e1e54, type: 3}
+  - key: UiGame
+    asset: {fileID: 8553679562860797785, guid: aa8275343dbf56242ba0de7c1a478f93, type: 3}
+  - key: Assets/GUI/Prefabs/Contents/UiGame/UiGame.prefab
+    asset: {fileID: 8553679562860797785, guid: aa8275343dbf56242ba0de7c1a478f93, type: 3}
+  - key: UiTitle
+    asset: {fileID: 4663148114622967436, guid: 5ec54a04e761f964ca6ab88b8b1e9e6c, type: 3}
+  - key: Assets/GUI/Prefabs/Contents/UiTitle/UiTitle.prefab
+    asset: {fileID: 4663148114622967436, guid: 5ec54a04e761f964ca6ab88b8b1e9e6c, type: 3}
+  - key: Outgame
+    asset: {fileID: 4343727234628468602, guid: 5e43dc35bd16f7b409a58a27760fdfed, type: 2}
+  - key: Assets/GUI/Atlas/Outgame.spriteatlas
+    asset: {fileID: 4343727234628468602, guid: 5e43dc35bd16f7b409a58a27760fdfed, type: 2}
+  - key: Item
+    asset: {fileID: 4343727234628468602, guid: a4eb1cbb8af5e3c4d9e6bb58992e8ce1, type: 2}
+  - key: Assets/GUI/Atlas/Item.spriteatlas
+    asset: {fileID: 4343727234628468602, guid: a4eb1cbb8af5e3c4d9e6bb58992e8ce1, type: 2}
+  - key: Ingame
+    asset: {fileID: 4343727234628468602, guid: 87f95dfb5dd16f24ba1a1fe5a136f624, type: 2}
+  - key: Assets/GUI/Atlas/Ingame.spriteatlas
+    asset: {fileID: 4343727234628468602, guid: 87f95dfb5dd16f24ba1a1fe5a136f624, type: 2}
+  - key: Common
+    asset: {fileID: 4343727234628468602, guid: dba72fdfd6d07b742849deaf87c4e7f1, type: 2}
+  - key: Assets/GUI/Atlas/Common.spriteatlas
+    asset: {fileID: 4343727234628468602, guid: dba72fdfd6d07b742849deaf87c4e7f1, type: 2}
+  - key: CharacterParts
+    asset: {fileID: 4343727234628468602, guid: 1e0610aab6592a745982be466dea6b81, type: 2}
+  - key: Assets/GUI/Atlas/CharacterParts.spriteatlas
+    asset: {fileID: 4343727234628468602, guid: 1e0610aab6592a745982be466dea6b81, type: 2}
+  - key: UiCommonCharacter2D
+    asset: {fileID: 2008323002145066254, guid: 429386e88dbb7e648afa77b66bcf4870, type: 3}
+  - key: Assets/GUI/Prefabs/Contents/UiCommon/UiCommonCharacter2D.prefab
+    asset: {fileID: 2008323002145066254, guid: 429386e88dbb7e648afa77b66bcf4870, type: 3}
+  - key: Skill_Icon1
+    asset: {fileID: 4343727234628468602, guid: df0f53f7dcd512e459e9f683e0ebd0f6, type: 2}
+  - key: Assets/GUI/Atlas/Skill_Icon1.spriteatlas
+    asset: {fileID: 4343727234628468602, guid: df0f53f7dcd512e459e9f683e0ebd0f6, type: 2}
+  - key: 01_BBong(2bar_add)
+    asset: {fileID: 8300000, guid: 2693f041c3b7f3748bcbf1aceb93229d, type: 3}
+  - key: Assets/Asset/Music/01_BBong(2bar_add).mp3
+    asset: {fileID: 8300000, guid: 2693f041c3b7f3748bcbf1aceb93229d, type: 3}
+  - key: 02_ChickChack_123
+    asset: {fileID: 8300000, guid: 523c696b00f34624ca7ba92e88492828, type: 3}
+  - key: Assets/Asset/Music/02_ChickChack_123.mp3
+    asset: {fileID: 8300000, guid: 523c696b00f34624ca7ba92e88492828, type: 3}
+  - key: 03_Monday_BPM_120
+    asset: {fileID: 8300000, guid: 3f25a4ec4c882444fbaae06165d02f11, type: 3}
+  - key: Assets/Asset/Music/03_Monday_BPM_120.mp3
+    asset: {fileID: 8300000, guid: 3f25a4ec4c882444fbaae06165d02f11, type: 3}
+  - key: UI_Menu_ButtonClick
+    asset: {fileID: 8300000, guid: 887a022858d12e545b6e7abc6a763899, type: 3}
+  - key: Assets/Asset/Sound/UI_Menu_ButtonClick.wav
+    asset: {fileID: 8300000, guid: 887a022858d12e545b6e7abc6a763899, type: 3}
+  - key: ca_banana_01
+    asset: {fileID: 1128904666589342555, guid: da7e4a88e7f864345a66e41954abf6aa, type: 3}
+  - key: Assets/Asset/Cha/Dino/Banana/prefab/ca_banana_01.prefab
+    asset: {fileID: 1128904666589342555, guid: da7e4a88e7f864345a66e41954abf6aa, type: 3}
+  - key: ca_banana_02
+    asset: {fileID: 8282818539888808719, guid: 01e2668d67c122148a0aefd4d752e9be, type: 3}
+  - key: Assets/Asset/Cha/Dino/Banana/prefab/ca_banana_02.prefab
+    asset: {fileID: 8282818539888808719, guid: 01e2668d67c122148a0aefd4d752e9be, type: 3}
+  - key: ca_banana_03
+    asset: {fileID: 5263163017746260053, guid: 11f07fe660203b84085792a7d2b337b1, type: 3}
+  - key: Assets/Asset/Cha/Dino/Banana/prefab/ca_banana_03.prefab
+    asset: {fileID: 5263163017746260053, guid: 11f07fe660203b84085792a7d2b337b1, type: 3}
+  - key: ca_banana_04
+    asset: {fileID: 724434846172211839, guid: 63cb2145c543d07469d661958042348f, type: 3}
+  - key: Assets/Asset/Cha/Dino/Banana/prefab/ca_banana_04.prefab
+    asset: {fileID: 724434846172211839, guid: 63cb2145c543d07469d661958042348f, type: 3}
+  - key: he_banana_01
+    asset: {fileID: 2058656276818963328, guid: 12310121751c157478a9433219534afa, type: 3}
+  - key: Assets/Asset/Cha/Dino/Banana/prefab/he_banana_01.prefab
+    asset: {fileID: 2058656276818963328, guid: 12310121751c157478a9433219534afa, type: 3}
+  - key: he_banana_02
+    asset: {fileID: 5399283035328996426, guid: 81486c1b0fadf844ab866419eb1cbdfb, type: 3}
+  - key: Assets/Asset/Cha/Dino/Banana/prefab/he_banana_02.prefab
+    asset: {fileID: 5399283035328996426, guid: 81486c1b0fadf844ab866419eb1cbdfb, type: 3}
+  - key: he_banana_03
+    asset: {fileID: 8813764596088783594, guid: 82b45061fabdfa84d825028cb11e569b, type: 3}
+  - key: Assets/Asset/Cha/Dino/Banana/prefab/he_banana_03.prefab
+    asset: {fileID: 8813764596088783594, guid: 82b45061fabdfa84d825028cb11e569b, type: 3}
+  - key: he_banana_04
+    asset: {fileID: 9014427061599999035, guid: a13ff35cf0982164d92e6a52bd77982c, type: 3}
+  - key: Assets/Asset/Cha/Dino/Banana/prefab/he_banana_04.prefab
+    asset: {fileID: 9014427061599999035, guid: a13ff35cf0982164d92e6a52bd77982c, type: 3}
+  - key: ca_orange_01
+    asset: {fileID: 3615287866842854578, guid: 476952189bffd1a45b1ec2ed58f64114, type: 3}
+  - key: Assets/Asset/Cha/Dino/Orange/prefab/ca_orange_01.prefab
+    asset: {fileID: 3615287866842854578, guid: 476952189bffd1a45b1ec2ed58f64114, type: 3}
+  - key: ca_orange_02
+    asset: {fileID: 1623718437587989075, guid: f8b79acbf76a0e0479c36bb82293424e, type: 3}
+  - key: Assets/Asset/Cha/Dino/Orange/prefab/ca_orange_02.prefab
+    asset: {fileID: 1623718437587989075, guid: f8b79acbf76a0e0479c36bb82293424e, type: 3}
+  - key: ca_orange_03
+    asset: {fileID: 2405278297933140774, guid: cc4ebcfd8ca659247a19a922c2c75aab, type: 3}
+  - key: Assets/Asset/Cha/Dino/Orange/prefab/ca_orange_03.prefab
+    asset: {fileID: 2405278297933140774, guid: cc4ebcfd8ca659247a19a922c2c75aab, type: 3}
+  - key: ca_orange_04
+    asset: {fileID: 1002427394972032173, guid: 9c711a286c984ee42b77a13788497c85, type: 3}
+  - key: Assets/Asset/Cha/Dino/Orange/prefab/ca_orange_04.prefab
+    asset: {fileID: 1002427394972032173, guid: 9c711a286c984ee42b77a13788497c85, type: 3}
+  - key: he_orange_01
+    asset: {fileID: 5723243638074725613, guid: 5180dafee5b781c4fbcecbb4d55b5771, type: 3}
+  - key: Assets/Asset/Cha/Dino/Orange/prefab/he_orange_01.prefab
+    asset: {fileID: 5723243638074725613, guid: 5180dafee5b781c4fbcecbb4d55b5771, type: 3}
+  - key: he_orange_02
+    asset: {fileID: 5136454924907256772, guid: 4150de5475c8ef44cb6d7f2df4f1d6c3, type: 3}
+  - key: Assets/Asset/Cha/Dino/Orange/prefab/he_orange_02.prefab
+    asset: {fileID: 5136454924907256772, guid: 4150de5475c8ef44cb6d7f2df4f1d6c3, type: 3}
+  - key: he_orange_03
+    asset: {fileID: 7669710747492215399, guid: ba2eae66871b19f4fbbf45802bb88290, type: 3}
+  - key: Assets/Asset/Cha/Dino/Orange/prefab/he_orange_03.prefab
+    asset: {fileID: 7669710747492215399, guid: ba2eae66871b19f4fbbf45802bb88290, type: 3}
+  - key: he_orange_04
+    asset: {fileID: 7757588056073201946, guid: 5e4cba1b974e4e74fad8d66b2ceada15, type: 3}
+  - key: Assets/Asset/Cha/Dino/Orange/prefab/he_orange_04.prefab
+    asset: {fileID: 7757588056073201946, guid: 5e4cba1b974e4e74fad8d66b2ceada15, type: 3}
+  - key: ca_watermelon_01
+    asset: {fileID: 607226518419691490, guid: 21c334f6185096845ab95c9f3fcb56ec, type: 3}
+  - key: Assets/Asset/Cha/Dino/Watermelon/prefab/ca_watermelon_01.prefab
+    asset: {fileID: 607226518419691490, guid: 21c334f6185096845ab95c9f3fcb56ec, type: 3}
+  - key: ca_watermelon_02
+    asset: {fileID: 1834158210340712925, guid: 2d2f5a621514975409693a81e13fb5dc, type: 3}
+  - key: Assets/Asset/Cha/Dino/Watermelon/prefab/ca_watermelon_02.prefab
+    asset: {fileID: 1834158210340712925, guid: 2d2f5a621514975409693a81e13fb5dc, type: 3}
+  - key: ca_watermelon_03
+    asset: {fileID: 6426851291082958194, guid: 642670c58ac815843babd8e802ce7161, type: 3}
+  - key: Assets/Asset/Cha/Dino/Watermelon/prefab/ca_watermelon_03.prefab
+    asset: {fileID: 6426851291082958194, guid: 642670c58ac815843babd8e802ce7161, type: 3}
+  - key: ca_watermelon_04
+    asset: {fileID: 5863722026749680560, guid: 8d41e9167078c3c4da9b4087f27cc9ec, type: 3}
+  - key: Assets/Asset/Cha/Dino/Watermelon/prefab/ca_watermelon_04.prefab
+    asset: {fileID: 5863722026749680560, guid: 8d41e9167078c3c4da9b4087f27cc9ec, type: 3}
+  - key: he_watermelon_01
+    asset: {fileID: 2683431858886488460, guid: 1b7c1d4bd87a03f4d85a6376fd5eb5a4, type: 3}
+  - key: Assets/Asset/Cha/Dino/Watermelon/prefab/he_watermelon_01.prefab
+    asset: {fileID: 2683431858886488460, guid: 1b7c1d4bd87a03f4d85a6376fd5eb5a4, type: 3}
+  - key: he_watermelon_02
+    asset: {fileID: 4899688184448226941, guid: 6140b51484e182e469e330019fb12e0f, type: 3}
+  - key: Assets/Asset/Cha/Dino/Watermelon/prefab/he_watermelon_02.prefab
+    asset: {fileID: 4899688184448226941, guid: 6140b51484e182e469e330019fb12e0f, type: 3}
+  - key: he_watermelon_03
+    asset: {fileID: 7829650908854257935, guid: cf600bd3ef099e54783700e32ecc66c5, type: 3}
+  - key: Assets/Asset/Cha/Dino/Watermelon/prefab/he_watermelon_03.prefab
+    asset: {fileID: 7829650908854257935, guid: cf600bd3ef099e54783700e32ecc66c5, type: 3}
+  - key: he_watermelon_04
+    asset: {fileID: 3756708720319914506, guid: edf82dfa85fe82a468d0d8eec2112110, type: 3}
+  - key: Assets/Asset/Cha/Dino/Watermelon/prefab/he_watermelon_04.prefab
+    asset: {fileID: 3756708720319914506, guid: edf82dfa85fe82a468d0d8eec2112110, type: 3}
+  - key: om_banana_01
+    asset: {fileID: 1125388478877799589, guid: 6f6da2d20a90c88458ef16cdd3307e07, type: 3}
+  - key: Assets/Asset/Cha/Dino/Banana/prefab/om_banana_01.prefab
+    asset: {fileID: 1125388478877799589, guid: 6f6da2d20a90c88458ef16cdd3307e07, type: 3}
+  - key: om_banana_02
+    asset: {fileID: 7382137027685456624, guid: 6d9a7ed8afff1704aa15d19b7e7a13d0, type: 3}
+  - key: Assets/Asset/Cha/Dino/Banana/prefab/om_banana_02.prefab
+    asset: {fileID: 7382137027685456624, guid: 6d9a7ed8afff1704aa15d19b7e7a13d0, type: 3}
+  - key: om_banana_03
+    asset: {fileID: 2982535765799403991, guid: 203c7b2941a1d9a4598af290eb56c9c2, type: 3}
+  - key: Assets/Asset/Cha/Dino/Banana/prefab/om_banana_03.prefab
+    asset: {fileID: 2982535765799403991, guid: 203c7b2941a1d9a4598af290eb56c9c2, type: 3}
+  - key: om_banana_04
+    asset: {fileID: 676910426497520273, guid: d966831c85b6c484e8c80b8a89112d68, type: 3}
+  - key: Assets/Asset/Cha/Dino/Banana/prefab/om_banana_04.prefab
+    asset: {fileID: 676910426497520273, guid: d966831c85b6c484e8c80b8a89112d68, type: 3}
+  - key: om_orange_01
+    asset: {fileID: 956436202626245585, guid: b6695d8bc05c6a749a6d540455db59d9, type: 3}
+  - key: Assets/Asset/Cha/Dino/Orange/prefab/om_orange_01.prefab
+    asset: {fileID: 956436202626245585, guid: b6695d8bc05c6a749a6d540455db59d9, type: 3}
+  - key: om_orange_02
+    asset: {fileID: 579860766934451884, guid: 6454a3c3c203cdd46bb8124df2c86f4b, type: 3}
+  - key: Assets/Asset/Cha/Dino/Orange/prefab/om_orange_02.prefab
+    asset: {fileID: 579860766934451884, guid: 6454a3c3c203cdd46bb8124df2c86f4b, type: 3}
+  - key: om_orange_03
+    asset: {fileID: 2134472623657190529, guid: 97bfea3ecd9d18c448e30805b7cba2ce, type: 3}
+  - key: Assets/Asset/Cha/Dino/Orange/prefab/om_orange_03.prefab
+    asset: {fileID: 2134472623657190529, guid: 97bfea3ecd9d18c448e30805b7cba2ce, type: 3}
+  - key: om_orange_04
+    asset: {fileID: 4613053012248023074, guid: d7a9d03b426f69d4aa9a1b31820f2eeb, type: 3}
+  - key: Assets/Asset/Cha/Dino/Orange/prefab/om_orange_04.prefab
+    asset: {fileID: 4613053012248023074, guid: d7a9d03b426f69d4aa9a1b31820f2eeb, type: 3}
+  - key: om_watermelon_01
+    asset: {fileID: 6268725148335668244, guid: 5262aa4e9037c7044883abd119249954, type: 3}
+  - key: Assets/Asset/Cha/Dino/Watermelon/prefab/om_watermelon_01.prefab
+    asset: {fileID: 6268725148335668244, guid: 5262aa4e9037c7044883abd119249954, type: 3}
+  - key: om_watermelon_02
+    asset: {fileID: 209433647477902117, guid: 4f40f2a347144214f891971b8fd95d0e, type: 3}
+  - key: Assets/Asset/Cha/Dino/Watermelon/prefab/om_watermelon_02.prefab
+    asset: {fileID: 209433647477902117, guid: 4f40f2a347144214f891971b8fd95d0e, type: 3}
+  - key: om_watermelon_03
+    asset: {fileID: 2058815951669740338, guid: cde60898b73777b4e80b00e57dc56e76, type: 3}
+  - key: Assets/Asset/Cha/Dino/Watermelon/prefab/om_watermelon_03.prefab
+    asset: {fileID: 2058815951669740338, guid: cde60898b73777b4e80b00e57dc56e76, type: 3}
+  - key: om_watermelon_04
+    asset: {fileID: 2106590483567465306, guid: 551c441933a23d145846473abdfa4c62, type: 3}
+  - key: Assets/Asset/Cha/Dino/Watermelon/prefab/om_watermelon_04.prefab
+    asset: {fileID: 2106590483567465306, guid: 551c441933a23d145846473abdfa4c62, type: 3}
+  - key: ca_coconut_01
+    asset: {fileID: 2399085550281858880, guid: 623a1289e0b93dc42978b62ed6c68740, type: 3}
+  - key: Assets/Asset/Cha/Dino/coconut/prefab/ca_coconut_01.prefab
+    asset: {fileID: 2399085550281858880, guid: 623a1289e0b93dc42978b62ed6c68740, type: 3}
+  - key: ca_coconut_02
+    asset: {fileID: 3323595641714254615, guid: ee8c320eef2a02a4789a779796998965, type: 3}
+  - key: Assets/Asset/Cha/Dino/coconut/prefab/ca_coconut_02.prefab
+    asset: {fileID: 3323595641714254615, guid: ee8c320eef2a02a4789a779796998965, type: 3}
+  - key: ca_coconut_03
+    asset: {fileID: 3662527989798414914, guid: f99a611c56a17dc479a78acf2a33fb93, type: 3}
+  - key: Assets/Asset/Cha/Dino/coconut/prefab/ca_coconut_03.prefab
+    asset: {fileID: 3662527989798414914, guid: f99a611c56a17dc479a78acf2a33fb93, type: 3}
+  - key: ca_coconut_04
+    asset: {fileID: 6877648004929894222, guid: c9abf2c0b7867514da16b3700e588f4c, type: 3}
+  - key: Assets/Asset/Cha/Dino/coconut/prefab/ca_coconut_04.prefab
+    asset: {fileID: 6877648004929894222, guid: c9abf2c0b7867514da16b3700e588f4c, type: 3}
+  - key: he_coconut_01
+    asset: {fileID: 6793180293987977305, guid: b6fe72898d15c784ca1a55c5840a4db6, type: 3}
+  - key: Assets/Asset/Cha/Dino/coconut/prefab/he_coconut_01.prefab
+    asset: {fileID: 6793180293987977305, guid: b6fe72898d15c784ca1a55c5840a4db6, type: 3}
+  - key: he_coconut_02
+    asset: {fileID: 3686767503661464705, guid: fe226bc06e7888740bd06f818435d644, type: 3}
+  - key: Assets/Asset/Cha/Dino/coconut/prefab/he_coconut_02.prefab
+    asset: {fileID: 3686767503661464705, guid: fe226bc06e7888740bd06f818435d644, type: 3}
+  - key: he_coconut_03
+    asset: {fileID: 1945941273206798023, guid: 414d288cd65f0b24bbf527e119ae4f71, type: 3}
+  - key: Assets/Asset/Cha/Dino/coconut/prefab/he_coconut_03.prefab
+    asset: {fileID: 1945941273206798023, guid: 414d288cd65f0b24bbf527e119ae4f71, type: 3}
+  - key: he_coconut_04
+    asset: {fileID: 7696517841477325803, guid: bd9d5e1b3c3b2714b8662ca0b37aea52, type: 3}
+  - key: Assets/Asset/Cha/Dino/coconut/prefab/he_coconut_04.prefab
+    asset: {fileID: 7696517841477325803, guid: bd9d5e1b3c3b2714b8662ca0b37aea52, type: 3}
+  - key: om_coconut_01
+    asset: {fileID: 7935878942418663628, guid: c8cdde1c4745d7e4c933b37c49bc415a, type: 3}
+  - key: Assets/Asset/Cha/Dino/coconut/prefab/om_coconut_01.prefab
+    asset: {fileID: 7935878942418663628, guid: c8cdde1c4745d7e4c933b37c49bc415a, type: 3}
+  - key: om_coconut_02
+    asset: {fileID: 3634973892692745026, guid: af67055346e7539478d08bfefa41db2a, type: 3}
+  - key: Assets/Asset/Cha/Dino/coconut/prefab/om_coconut_02.prefab
+    asset: {fileID: 3634973892692745026, guid: af67055346e7539478d08bfefa41db2a, type: 3}
+  - key: om_coconut_03
+    asset: {fileID: 811364227900905047, guid: 848fa393b73f90c4fb98d6856dc458a7, type: 3}
+  - key: Assets/Asset/Cha/Dino/coconut/prefab/om_coconut_03.prefab
+    asset: {fileID: 811364227900905047, guid: 848fa393b73f90c4fb98d6856dc458a7, type: 3}
+  - key: om_coconut_04
+    asset: {fileID: 3874355332480176742, guid: 861d28c49b3f95e49815709cf2f6f1d6, type: 3}
+  - key: Assets/Asset/Cha/Dino/coconut/prefab/om_coconut_04.prefab
+    asset: {fileID: 3874355332480176742, guid: 861d28c49b3f95e49815709cf2f6f1d6, type: 3}
+  - key: ca_blueberry_01
+    asset: {fileID: 4289837576461771964, guid: a7a690358241aa844bfc95e0079add9e, type: 3}
+  - key: Assets/Asset/Cha/Dino/blueberry/prefab/ca_blueberry_01.prefab
+    asset: {fileID: 4289837576461771964, guid: a7a690358241aa844bfc95e0079add9e, type: 3}
+  - key: ca_blueberry_02
+    asset: {fileID: 7365252492549194037, guid: fd2c162ff2c04fe4bbbc2581ebd8170c, type: 3}
+  - key: Assets/Asset/Cha/Dino/blueberry/prefab/ca_blueberry_02.prefab
+    asset: {fileID: 7365252492549194037, guid: fd2c162ff2c04fe4bbbc2581ebd8170c, type: 3}
+  - key: ca_blueberry_03
+    asset: {fileID: 2912570483626065631, guid: 7735cd0304a8ead49aadd4a4912346bc, type: 3}
+  - key: Assets/Asset/Cha/Dino/blueberry/prefab/ca_blueberry_03.prefab
+    asset: {fileID: 2912570483626065631, guid: 7735cd0304a8ead49aadd4a4912346bc, type: 3}
+  - key: ca_blueberry_04
+    asset: {fileID: 7952023536786227648, guid: ad5c33271f9bc2744ba13d589027331d, type: 3}
+  - key: Assets/Asset/Cha/Dino/blueberry/prefab/ca_blueberry_04.prefab
+    asset: {fileID: 7952023536786227648, guid: ad5c33271f9bc2744ba13d589027331d, type: 3}
+  - key: he_blueberry_01
+    asset: {fileID: 4548513160523070319, guid: e6e568b3cd9f39046b9b1f04503fe716, type: 3}
+  - key: Assets/Asset/Cha/Dino/blueberry/prefab/he_blueberry_01.prefab
+    asset: {fileID: 4548513160523070319, guid: e6e568b3cd9f39046b9b1f04503fe716, type: 3}
+  - key: he_blueberry_02
+    asset: {fileID: 839194665723601533, guid: 5ae505dd67136774796fcd07fbf6a8af, type: 3}
+  - key: Assets/Asset/Cha/Dino/blueberry/prefab/he_blueberry_02.prefab
+    asset: {fileID: 839194665723601533, guid: 5ae505dd67136774796fcd07fbf6a8af, type: 3}
+  - key: he_blueberry_03
+    asset: {fileID: 6424461398996021833, guid: e6a78553b4342e54dbf6caef152efedd, type: 3}
+  - key: Assets/Asset/Cha/Dino/blueberry/prefab/he_blueberry_03.prefab
+    asset: {fileID: 6424461398996021833, guid: e6a78553b4342e54dbf6caef152efedd, type: 3}
+  - key: he_blueberry_04
+    asset: {fileID: 7859913922636382463, guid: 303c8634785afbe4b9291567b9cfb074, type: 3}
+  - key: Assets/Asset/Cha/Dino/blueberry/prefab/he_blueberry_04.prefab
+    asset: {fileID: 7859913922636382463, guid: 303c8634785afbe4b9291567b9cfb074, type: 3}
+  - key: om_blueberry_04
+    asset: {fileID: 7677491617727831476, guid: 5633638049133964095cb9298ed36996, type: 3}
+  - key: Assets/Asset/Cha/Dino/blueberry/prefab/om_blueberry_04.prefab
+    asset: {fileID: 7677491617727831476, guid: 5633638049133964095cb9298ed36996, type: 3}
+  - key: om_blueberry_03
+    asset: {fileID: 7519224444286262003, guid: 9219cf5af4d384748be6ea5e1a2e1f90, type: 3}
+  - key: Assets/Asset/Cha/Dino/blueberry/prefab/om_blueberry_03.prefab
+    asset: {fileID: 7519224444286262003, guid: 9219cf5af4d384748be6ea5e1a2e1f90, type: 3}
+  - key: om_blueberry_01
+    asset: {fileID: 1340552322952573153, guid: aa7cd8d89c3489b4ca4c02ef4cd27cd1, type: 3}
+  - key: Assets/Asset/Cha/Dino/blueberry/prefab/om_blueberry_01.prefab
+    asset: {fileID: 1340552322952573153, guid: aa7cd8d89c3489b4ca4c02ef4cd27cd1, type: 3}
+  - key: om_blueberry_02
+    asset: {fileID: 1034323456529917854, guid: a4a241adbeb36824f81a4910900cb897, type: 3}
+  - key: Assets/Asset/Cha/Dino/blueberry/prefab/om_blueberry_02.prefab
+    asset: {fileID: 1034323456529917854, guid: a4a241adbeb36824f81a4910900cb897, type: 3}
+  - key: ca_dragonfruit_01
+    asset: {fileID: 7094148450222493011, guid: 459b58d3201b7614298cdf8e03b48057, type: 3}
+  - key: Assets/Asset/Cha/Dino/dragonfruit/prefab/ca_dragonfruit_01.prefab
+    asset: {fileID: 7094148450222493011, guid: 459b58d3201b7614298cdf8e03b48057, type: 3}
+  - key: he_dragonfruit_01
+    asset: {fileID: 2989858780814462184, guid: 48c7f67fa8d229646a6fccc54ce0f7fc, type: 3}
+  - key: Assets/Asset/Cha/Dino/dragonfruit/prefab/he_dragonfruit_01.prefab
+    asset: {fileID: 2989858780814462184, guid: 48c7f67fa8d229646a6fccc54ce0f7fc, type: 3}
+  - key: om_dragonfruit_01
+    asset: {fileID: 800506810481320486, guid: 7e2eb58658daf1d458926836aac9f7ca, type: 3}
+  - key: Assets/Asset/Cha/Dino/dragonfruit/prefab/om_dragonfruit_01.prefab
+    asset: {fileID: 800506810481320486, guid: 7e2eb58658daf1d458926836aac9f7ca, type: 3}
+  - key: ca_pineapple_01
+    asset: {fileID: 6672834612882234955, guid: 8861929a8e2709a48a13e91d63c54229, type: 3}
+  - key: Assets/Asset/Cha/Dino/pineapple/prefab/ca_pineapple_01.prefab
+    asset: {fileID: 6672834612882234955, guid: 8861929a8e2709a48a13e91d63c54229, type: 3}
+  - key: ca_pineapple_02
+    asset: {fileID: 767944544476905837, guid: 4ca689d66c309a94fab2a50d613b02e3, type: 3}
+  - key: Assets/Asset/Cha/Dino/pineapple/prefab/ca_pineapple_02.prefab
+    asset: {fileID: 767944544476905837, guid: 4ca689d66c309a94fab2a50d613b02e3, type: 3}
+  - key: ca_pineapple_03
+    asset: {fileID: 2609335885706483445, guid: 7ac5d1c9a1ae5e54eb7f1b0920eae627, type: 3}
+  - key: Assets/Asset/Cha/Dino/pineapple/prefab/ca_pineapple_03.prefab
+    asset: {fileID: 2609335885706483445, guid: 7ac5d1c9a1ae5e54eb7f1b0920eae627, type: 3}
+  - key: ca_pineapple_04
+    asset: {fileID: 8092163203700595457, guid: 64f6c442e36dfa743bb0de3c8f8660f5, type: 3}
+  - key: Assets/Asset/Cha/Dino/pineapple/prefab/ca_pineapple_04.prefab
+    asset: {fileID: 8092163203700595457, guid: 64f6c442e36dfa743bb0de3c8f8660f5, type: 3}
+  - key: he_pineapple_01
+    asset: {fileID: 3296440850671150043, guid: ba443a55ec02b7040ab6f79cdac23437, type: 3}
+  - key: Assets/Asset/Cha/Dino/pineapple/prefab/he_pineapple_01.prefab
+    asset: {fileID: 3296440850671150043, guid: ba443a55ec02b7040ab6f79cdac23437, type: 3}
+  - key: he_pineapple_02
+    asset: {fileID: 1156687761504980063, guid: 609df111d0b0f6742802583dac286050, type: 3}
+  - key: Assets/Asset/Cha/Dino/pineapple/prefab/he_pineapple_02.prefab
+    asset: {fileID: 1156687761504980063, guid: 609df111d0b0f6742802583dac286050, type: 3}
+  - key: he_pineapple_03
+    asset: {fileID: 6840823675847691706, guid: 6ab8ffac58c2c474f980f49d045db32a, type: 3}
+  - key: Assets/Asset/Cha/Dino/pineapple/prefab/he_pineapple_03.prefab
+    asset: {fileID: 6840823675847691706, guid: 6ab8ffac58c2c474f980f49d045db32a, type: 3}
+  - key: he_pineapple_04
+    asset: {fileID: 3321198541356127244, guid: 6896db6053f0b934f9efd7619788a71c, type: 3}
+  - key: Assets/Asset/Cha/Dino/pineapple/prefab/he_pineapple_04.prefab
+    asset: {fileID: 3321198541356127244, guid: 6896db6053f0b934f9efd7619788a71c, type: 3}
+  - key: om_pineapple_01
+    asset: {fileID: 2776414962810483329, guid: a6c6762d3cb73e4499bd09f676b24c43, type: 3}
+  - key: Assets/Asset/Cha/Dino/pineapple/prefab/om_pineapple_01.prefab
+    asset: {fileID: 2776414962810483329, guid: a6c6762d3cb73e4499bd09f676b24c43, type: 3}
+  - key: om_pineapple_02
+    asset: {fileID: 2145989651918980725, guid: 352117614c7014449bba0909cf595e54, type: 3}
+  - key: Assets/Asset/Cha/Dino/pineapple/prefab/om_pineapple_02.prefab
+    asset: {fileID: 2145989651918980725, guid: 352117614c7014449bba0909cf595e54, type: 3}
+  - key: om_pineapple_03
+    asset: {fileID: 5914788978030428524, guid: 612a3d41338f23f408feae60ab40904c, type: 3}
+  - key: Assets/Asset/Cha/Dino/pineapple/prefab/om_pineapple_03.prefab
+    asset: {fileID: 5914788978030428524, guid: 612a3d41338f23f408feae60ab40904c, type: 3}
+  - key: om_pineapple_04
+    asset: {fileID: 483620635575789794, guid: 13e85f56e9d1b264f8fd197901b13cce, type: 3}
+  - key: Assets/Asset/Cha/Dino/pineapple/prefab/om_pineapple_04.prefab
+    asset: {fileID: 483620635575789794, guid: 13e85f56e9d1b264f8fd197901b13cce, type: 3}
+  - key: ca_rambutan_01
+    asset: {fileID: 4794669694878908786, guid: 1592fdee24f423b408206870e93452b6, type: 3}
+  - key: Assets/Asset/Cha/Dino/rambutan/prefab/ca_rambutan_01.prefab
+    asset: {fileID: 4794669694878908786, guid: 1592fdee24f423b408206870e93452b6, type: 3}
+  - key: ca_rambutan_02
+    asset: {fileID: 5179102743018308489, guid: 305020923cd28224a982c7c39e013bed, type: 3}
+  - key: Assets/Asset/Cha/Dino/rambutan/prefab/ca_rambutan_02.prefab
+    asset: {fileID: 5179102743018308489, guid: 305020923cd28224a982c7c39e013bed, type: 3}
+  - key: ca_rambutan_03
+    asset: {fileID: 3695810945523466632, guid: a9134d67b1cc2fb4287567d0eb65acf1, type: 3}
+  - key: Assets/Asset/Cha/Dino/rambutan/prefab/ca_rambutan_03.prefab
+    asset: {fileID: 3695810945523466632, guid: a9134d67b1cc2fb4287567d0eb65acf1, type: 3}
+  - key: ca_rambutan_04
+    asset: {fileID: 628965041109249942, guid: 5d562f966f01f7c4789f2623e2f3a2fc, type: 3}
+  - key: Assets/Asset/Cha/Dino/rambutan/prefab/ca_rambutan_04.prefab
+    asset: {fileID: 628965041109249942, guid: 5d562f966f01f7c4789f2623e2f3a2fc, type: 3}
+  - key: he_rambutan_01
+    asset: {fileID: 3964423980351201257, guid: a15f93e348039414ab173b6a1b397811, type: 3}
+  - key: Assets/Asset/Cha/Dino/rambutan/prefab/he_rambutan_01.prefab
+    asset: {fileID: 3964423980351201257, guid: a15f93e348039414ab173b6a1b397811, type: 3}
+  - key: he_rambutan_02
+    asset: {fileID: 4704858011871447537, guid: eebc26e50fda8bd44b756056aa5a47ec, type: 3}
+  - key: Assets/Asset/Cha/Dino/rambutan/prefab/he_rambutan_02.prefab
+    asset: {fileID: 4704858011871447537, guid: eebc26e50fda8bd44b756056aa5a47ec, type: 3}
+  - key: he_rambutan_03
+    asset: {fileID: 4245139226193307427, guid: d326179d39b3f7f4b8cef55490fda8f3, type: 3}
+  - key: Assets/Asset/Cha/Dino/rambutan/prefab/he_rambutan_03.prefab
+    asset: {fileID: 4245139226193307427, guid: d326179d39b3f7f4b8cef55490fda8f3, type: 3}
+  - key: he_rambutan_04
+    asset: {fileID: 712069800713844890, guid: 7597eb7aba64c38438a9ab95769b2b62, type: 3}
+  - key: Assets/Asset/Cha/Dino/rambutan/prefab/he_rambutan_04.prefab
+    asset: {fileID: 712069800713844890, guid: 7597eb7aba64c38438a9ab95769b2b62, type: 3}
+  - key: om_rambutan_01
+    asset: {fileID: 5061184242036513206, guid: 7b24a9efb5ec4f842ad6135c1b60d702, type: 3}
+  - key: Assets/Asset/Cha/Dino/rambutan/prefab/om_rambutan_01.prefab
+    asset: {fileID: 5061184242036513206, guid: 7b24a9efb5ec4f842ad6135c1b60d702, type: 3}
+  - key: om_rambutan_02
+    asset: {fileID: 8746520600851995059, guid: fd0e5df36960caa43a1b46c3fa65b1be, type: 3}
+  - key: Assets/Asset/Cha/Dino/rambutan/prefab/om_rambutan_02.prefab
+    asset: {fileID: 8746520600851995059, guid: fd0e5df36960caa43a1b46c3fa65b1be, type: 3}
+  - key: om_rambutan_03
+    asset: {fileID: 6825833053274458898, guid: 4e56eb62b95722c4f908d5662c1a1a69, type: 3}
+  - key: Assets/Asset/Cha/Dino/rambutan/prefab/om_rambutan_03.prefab
+    asset: {fileID: 6825833053274458898, guid: 4e56eb62b95722c4f908d5662c1a1a69, type: 3}
+  - key: om_rambutan_04
+    asset: {fileID: 8085015285546971094, guid: c1db26141a55da84abec304cfa993d7f, type: 3}
+  - key: Assets/Asset/Cha/Dino/rambutan/prefab/om_rambutan_04.prefab
+    asset: {fileID: 8085015285546971094, guid: c1db26141a55da84abec304cfa993d7f, type: 3}
+  - key: ca_melon_01
+    asset: {fileID: 4738735450362327576, guid: 046c5143d12799d4993d17e0de3ff01b, type: 3}
+  - key: Assets/Asset/Cha/Dino/melon/prefab/ca_melon_01.prefab
+    asset: {fileID: 4738735450362327576, guid: 046c5143d12799d4993d17e0de3ff01b, type: 3}
+  - key: ca_melon_02
+    asset: {fileID: 6638541852476968467, guid: 031c08bcfd387864081773c5b0ec5a71, type: 3}
+  - key: Assets/Asset/Cha/Dino/melon/prefab/ca_melon_02.prefab
+    asset: {fileID: 6638541852476968467, guid: 031c08bcfd387864081773c5b0ec5a71, type: 3}
+  - key: ca_melon_03
+    asset: {fileID: 6624149214158698084, guid: 747018fdff029024bbedd94cbd7ba886, type: 3}
+  - key: Assets/Asset/Cha/Dino/melon/prefab/ca_melon_03.prefab
+    asset: {fileID: 6624149214158698084, guid: 747018fdff029024bbedd94cbd7ba886, type: 3}
+  - key: ca_melon_04
+    asset: {fileID: 6490170347250301289, guid: b85a2847999eb2446a9ba6fb3e5c7c27, type: 3}
+  - key: Assets/Asset/Cha/Dino/melon/prefab/ca_melon_04.prefab
+    asset: {fileID: 6490170347250301289, guid: b85a2847999eb2446a9ba6fb3e5c7c27, type: 3}
+  - key: he_melon_01
+    asset: {fileID: 7935493714012826833, guid: f33384b9502f14e47a53073d6e808edd, type: 3}
+  - key: Assets/Asset/Cha/Dino/melon/prefab/he_melon_01.prefab
+    asset: {fileID: 7935493714012826833, guid: f33384b9502f14e47a53073d6e808edd, type: 3}
+  - key: he_melon_02
+    asset: {fileID: 5232073233274575337, guid: 540a781c424b1f442b9dede705c9043b, type: 3}
+  - key: Assets/Asset/Cha/Dino/melon/prefab/he_melon_02.prefab
+    asset: {fileID: 5232073233274575337, guid: 540a781c424b1f442b9dede705c9043b, type: 3}
+  - key: he_melon_03
+    asset: {fileID: 3234490278990349895, guid: 459d7490c4dbe4e4fbd9e2ba1a992c13, type: 3}
+  - key: Assets/Asset/Cha/Dino/melon/prefab/he_melon_03.prefab
+    asset: {fileID: 3234490278990349895, guid: 459d7490c4dbe4e4fbd9e2ba1a992c13, type: 3}
+  - key: he_melon_04
+    asset: {fileID: 753810762919902800, guid: b0ceb44db66043e4b8d042f86877ae09, type: 3}
+  - key: Assets/Asset/Cha/Dino/melon/prefab/he_melon_04.prefab
+    asset: {fileID: 753810762919902800, guid: b0ceb44db66043e4b8d042f86877ae09, type: 3}
+  - key: om_melon_01
+    asset: {fileID: 2878930132639039467, guid: c94229ce669b27c499f6387c00b11e23, type: 3}
+  - key: Assets/Asset/Cha/Dino/melon/prefab/om_melon_01.prefab
+    asset: {fileID: 2878930132639039467, guid: c94229ce669b27c499f6387c00b11e23, type: 3}
+  - key: om_melon_02
+    asset: {fileID: 8136347962399612379, guid: 01f0e3d0a1f4e094fab72ab429f12bac, type: 3}
+  - key: Assets/Asset/Cha/Dino/melon/prefab/om_melon_02.prefab
+    asset: {fileID: 8136347962399612379, guid: 01f0e3d0a1f4e094fab72ab429f12bac, type: 3}
+  - key: om_melon_03
+    asset: {fileID: 7418745806231200946, guid: c78bf28bbd1a910439cf9dd8ca0bc996, type: 3}
+  - key: Assets/Asset/Cha/Dino/melon/prefab/om_melon_03.prefab
+    asset: {fileID: 7418745806231200946, guid: c78bf28bbd1a910439cf9dd8ca0bc996, type: 3}
+  - key: om_melon_04
+    asset: {fileID: 3160382686143706760, guid: 4e1151950a6e0a64c935199100823663, type: 3}
+  - key: Assets/Asset/Cha/Dino/melon/prefab/om_melon_04.prefab
+    asset: {fileID: 3160382686143706760, guid: 4e1151950a6e0a64c935199100823663, type: 3}
+  - key: ca_durian_01
+    asset: {fileID: 7070693127865083851, guid: 6cf70213385d38d41b1e80bc18f76c45, type: 3}
+  - key: Assets/Asset/Cha/Dino/durian/prefab/ca_durian_01.prefab
+    asset: {fileID: 7070693127865083851, guid: 6cf70213385d38d41b1e80bc18f76c45, type: 3}
+  - key: ca_durian_02
+    asset: {fileID: 2488568507311885657, guid: 11fa32c127f2ce549bdc990fb4b14982, type: 3}
+  - key: Assets/Asset/Cha/Dino/durian/prefab/ca_durian_02.prefab
+    asset: {fileID: 2488568507311885657, guid: 11fa32c127f2ce549bdc990fb4b14982, type: 3}
+  - key: ca_durian_03
+    asset: {fileID: 100779275774843766, guid: 00cd882e1669c974ba641d31f70af14d, type: 3}
+  - key: Assets/Asset/Cha/Dino/durian/prefab/ca_durian_03.prefab
+    asset: {fileID: 100779275774843766, guid: 00cd882e1669c974ba641d31f70af14d, type: 3}
+  - key: ca_durian_04
+    asset: {fileID: 4451652685161066164, guid: f1853a6c6e9a3a248bb7a4b9de40b84a, type: 3}
+  - key: Assets/Asset/Cha/Dino/durian/prefab/ca_durian_04.prefab
+    asset: {fileID: 4451652685161066164, guid: f1853a6c6e9a3a248bb7a4b9de40b84a, type: 3}
+  - key: he_durian_01
+    asset: {fileID: 8586791755803954930, guid: 405d6328b03210d4ca9ba644cd0720ba, type: 3}
+  - key: Assets/Asset/Cha/Dino/durian/prefab/he_durian_01.prefab
+    asset: {fileID: 8586791755803954930, guid: 405d6328b03210d4ca9ba644cd0720ba, type: 3}
+  - key: he_durian_02
+    asset: {fileID: 3564039535186255581, guid: c176cc0dbc80062498ea3a7343461822, type: 3}
+  - key: Assets/Asset/Cha/Dino/durian/prefab/he_durian_02.prefab
+    asset: {fileID: 3564039535186255581, guid: c176cc0dbc80062498ea3a7343461822, type: 3}
+  - key: he_durian_03
+    asset: {fileID: 4336409989364658412, guid: 69ad99a4a29c0f34894eb8e3b5855e0b, type: 3}
+  - key: Assets/Asset/Cha/Dino/durian/prefab/he_durian_03.prefab
+    asset: {fileID: 4336409989364658412, guid: 69ad99a4a29c0f34894eb8e3b5855e0b, type: 3}
+  - key: he_durian_04
+    asset: {fileID: 4272789239091336306, guid: 7f8fe7c008e987b478565e612c920817, type: 3}
+  - key: Assets/Asset/Cha/Dino/durian/prefab/he_durian_04.prefab
+    asset: {fileID: 4272789239091336306, guid: 7f8fe7c008e987b478565e612c920817, type: 3}
+  - key: om_durian_01
+    asset: {fileID: 7435422586580980489, guid: de01551f9a6c7b94a882822d17ea2324, type: 3}
+  - key: Assets/Asset/Cha/Dino/durian/prefab/om_durian_01.prefab
+    asset: {fileID: 7435422586580980489, guid: de01551f9a6c7b94a882822d17ea2324, type: 3}
+  - key: om_durian_02
+    asset: {fileID: 9184586182181851938, guid: 50f8e7a72fdf51e4e8840598ab2c04c9, type: 3}
+  - key: Assets/Asset/Cha/Dino/durian/prefab/om_durian_02.prefab
+    asset: {fileID: 9184586182181851938, guid: 50f8e7a72fdf51e4e8840598ab2c04c9, type: 3}
+  - key: om_durian_03
+    asset: {fileID: 6891223913608789449, guid: fbd4838301848c946bbbbfa916ff2474, type: 3}
+  - key: Assets/Asset/Cha/Dino/durian/prefab/om_durian_03.prefab
+    asset: {fileID: 6891223913608789449, guid: fbd4838301848c946bbbbfa916ff2474, type: 3}
+  - key: om_durian_04
+    asset: {fileID: 9034824775350976469, guid: ecfafdfbd78e543489c0647d33e1e4d2, type: 3}
+  - key: Assets/Asset/Cha/Dino/durian/prefab/om_durian_04.prefab
+    asset: {fileID: 9034824775350976469, guid: ecfafdfbd78e543489c0647d33e1e4d2, type: 3}
+  - key: common_hit
+    asset: {fileID: 6714115723268246250, guid: 98b57f511fcf1e64abfd07f79f1f4f5f, type: 3}
+  - key: Assets/Asset/Effects/prefab/common_hit.prefab
+    asset: {fileID: 6714115723268246250, guid: 98b57f511fcf1e64abfd07f79f1f4f5f, type: 3}
+  - key: common_run_dust
+    asset: {fileID: 6783170970372907894, guid: 3fb5692a19396e8448c9b2909f355fff, type: 3}
+  - key: Assets/Asset/Effects/prefab/common_run_dust.prefab
+    asset: {fileID: 6783170970372907894, guid: 3fb5692a19396e8448c9b2909f355fff, type: 3}
+  - key: fx_bite
+    asset: {fileID: 5810306675120279822, guid: 9d79e587ae12c7e43b5c2be8c391220e, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_bite.prefab
+    asset: {fileID: 5810306675120279822, guid: 9d79e587ae12c7e43b5c2be8c391220e, type: 3}
+  - key: fx_death
+    asset: {fileID: 5214084050735422634, guid: 4bc7af1707b8ab24c9f3daa38c4b5457, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_death.prefab
+    asset: {fileID: 5214084050735422634, guid: 4bc7af1707b8ab24c9f3daa38c4b5457, type: 3}
+  - key: fx_fire_ball_hit
+    asset: {fileID: 5829872838771105664, guid: d2e43e720584388498a15751b0507a76, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_fire_ball_hit.prefab
+    asset: {fileID: 5829872838771105664, guid: d2e43e720584388498a15751b0507a76, type: 3}
+  - key: fx_fire_breath
+    asset: {fileID: 7030141638076686805, guid: 599900141a8271540a20f0c741d2ae8e, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_fire_breath.prefab
+    asset: {fileID: 7030141638076686805, guid: 599900141a8271540a20f0c741d2ae8e, type: 3}
+  - key: fx_health_up
+    asset: {fileID: 8544434443688463031, guid: e37ebef3f033dea45a384f75369f7bde, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_health_up.prefab
+    asset: {fileID: 8544434443688463031, guid: e37ebef3f033dea45a384f75369f7bde, type: 3}
+  - key: fx_meteor_explosion_all
+    asset: {fileID: 8296479709181414059, guid: 3516b4ec06b56b84f9f6ed3786925ae8, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_meteor_explosion_all.prefab
+    asset: {fileID: 8296479709181414059, guid: 3516b4ec06b56b84f9f6ed3786925ae8, type: 3}
+  - key: fx_fire_ball
+    asset: {fileID: 3240539008320382178, guid: 3de6a467d936e2443924a3705c999d9e, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_fire_ball.prefab
+    asset: {fileID: 3240539008320382178, guid: 3de6a467d936e2443924a3705c999d9e, type: 3}
+  - key: fx_buff_stun
+    asset: {fileID: 4114940911998256192, guid: 5a709ed6c3db57641b88cd1f5e3843c2, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_buff_stun.prefab
+    asset: {fileID: 4114940911998256192, guid: 5a709ed6c3db57641b88cd1f5e3843c2, type: 3}
+  - key: meteor_ready_attack
+    asset: {fileID: 3078351927428243899, guid: 9c70feed41aa8a24084f91d2378f50df, type: 3}
+  - key: Assets/Asset/Effects/prefab/meteor_ready_attack.prefab
+    asset: {fileID: 3078351927428243899, guid: 9c70feed41aa8a24084f91d2378f50df, type: 3}
+  - key: fx_buff_attackpower_down
+    asset: {fileID: 1838138082022503986, guid: f4e66e676c9c69d4f9ac1a8c3fd072dd, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_buff_attackpower_down.prefab
+    asset: {fileID: 1838138082022503986, guid: f4e66e676c9c69d4f9ac1a8c3fd072dd, type: 3}
+  - key: fx_buff_attackpower_up
+    asset: {fileID: 5115953151052129778, guid: a2366841973e0894480db5edf86f54ab, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_buff_attackpower_up.prefab
+    asset: {fileID: 5115953151052129778, guid: a2366841973e0894480db5edf86f54ab, type: 3}
+  - key: fx_burst_banana
+    asset: {fileID: 1027587236631938825, guid: 5761050d0ad0e7c48b1184a6a6d0554f, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_burst_banana.prefab
+    asset: {fileID: 1027587236631938825, guid: 5761050d0ad0e7c48b1184a6a6d0554f, type: 3}
+  - key: fx_burst_full_dust
+    asset: {fileID: 449761997925205726, guid: 4cc6cd363615c4541836280781c1027e, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_burst_full_dust.prefab
+    asset: {fileID: 449761997925205726, guid: 4cc6cd363615c4541836280781c1027e, type: 3}
+  - key: fx_burst_normal_dust
+    asset: {fileID: 8542843743275083362, guid: 1afbe21aff4f811459aadc3215757490, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_burst_normal_dust.prefab
+    asset: {fileID: 8542843743275083362, guid: 1afbe21aff4f811459aadc3215757490, type: 3}
+  - key: fx_burst_orange
+    asset: {fileID: 3128173435524412814, guid: c869e303a32632544a7516d28f7a6ff1, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_burst_orange.prefab
+    asset: {fileID: 3128173435524412814, guid: c869e303a32632544a7516d28f7a6ff1, type: 3}
+  - key: fx_burst_watermelon
+    asset: {fileID: 8473537000723422265, guid: 7d8c1d386e3c3484a83389114b1d030e, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_burst_watermelon.prefab
+    asset: {fileID: 8473537000723422265, guid: 7d8c1d386e3c3484a83389114b1d030e, type: 3}
+  - key: fx_burst_full_ui
+    asset: {fileID: 3217965051854005815, guid: f423ea2bfbfe4884ca33939989330e5c, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_burst_full_ui.prefab
+    asset: {fileID: 3217965051854005815, guid: f423ea2bfbfe4884ca33939989330e5c, type: 3}
+  - key: fx_burst_normal_ui
+    asset: {fileID: 7891161375408163262, guid: f5970ee7464c8904f997a6d3e78b7e68, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_burst_normal_ui.prefab
+    asset: {fileID: 7891161375408163262, guid: f5970ee7464c8904f997a6d3e78b7e68, type: 3}
+  - key: fx_burst_ultra_ui
+    asset: {fileID: 5801677237177889180, guid: 7927e52ca42845f48ba95d687183c11b, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_burst_ultra_ui.prefab
+    asset: {fileID: 5801677237177889180, guid: 7927e52ca42845f48ba95d687183c11b, type: 3}
+  - key: fx_burst_mega_dust
+    asset: {fileID: 6051594969735446467, guid: 454d9fb6cfed8c148abef24cf85f1e03, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_burst_mega_dust.prefab
+    asset: {fileID: 6051594969735446467, guid: 454d9fb6cfed8c148abef24cf85f1e03, type: 3}
+  - key: fx_burst_ultra_dust
+    asset: {fileID: 3475695399729911176, guid: dfbac5a6fabb1084fb5e3223d1f76e53, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_burst_ultra_dust.prefab
+    asset: {fileID: 3475695399729911176, guid: dfbac5a6fabb1084fb5e3223d1f76e53, type: 3}
+  - key: FX_Burst_Aura
+    asset: {fileID: 6419908686773011512, guid: ad092e63a39b76e4d950f8d5224ba2e5, type: 3}
+  - key: Assets/Asset/Effects/prefab/FX_Burst_Aura.prefab
+    asset: {fileID: 6419908686773011512, guid: ad092e63a39b76e4d950f8d5224ba2e5, type: 3}
+  - key: fx_coconut_pirate_01_stab
+    asset: {fileID: 4062902912533918706, guid: ad10c746ac8043d4e8e4a0325f909dd9, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_coconut_pirate_01_stab.prefab
+    asset: {fileID: 4062902912533918706, guid: ad10c746ac8043d4e8e4a0325f909dd9, type: 3}
+  - key: fx_coconut_pirate_02_casting
+    asset: {fileID: 6506303260426766468, guid: cd8c189df4e76db42be96d91f063413b, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_coconut_pirate_02_casting.prefab
+    asset: {fileID: 6506303260426766468, guid: cd8c189df4e76db42be96d91f063413b, type: 3}
+  - key: fx_coconut_pirate_02_projectile
+    asset: {fileID: 6865335735856150768, guid: c81a5e8bc602f9b45899ca85650cf113, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_coconut_pirate_02_projectile.prefab
+    asset: {fileID: 6865335735856150768, guid: c81a5e8bc602f9b45899ca85650cf113, type: 3}
+  - key: Blueberry_juce_Move
+    asset: {fileID: 6545156612532220528, guid: b202ce86b37c6b2459b215916eadd113, type: 3}
+  - key: Assets/Asset/Effects/prefab/Blueberry_juce_Move.prefab
+    asset: {fileID: 6545156612532220528, guid: b202ce86b37c6b2459b215916eadd113, type: 3}
+  - key: Character_Move_Smoke
+    asset: {fileID: 2668606127185390745, guid: c87a99f8921451540be75055e174715a, type: 3}
+  - key: Assets/Asset/Effects/prefab/Character_Move_Smoke.prefab
+    asset: {fileID: 2668606127185390745, guid: c87a99f8921451540be75055e174715a, type: 3}
+  - key: DragonBuff_AttackUp
+    asset: {fileID: 7863430625751512837, guid: eada78013aa96b54cbc544699fabf245, type: 3}
+  - key: Assets/Asset/Effects/prefab/DragonBuff_AttackUp.prefab
+    asset: {fileID: 7863430625751512837, guid: eada78013aa96b54cbc544699fabf245, type: 3}
+  - key: fx_bg_avatar
+    asset: {fileID: 2161523175358720640, guid: d8b519a5ed8242043b10254ff402741d, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_bg_avatar.prefab
+    asset: {fileID: 2161523175358720640, guid: d8b519a5ed8242043b10254ff402741d, type: 3}
+  - key: fx_bg_beach_wave_001
+    asset: {fileID: 2632197124176356962, guid: 18ea94d0127ad074ab755a78ad656a37, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_bg_beach_wave_001.prefab
+    asset: {fileID: 2632197124176356962, guid: 18ea94d0127ad074ab755a78ad656a37, type: 3}
+  - key: fx_bg_beach_wave_002
+    asset: {fileID: 7501722360909663410, guid: 1e8640a1e03cedf428d9180328134816, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_bg_beach_wave_002.prefab
+    asset: {fileID: 7501722360909663410, guid: 1e8640a1e03cedf428d9180328134816, type: 3}
+  - key: fx_bg_beach_wave_003
+    asset: {fileID: 8915587437771570635, guid: 0b7a27ac7612dd747a1ced4b620f6717, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_bg_beach_wave_003.prefab
+    asset: {fileID: 8915587437771570635, guid: 0b7a27ac7612dd747a1ced4b620f6717, type: 3}
+  - key: fx_bg_dawn
+    asset: {fileID: 7317596954690570257, guid: 1d3f12b85dd92ca4e98c79ea7f982386, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_bg_dawn.prefab
+    asset: {fileID: 7317596954690570257, guid: 1d3f12b85dd92ca4e98c79ea7f982386, type: 3}
+  - key: fx_bg_day
+    asset: {fileID: 8760249060203104484, guid: e8be839756bb97645accb79cf11b2541, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_bg_day.prefab
+    asset: {fileID: 8760249060203104484, guid: e8be839756bb97645accb79cf11b2541, type: 3}
+  - key: fx_bg_desert
+    asset: {fileID: 5801914831054607402, guid: 3e0e3539a166a324f8e9a2b39e2072f1, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_bg_desert.prefab
+    asset: {fileID: 5801914831054607402, guid: 3e0e3539a166a324f8e9a2b39e2072f1, type: 3}
+  - key: fx_bg_ice
+    asset: {fileID: 7245225546408925184, guid: 3d70266c4d314a5408ddbeff0b995911, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_bg_ice.prefab
+    asset: {fileID: 7245225546408925184, guid: 3d70266c4d314a5408ddbeff0b995911, type: 3}
+  - key: fx_bg_jungle
+    asset: {fileID: 4481814434904741549, guid: a941a0b9790cde74a93c10fe7c60e932, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_bg_jungle.prefab
+    asset: {fileID: 4481814434904741549, guid: a941a0b9790cde74a93c10fe7c60e932, type: 3}
+  - key: fx_bg_night
+    asset: {fileID: 7317596954690570257, guid: cc60aba15377c7c40a02adbf9caa352c, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_bg_night.prefab
+    asset: {fileID: 7317596954690570257, guid: cc60aba15377c7c40a02adbf9caa352c, type: 3}
+  - key: fx_bg_snake
+    asset: {fileID: 8698890248663453005, guid: c08381bffd3977442b555b5644e1037b, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_bg_snake.prefab
+    asset: {fileID: 8698890248663453005, guid: c08381bffd3977442b555b5644e1037b, type: 3}
+  - key: fx_blizzard
+    asset: {fileID: 4742675644555602792, guid: bf4cf2dbbecacd14aa82700822d44ecf, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_blizzard.prefab
+    asset: {fileID: 4742675644555602792, guid: bf4cf2dbbecacd14aa82700822d44ecf, type: 3}
+  - key: fx_ice_arrow
+    asset: {fileID: 6020933397649129427, guid: 10c4a5315374d124cad0ff441ae3ce21, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_ice_arrow.prefab
+    asset: {fileID: 6020933397649129427, guid: 10c4a5315374d124cad0ff441ae3ce21, type: 3}
+  - key: fx_ice_arrow_hit
+    asset: {fileID: 2551737074713664976, guid: f68f62e72c5f0b14782c6913b9dbaf84, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_ice_arrow_hit.prefab
+    asset: {fileID: 2551737074713664976, guid: f68f62e72c5f0b14782c6913b9dbaf84, type: 3}
+  - key: fx_meat
+    asset: {fileID: 2421554163097765029, guid: 123f88c46521bd046865717dd5b0cd68, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_meat.prefab
+    asset: {fileID: 2421554163097765029, guid: 123f88c46521bd046865717dd5b0cd68, type: 3}
+  - key: fx_meteor_explosion
+    asset: {fileID: 4795492722624429815, guid: 7508b43a95a449943918ceef990d583e, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_meteor_explosion.prefab
+    asset: {fileID: 4795492722624429815, guid: 7508b43a95a449943918ceef990d583e, type: 3}
+  - key: fx_skill_blueberry_bubble_shotgun_Hit
+    asset: {fileID: 6605171017890314377, guid: b1da4991eaf7f5b4592337e2bdf6e76f, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_skill_blueberry_bubble_shotgun_Hit.prefab
+    asset: {fileID: 6605171017890314377, guid: b1da4991eaf7f5b4592337e2bdf6e76f, type: 3}
+  - key: fx_skill_blueberry_bubble_shotgun_Projectile
+    asset: {fileID: 5664705260941922386, guid: 6a1738d26dfa8c448a01360d432457fa, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_skill_blueberry_bubble_shotgun_Projectile.prefab
+    asset: {fileID: 5664705260941922386, guid: 6a1738d26dfa8c448a01360d432457fa, type: 3}
+  - key: fx_skill_blueberry_bubble_shotgun_Projectile_original
+    asset: {fileID: 5664705260941922386, guid: 970862491cb5a0d4ca33ed9ce8f494bd, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_skill_blueberry_bubble_shotgun_Projectile_original.prefab
+    asset: {fileID: 5664705260941922386, guid: 970862491cb5a0d4ca33ed9ce8f494bd, type: 3}
+  - key: fx_skill_blueberry_gun
+    asset: {fileID: 2491529357962644216, guid: f4940df7de14c4249a815aa1a635c581, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_skill_blueberry_gun.prefab
+    asset: {fileID: 2491529357962644216, guid: f4940df7de14c4249a815aa1a635c581, type: 3}
+  - key: fx_skill_blueberry_gun_Hit
+    asset: {fileID: 5894749706394222768, guid: d74c7768f31f45042a12b75bc3724ad6, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_skill_blueberry_gun_Hit.prefab
+    asset: {fileID: 5894749706394222768, guid: d74c7768f31f45042a12b75bc3724ad6, type: 3}
+  - key: fx_skill_blueberry_gun_Hit_original
+    asset: {fileID: 5894749706394222768, guid: 13d7d3be984c5aa489292a3a71020ecc, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_skill_blueberry_gun_Hit_original.prefab
+    asset: {fileID: 5894749706394222768, guid: 13d7d3be984c5aa489292a3a71020ecc, type: 3}
+  - key: fx_skill_blueberry_gun_projectile
+    asset: {fileID: 2491529357962644216, guid: 229706f10e8a1eb4a95fc88eaa97f025, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_skill_blueberry_gun_projectile.prefab
+    asset: {fileID: 2491529357962644216, guid: 229706f10e8a1eb4a95fc88eaa97f025, type: 3}
+  - key: fx_skill_blueberry_parabola_shot_Hit
+    asset: {fileID: 7413970618720995341, guid: 9239719d4a847ab439f96857eadc62f8, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_skill_blueberry_parabola_shot_Hit.prefab
+    asset: {fileID: 7413970618720995341, guid: 9239719d4a847ab439f96857eadc62f8, type: 3}
+  - key: fx_skill_blueberry_parabola_shot_Projectile
+    asset: {fileID: 7952050584432565334, guid: 8ec72a41afbeafd4299bda20b27d9eb2, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_skill_blueberry_parabola_shot_Projectile.prefab
+    asset: {fileID: 7952050584432565334, guid: 8ec72a41afbeafd4299bda20b27d9eb2, type: 3}
+  - key: fx_skill_blueberry_parabola_shot_Start
+    asset: {fileID: 5444582934025557726, guid: 5dbebbb59e557394bba2c71d42d97d70, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_skill_blueberry_parabola_shot_Start.prefab
+    asset: {fileID: 5444582934025557726, guid: 5dbebbb59e557394bba2c71d42d97d70, type: 3}
+  - key: fx_skill_blueberry_tumbling_shot
+    asset: {fileID: 3185844291829453321, guid: ebd5a780388a06e4d9c1d86df7cfd04f, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_skill_blueberry_tumbling_shot.prefab
+    asset: {fileID: 3185844291829453321, guid: ebd5a780388a06e4d9c1d86df7cfd04f, type: 3}
+  - key: fx_skill_blueberry_tumbling_shot_Hit
+    asset: {fileID: 7321330816720654386, guid: ea2439df473f0c04991aae401140e53f, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_skill_blueberry_tumbling_shot_Hit.prefab
+    asset: {fileID: 7321330816720654386, guid: ea2439df473f0c04991aae401140e53f, type: 3}
+  - key: fx_skill_coconut_barrier01
+    asset: {fileID: 4460320303175596736, guid: cb4f913f01925674eb4c34ac1bcdf939, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_skill_coconut_barrier01.prefab
+    asset: {fileID: 4460320303175596736, guid: cb4f913f01925674eb4c34ac1bcdf939, type: 3}
+  - key: fx_skill_coconut_barrier01_loop
+    asset: {fileID: 6356986335938188871, guid: d479f4bc182668a498e1e90ad4d3ba3a, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_skill_coconut_barrier01_loop.prefab
+    asset: {fileID: 6356986335938188871, guid: d479f4bc182668a498e1e90ad4d3ba3a, type: 3}
+  - key: fx_skill_coconut_barrier01_loop_End
+    asset: {fileID: 7219785479397777478, guid: e7e9bdf35c78bb5438bd141154d151d1, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_skill_coconut_barrier01_loop_End.prefab
+    asset: {fileID: 7219785479397777478, guid: e7e9bdf35c78bb5438bd141154d151d1, type: 3}
+  - key: fx_skill_coconut_barrier01_loop_Start
+    asset: {fileID: 2876850227034074969, guid: 64c7656f83322984c8fda849f7a2ccfe, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_skill_coconut_barrier01_loop_Start.prefab
+    asset: {fileID: 2876850227034074969, guid: 64c7656f83322984c8fda849f7a2ccfe, type: 3}
+  - key: fx_skill_coconut_headButt
+    asset: {fileID: 8320852957489473092, guid: 278c3ddd5f8693345bc1ea5e84d78baf, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_skill_coconut_headButt.prefab
+    asset: {fileID: 8320852957489473092, guid: 278c3ddd5f8693345bc1ea5e84d78baf, type: 3}
+  - key: fx_skill_coconut_headButt_Hit
+    asset: {fileID: 7141664522750795983, guid: 4dbcbeadd5ecccd43a2d11b33e9a3f60, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_skill_coconut_headButt_Hit.prefab
+    asset: {fileID: 7141664522750795983, guid: 4dbcbeadd5ecccd43a2d11b33e9a3f60, type: 3}
+  - key: fx_skill_coconut_stomp_Drop
+    asset: {fileID: 3421272709921441105, guid: 857932b6cb6ae104ca369bcd3c00179a, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_skill_coconut_stomp_Drop.prefab
+    asset: {fileID: 3421272709921441105, guid: 857932b6cb6ae104ca369bcd3c00179a, type: 3}
+  - key: fx_skill_coconut_stomp_Drop_original
+    asset: {fileID: 3421272709921441105, guid: f2a9d3960ce1d1b48b06edc50eb6000f, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_skill_coconut_stomp_Drop_original.prefab
+    asset: {fileID: 3421272709921441105, guid: f2a9d3960ce1d1b48b06edc50eb6000f, type: 3}
+  - key: fx_skill_coconut_stomp_Hit
+    asset: {fileID: 3457608212929743341, guid: f823de1c292e747449b2819f4669bb81, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_skill_coconut_stomp_Hit.prefab
+    asset: {fileID: 3457608212929743341, guid: f823de1c292e747449b2819f4669bb81, type: 3}
+  - key: fx_skill_coconut_stomp_Smoke
+    asset: {fileID: 6830439279329892407, guid: 4927c77b059bb0c4384a4d559adcfbdc, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_skill_coconut_stomp_Smoke.prefab
+    asset: {fileID: 6830439279329892407, guid: 4927c77b059bb0c4384a4d559adcfbdc, type: 3}
+  - key: fx_skill_coconut_tail_shot_Hit
+    asset: {fileID: 7124488893479569310, guid: 82f9b49ec0b76cb4fa897df92adb66be, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_skill_coconut_tail_shot_Hit.prefab
+    asset: {fileID: 7124488893479569310, guid: 82f9b49ec0b76cb4fa897df92adb66be, type: 3}
+  - key: fx_skill_coconut_tail_shot_Makecoconut
+    asset: {fileID: 7694580775117456642, guid: 57a9360b7405ebf439bbc862c40c0865, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_skill_coconut_tail_shot_Makecoconut.prefab
+    asset: {fileID: 7694580775117456642, guid: 57a9360b7405ebf439bbc862c40c0865, type: 3}
+  - key: fx_skill_coconut_tail_shot_Projectile
+    asset: {fileID: 8802120238635092342, guid: b98455ef5473d664390e0f6a3a593bd9, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_skill_coconut_tail_shot_Projectile.prefab
+    asset: {fileID: 8802120238635092342, guid: b98455ef5473d664390e0f6a3a593bd9, type: 3}
+  - key: fx_skill_dragonfruit_breath
+    asset: {fileID: 727206909372234787, guid: a80df1a31939a0e4aae3befe20a92ebc, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_skill_dragonfruit_breath.prefab
+    asset: {fileID: 727206909372234787, guid: a80df1a31939a0e4aae3befe20a92ebc, type: 3}
+  - key: fx_skill_dragonfruit_breath_HitFlame
+    asset: {fileID: 447470612122331175, guid: e6aad0bdee4ed6a42915e9190f37dfa0, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_skill_dragonfruit_breath_HitFlame.prefab
+    asset: {fileID: 447470612122331175, guid: e6aad0bdee4ed6a42915e9190f37dfa0, type: 3}
+  - key: fx_skill_dragonfruit_fly_air_breath
+    asset: {fileID: 4177571642057711882, guid: 47d98a824d720ac4392274ce46d3fd8c, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_skill_dragonfruit_fly_air_breath.prefab
+    asset: {fileID: 4177571642057711882, guid: 47d98a824d720ac4392274ce46d3fd8c, type: 3}
+  - key: fx_skill_dragonfruit_fly_air_breath_HitFlame
+    asset: {fileID: 7793233821770149348, guid: f507797f562dc52438d8bfddbd84b49d, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_skill_dragonfruit_fly_air_breath_HitFlame.prefab
+    asset: {fileID: 7793233821770149348, guid: f507797f562dc52438d8bfddbd84b49d, type: 3}
+  - key: fx_skill_dragonfruit_fly_l2r_breath
+    asset: {fileID: 4163632162815006473, guid: 13d5e9cbf3cd67b4b99a43ef95f97860, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_skill_dragonfruit_fly_l2r_breath.prefab
+    asset: {fileID: 4163632162815006473, guid: 13d5e9cbf3cd67b4b99a43ef95f97860, type: 3}
+  - key: fx_skill_dragonfruit_fly_tumbleing_breath
+    asset: {fileID: 6146115744574659795, guid: 5d6f53d36576aa241a119d0e841e851d, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_skill_dragonfruit_fly_tumbleing_breath.prefab
+    asset: {fileID: 6146115744574659795, guid: 5d6f53d36576aa241a119d0e841e851d, type: 3}
+  - key: fx_skill_orange_buff01
+    asset: {fileID: 2173453297079186631, guid: 01908359495610342b380f587144b19a, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_skill_orange_buff01.prefab
+    asset: {fileID: 2173453297079186631, guid: 01908359495610342b380f587144b19a, type: 3}
+  - key: fx_skill_orange_buff01_Loop
+    asset: {fileID: 3839415877775283824, guid: 6bdb46dbca2cc5b48ac0953c5ab9e091, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_skill_orange_buff01_Loop.prefab
+    asset: {fileID: 3839415877775283824, guid: 6bdb46dbca2cc5b48ac0953c5ab9e091, type: 3}
+  - key: fx_skill_orange_Headbutt
+    asset: {fileID: 5672301617233525724, guid: 58aa35297f291504681c20de4c2192c5, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_skill_orange_Headbutt.prefab
+    asset: {fileID: 5672301617233525724, guid: 58aa35297f291504681c20de4c2192c5, type: 3}
+  - key: fx_skill_orange_moon_sword
+    asset: {fileID: 6743724866072028314, guid: 9376671a2967c584fae3c65e58a54418, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_skill_orange_moon_sword.prefab
+    asset: {fileID: 6743724866072028314, guid: 9376671a2967c584fae3c65e58a54418, type: 3}
+  - key: fx_skill_orange_moon_sword_Casting
+    asset: {fileID: 6743724866072028314, guid: 9febd850be02b134883f22cdf11038b9, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_skill_orange_moon_sword_Casting.prefab
+    asset: {fileID: 6743724866072028314, guid: 9febd850be02b134883f22cdf11038b9, type: 3}
+  - key: fx_skill_orange_moon_sword_Hit
+    asset: {fileID: 6743724866072028314, guid: bcaf7cd3fd86e44408f9b249aee99f81, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_skill_orange_moon_sword_Hit.prefab
+    asset: {fileID: 6743724866072028314, guid: bcaf7cd3fd86e44408f9b249aee99f81, type: 3}
+  - key: fx_skill_orange_moon_sword_projectile
+    asset: {fileID: 6743724866072028314, guid: 605650c6983cdb240a2cf04c024851dc, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_skill_orange_moon_sword_projectile.prefab
+    asset: {fileID: 6743724866072028314, guid: 605650c6983cdb240a2cf04c024851dc, type: 3}
+  - key: fx_skill_orange_rolling_attack
+    asset: {fileID: 8544921360467198551, guid: 9d23f5bebe51d3d43b6553ed8dd3897a, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_skill_orange_rolling_attack.prefab
+    asset: {fileID: 8544921360467198551, guid: 9d23f5bebe51d3d43b6553ed8dd3897a, type: 3}
+  - key: fx_skill_orange_rolling_attack_Hit
+    asset: {fileID: 8544921360467198551, guid: c98e5cb5fb218c04eac8df2e8e85668e, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_skill_orange_rolling_attack_Hit.prefab
+    asset: {fileID: 8544921360467198551, guid: c98e5cb5fb218c04eac8df2e8e85668e, type: 3}
+  - key: fx_skill_orange_rolling_attack_Loop
+    asset: {fileID: 8544921360467198551, guid: 9de788836360b4743a77b9e258ef8cbd, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_skill_orange_rolling_attack_Loop.prefab
+    asset: {fileID: 8544921360467198551, guid: 9de788836360b4743a77b9e258ef8cbd, type: 3}
+  - key: fx_skill_orange_tail_drill
+    asset: {fileID: 317109545469394057, guid: 9c647aa716f4efd44812c92d07d6c423, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_skill_orange_tail_drill.prefab
+    asset: {fileID: 317109545469394057, guid: 9c647aa716f4efd44812c92d07d6c423, type: 3}
+  - key: fx_skill_orange_tail_knife
+    asset: {fileID: 1333731799314246553, guid: 076e0e82c6bbfc3408b119e7bb2a8927, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_skill_orange_tail_knife.prefab
+    asset: {fileID: 1333731799314246553, guid: 076e0e82c6bbfc3408b119e7bb2a8927, type: 3}
+  - key: fx_skill_watermelon_buff01
+    asset: {fileID: 3270734071602357729, guid: 42bd952a06686bc4e9f2bd7e9c2dbcbb, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_skill_watermelon_buff01.prefab
+    asset: {fileID: 3270734071602357729, guid: 42bd952a06686bc4e9f2bd7e9c2dbcbb, type: 3}
+  - key: fx_skill_watermelon_buff01_Watermelon_Loop
+    asset: {fileID: 2934776632277949304, guid: 5575233c2b69dc24397c8670268443aa, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_skill_watermelon_buff01_Watermelon_Loop.prefab
+    asset: {fileID: 2934776632277949304, guid: 5575233c2b69dc24397c8670268443aa, type: 3}
+  - key: fx_skill_watermelon_Headbutt_rolling_Hit
+    asset: {fileID: 9012887631584532195, guid: 6603c0a7e27c1874b8ba2497de8ff26f, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_skill_watermelon_Headbutt_rolling_Hit.prefab
+    asset: {fileID: 9012887631584532195, guid: 6603c0a7e27c1874b8ba2497de8ff26f, type: 3}
+  - key: fx_skill_watermelon_Headbutt_rolling_projectile
+    asset: {fileID: 4007900336804523105, guid: 532acbeabe577fa42aef82f4e71e858e, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_skill_watermelon_Headbutt_rolling_projectile.prefab
+    asset: {fileID: 4007900336804523105, guid: 532acbeabe577fa42aef82f4e71e858e, type: 3}
+  - key: fx_skill_watermelon_healing01
+    asset: {fileID: 1155190521252145841, guid: aef8951969d95df4e9b8fe95e239c030, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_skill_watermelon_healing01.prefab
+    asset: {fileID: 1155190521252145841, guid: aef8951969d95df4e9b8fe95e239c030, type: 3}
+  - key: fx_skill_watermelon_healing01_Hit
+    asset: {fileID: 3816727151127522197, guid: 90bb7a487005416469c0339301eba023, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_skill_watermelon_healing01_Hit.prefab
+    asset: {fileID: 3816727151127522197, guid: 90bb7a487005416469c0339301eba023, type: 3}
+  - key: fx_skill_watermelon_jump_attack
+    asset: {fileID: 521419649258556829, guid: 7eef2d73893b4b84eba55899bf493a2b, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_skill_watermelon_jump_attack.prefab
+    asset: {fileID: 521419649258556829, guid: 7eef2d73893b4b84eba55899bf493a2b, type: 3}
+  - key: fx_skill_watermelon_seed_gun
+    asset: {fileID: 3768488159447136467, guid: c50f6ff85d000ad4a94bac64c2f64075, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_skill_watermelon_seed_gun.prefab
+    asset: {fileID: 3768488159447136467, guid: c50f6ff85d000ad4a94bac64c2f64075, type: 3}
+  - key: fx_skill_watermelon_seed_gun_Hit
+    asset: {fileID: 6740293793822386645, guid: 3875428432ce75c4faabd4cba60b1478, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_skill_watermelon_seed_gun_Hit.prefab
+    asset: {fileID: 6740293793822386645, guid: 3875428432ce75c4faabd4cba60b1478, type: 3}
+  - key: fx_skill_watermelon_seed_turn
+    asset: {fileID: 3494648706280504783, guid: 14812193248bcc742aa28e896b32a88a, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_skill_watermelon_seed_turn.prefab
+    asset: {fileID: 3494648706280504783, guid: 14812193248bcc742aa28e896b32a88a, type: 3}
+  - key: fx_skill_watermelon_seed_turn_Hit
+    asset: {fileID: 5219565891355771799, guid: a0b27b969ef969444be1b953ce731df3, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_skill_watermelon_seed_turn_Hit.prefab
+    asset: {fileID: 5219565891355771799, guid: a0b27b969ef969444be1b953ce731df3, type: 3}
+  - key: fx_ui_burst_effect
+    asset: {fileID: 3824103344649764256, guid: 111117e21b2459d4382053184bd6a883, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_ui_burst_effect.prefab
+    asset: {fileID: 3824103344649764256, guid: 111117e21b2459d4382053184bd6a883, type: 3}
+  - key: fx_skill_watermelon_Headbutt_rolling
+    asset: {fileID: 4007900336804523105, guid: faf32681084415044b76b2df82ec1088, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_skill_watermelon_Headbutt_rolling.prefab
+    asset: {fileID: 4007900336804523105, guid: faf32681084415044b76b2df82ec1088, type: 3}
+  - key: fx_skill_blueberry_jump_attack
+    asset: {fileID: 6830439279329892407, guid: beda19b7b994da040a1d040fe1748c57, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_skill_blueberry_jump_attack.prefab
+    asset: {fileID: 6830439279329892407, guid: beda19b7b994da040a1d040fe1748c57, type: 3}
+  - key: fx_buff_aggro
+    asset: {fileID: 4114940911998256192, guid: 23ea44981bc34f94f8825414c95d41b6, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_buff_aggro.prefab
+    asset: {fileID: 4114940911998256192, guid: 23ea44981bc34f94f8825414c95d41b6, type: 3}
+  - key: fx_buff_charm
+    asset: {fileID: 4114940911998256192, guid: 580badb1e9429d64caefdce37d873d49, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_buff_charm.prefab
+    asset: {fileID: 4114940911998256192, guid: 580badb1e9429d64caefdce37d873d49, type: 3}
+  - key: fx_buff_confuse
+    asset: {fileID: 4114940911998256192, guid: 8639b336ee18ca64fb7f9ad9f73cd352, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_buff_confuse.prefab
+    asset: {fileID: 4114940911998256192, guid: 8639b336ee18ca64fb7f9ad9f73cd352, type: 3}
+  - key: fx_buff_freeze
+    asset: {fileID: 4114940911998256192, guid: f0c31a9d29ecd0b4e98f96469d1ceb54, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_buff_freeze.prefab
+    asset: {fileID: 4114940911998256192, guid: f0c31a9d29ecd0b4e98f96469d1ceb54, type: 3}
+  - key: fx_buff_fury
+    asset: {fileID: 4114940911998256192, guid: c868d86744dff51419ea5e6114466729, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_buff_fury.prefab
+    asset: {fileID: 4114940911998256192, guid: c868d86744dff51419ea5e6114466729, type: 3}
+  - key: fx_buff_sleep
+    asset: {fileID: 4114940911998256192, guid: 75c7cbca89440ce4f9d55e5373bab11e, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_buff_sleep.prefab
+    asset: {fileID: 4114940911998256192, guid: 75c7cbca89440ce4f9d55e5373bab11e, type: 3}
+  - key: fx_buff_wound_body
+    asset: {fileID: 4114940911998256192, guid: 48f5c4e5a6265b848ac6878fc788cb5e, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_buff_wound_body.prefab
+    asset: {fileID: 4114940911998256192, guid: 48f5c4e5a6265b848ac6878fc788cb5e, type: 3}
+  - key: fx_buff_wound_headtail
+    asset: {fileID: 4114940911998256192, guid: 81d7167c8c1d3174498a9e966276a7f6, type: 3}
+  - key: Assets/Asset/Effects/prefab/fx_buff_wound_headtail.prefab
+    asset: {fileID: 4114940911998256192, guid: 81d7167c8c1d3174498a9e966276a7f6, type: 3}
+  - key: coconut_pirate_elite01
+    asset: {fileID: 6021373126083132603, guid: de1dcef5a9571a94ba671fb79b31fab8, type: 3}
+  - key: Assets/Asset/Cha/monster/prefab/coconut_pirate_elite01.prefab
+    asset: {fileID: 6021373126083132603, guid: de1dcef5a9571a94ba671fb79b31fab8, type: 3}
+  - key: coconut_pirate_01
+    asset: {fileID: 2494124425677438682, guid: 15d9475574630834dbf9264b2eaf4549, type: 3}
+  - key: Assets/Asset/Cha/monster/prefab/coconut_pirate_01.prefab
+    asset: {fileID: 2494124425677438682, guid: 15d9475574630834dbf9264b2eaf4549, type: 3}
+  - key: coconut_pirate_02
+    asset: {fileID: 5797022554340283056, guid: 14c5baf1968dd5f458d702c511098e2f, type: 3}
+  - key: Assets/Asset/Cha/monster/prefab/coconut_pirate_02.prefab
+    asset: {fileID: 5797022554340283056, guid: 14c5baf1968dd5f458d702c511098e2f, type: 3}
+  - key: BattleManager
+    asset: {fileID: 5793085830148197851, guid: bb93378afcd0bef4aace5f2b8d00843b, type: 3}
+  - key: Assets/Asset/BattleSource/BattleManager.prefab
+    asset: {fileID: 5793085830148197851, guid: bb93378afcd0bef4aace5f2b8d00843b, type: 3}
+  - key: CharacterInfoSlider
+    asset: {fileID: 481531463853410911, guid: ddc157dcdaaffa44f86f275946006b3b, type: 3}
+  - key: Assets/GUI/Prefabs/Contents/UiBattleCommon/CharacterInfoSlider.prefab
+    asset: {fileID: 481531463853410911, guid: ddc157dcdaaffa44f86f275946006b3b, type: 3}
+  - key: OwnerRenderTextureRoot
+    asset: {fileID: 7319185179299986288, guid: 5880ceb68e009b24eb192b5375ffdc63, type: 3}
+  - key: Assets/Asset/BattleSource/OwnerRenderTextureRoot.prefab
+    asset: {fileID: 7319185179299986288, guid: 5880ceb68e009b24eb192b5375ffdc63, type: 3}
+  - key: MonsterRenderTextureRoot
+    asset: {fileID: 4066414518876802103, guid: 3834019302186c444b9c31b8926f2b2b, type: 3}
+  - key: Assets/Asset/BattleSource/MonsterRenderTextureRoot.prefab
+    asset: {fileID: 4066414518876802103, guid: 3834019302186c444b9c31b8926f2b2b, type: 3}
+  - key: ca_animator
+    asset: {fileID: 9100000, guid: 4ada0f3686d152d49933950b6417d7b4, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/Animator/ca_animator.controller
+    asset: {fileID: 9100000, guid: 4ada0f3686d152d49933950b6417d7b4, type: 2}
+  - key: om_animator
+    asset: {fileID: 9100000, guid: 834c06d1aeb5761459101bcf68a83668, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/Animator/om_animator.controller
+    asset: {fileID: 9100000, guid: 834c06d1aeb5761459101bcf68a83668, type: 2}
+  - key: he_animator
+    asset: {fileID: 9100000, guid: fce7854eff8698646b9a75f1eb0a4c46, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/Animator/he_animator.controller
+    asset: {fileID: 9100000, guid: fce7854eff8698646b9a75f1eb0a4c46, type: 2}
+  - key: ca_ani_attack1
+    asset: {fileID: 7400000, guid: b2440ce9fb26c2d43a02d256f9a0cf30, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/CA/ca_ani_attack1.anim
+    asset: {fileID: 7400000, guid: b2440ce9fb26c2d43a02d256f9a0cf30, type: 2}
+  - key: ca_ani_attack2
+    asset: {fileID: 7400000, guid: 5f2d0c72a3ecdf340936b05d2cb3d091, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/CA/ca_ani_attack2.anim
+    asset: {fileID: 7400000, guid: 5f2d0c72a3ecdf340936b05d2cb3d091, type: 2}
+  - key: ca_ani_attack3
+    asset: {fileID: 7400000, guid: 55a9ce33e62ce9f40bb6bd2c77340fa4, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/CA/ca_ani_attack3.anim
+    asset: {fileID: 7400000, guid: 55a9ce33e62ce9f40bb6bd2c77340fa4, type: 2}
+  - key: ca_ani_attack4
+    asset: {fileID: 7400000, guid: b1fe0df13917c25458da8983e631d1e8, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/CA/ca_ani_attack4.anim
+    asset: {fileID: 7400000, guid: b1fe0df13917c25458da8983e631d1e8, type: 2}
+  - key: ca_ani_attack5
+    asset: {fileID: 7400000, guid: 114cf1dde298fbd4ca8857ccf7ed22b6, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/CA/ca_ani_attack5.anim
+    asset: {fileID: 7400000, guid: 114cf1dde298fbd4ca8857ccf7ed22b6, type: 2}
+  - key: ca_ani_attack6
+    asset: {fileID: 7400000, guid: 2944369f780c60a4ca6af02ee01fc7e6, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/CA/ca_ani_attack6.anim
+    asset: {fileID: 7400000, guid: 2944369f780c60a4ca6af02ee01fc7e6, type: 2}
+  - key: ca_ani_attack1_wing
+    asset: {fileID: 7400000, guid: 7d08433a651c30143a74393ccddff5a3, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/CA/ca_ani_attack1_wing.anim
+    asset: {fileID: 7400000, guid: 7d08433a651c30143a74393ccddff5a3, type: 2}
+  - key: ca_ani_burst
+    asset: {fileID: 7400000, guid: c399e9a906ecf1949ba13a2bf79608cf, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/CA/ca_ani_burst.anim
+    asset: {fileID: 7400000, guid: c399e9a906ecf1949ba13a2bf79608cf, type: 2}
+  - key: ca_ani_burst_wing
+    asset: {fileID: 7400000, guid: 0812e8c15ec9bb64ea52b6998ac20049, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/CA/ca_ani_burst_wing.anim
+    asset: {fileID: 7400000, guid: 0812e8c15ec9bb64ea52b6998ac20049, type: 2}
+  - key: ca_ani_death
+    asset: {fileID: 7400000, guid: 3123fda91cde7574ca3fe505502ec776, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/CA/ca_ani_death.anim
+    asset: {fileID: 7400000, guid: 3123fda91cde7574ca3fe505502ec776, type: 2}
+  - key: ca_ani_hit
+    asset: {fileID: 7400000, guid: 24817ecc85a1dc7449350dc4e8257f76, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/CA/ca_ani_hit.anim
+    asset: {fileID: 7400000, guid: 24817ecc85a1dc7449350dc4e8257f76, type: 2}
+  - key: ca_ani_hit_wing
+    asset: {fileID: 7400000, guid: 2c316561331ff9545a11319d5b1b77e6, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/CA/ca_ani_hit_wing.anim
+    asset: {fileID: 7400000, guid: 2c316561331ff9545a11319d5b1b77e6, type: 2}
+  - key: ca_ani_idle
+    asset: {fileID: 7400000, guid: 507234ef78a21804e93da44182f1a193, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/CA/ca_ani_idle.anim
+    asset: {fileID: 7400000, guid: 507234ef78a21804e93da44182f1a193, type: 2}
+  - key: ca_ani_idle_wing
+    asset: {fileID: 7400000, guid: ffad19e067c55f0419f69b6bd3686de6, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/CA/ca_ani_idle_wing.anim
+    asset: {fileID: 7400000, guid: ffad19e067c55f0419f69b6bd3686de6, type: 2}
+  - key: ca_ani_run
+    asset: {fileID: 7400000, guid: 46e12df73e5ce8f4a9b042dfa9941126, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/CA/ca_ani_run.anim
+    asset: {fileID: 7400000, guid: 46e12df73e5ce8f4a9b042dfa9941126, type: 2}
+  - key: ca_ani_run_wing
+    asset: {fileID: 7400000, guid: a2fc559bbf8dfe3459bb61baa3b814d2, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/CA/ca_ani_run_wing.anim
+    asset: {fileID: 7400000, guid: a2fc559bbf8dfe3459bb61baa3b814d2, type: 2}
+  - key: he_ani_attack1
+    asset: {fileID: 7400000, guid: cd37f1b2842dc464d99a6fa1995ce855, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/HE/he_ani_attack1.anim
+    asset: {fileID: 7400000, guid: cd37f1b2842dc464d99a6fa1995ce855, type: 2}
+  - key: he_ani_attack1_wing
+    asset: {fileID: 7400000, guid: d49c97ca88c9aeb429ecc42d3a19e13d, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/HE/he_ani_attack1_wing.anim
+    asset: {fileID: 7400000, guid: d49c97ca88c9aeb429ecc42d3a19e13d, type: 2}
+  - key: he_ani_attack2
+    asset: {fileID: 7400000, guid: a0c4ae23df49b6141bc0cdd7b99605af, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/HE/he_ani_attack2.anim
+    asset: {fileID: 7400000, guid: a0c4ae23df49b6141bc0cdd7b99605af, type: 2}
+  - key: he_ani_attack3
+    asset: {fileID: 7400000, guid: bef3a206be6a7eb4ca9b24dd0be68faa, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/HE/he_ani_attack3.anim
+    asset: {fileID: 7400000, guid: bef3a206be6a7eb4ca9b24dd0be68faa, type: 2}
+  - key: he_ani_attack4
+    asset: {fileID: 7400000, guid: 19d7f4b28cab6654aa990eb949030931, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/HE/he_ani_attack4.anim
+    asset: {fileID: 7400000, guid: 19d7f4b28cab6654aa990eb949030931, type: 2}
+  - key: he_ani_attack5
+    asset: {fileID: 7400000, guid: ee96351ee64f1574fa9a6866dfaed0ce, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/HE/he_ani_attack5.anim
+    asset: {fileID: 7400000, guid: ee96351ee64f1574fa9a6866dfaed0ce, type: 2}
+  - key: he_ani_attack6
+    asset: {fileID: 7400000, guid: 4b595450dd4aff340a12771092737d73, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/HE/he_ani_attack6.anim
+    asset: {fileID: 7400000, guid: 4b595450dd4aff340a12771092737d73, type: 2}
+  - key: he_ani_burst
+    asset: {fileID: 7400000, guid: 01f4622e9c610b147aadd1fba6ac8af7, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/HE/he_ani_burst.anim
+    asset: {fileID: 7400000, guid: 01f4622e9c610b147aadd1fba6ac8af7, type: 2}
+  - key: he_ani_burst_wing
+    asset: {fileID: 7400000, guid: 2d7ad0dd09f52b041a0cd417eb06ed53, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/HE/he_ani_burst_wing.anim
+    asset: {fileID: 7400000, guid: 2d7ad0dd09f52b041a0cd417eb06ed53, type: 2}
+  - key: he_ani_death
+    asset: {fileID: 7400000, guid: 6a3ee636d50ca5240ac6d667c1ea1825, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/HE/he_ani_death.anim
+    asset: {fileID: 7400000, guid: 6a3ee636d50ca5240ac6d667c1ea1825, type: 2}
+  - key: he_ani_death_wing
+    asset: {fileID: 7400000, guid: 3fb1d7d222f20c24e8d7be31b117b826, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/HE/he_ani_death_wing.anim
+    asset: {fileID: 7400000, guid: 3fb1d7d222f20c24e8d7be31b117b826, type: 2}
+  - key: he_ani_hit
+    asset: {fileID: 7400000, guid: 4709aa1312192704ca7a8a791f27db84, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/HE/he_ani_hit.anim
+    asset: {fileID: 7400000, guid: 4709aa1312192704ca7a8a791f27db84, type: 2}
+  - key: he_ani_hit_wing
+    asset: {fileID: 7400000, guid: 7ca70887f6deea8448a9f44bbc01c166, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/HE/he_ani_hit_wing.anim
+    asset: {fileID: 7400000, guid: 7ca70887f6deea8448a9f44bbc01c166, type: 2}
+  - key: he_ani_idle
+    asset: {fileID: 7400000, guid: afe92b044cdcd5c4e8d3d1b0de026a62, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/HE/he_ani_idle.anim
+    asset: {fileID: 7400000, guid: afe92b044cdcd5c4e8d3d1b0de026a62, type: 2}
+  - key: he_ani_idle_wing
+    asset: {fileID: 7400000, guid: dcb55be7f8fd6fe44a76fe1f45f46e96, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/HE/he_ani_idle_wing.anim
+    asset: {fileID: 7400000, guid: dcb55be7f8fd6fe44a76fe1f45f46e96, type: 2}
+  - key: he_ani_run
+    asset: {fileID: 7400000, guid: f706243e959c62447abafb7fc92894d1, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/HE/he_ani_run.anim
+    asset: {fileID: 7400000, guid: f706243e959c62447abafb7fc92894d1, type: 2}
+  - key: he_ani_run_wing
+    asset: {fileID: 7400000, guid: 64b0de1668599ae4781711b3d7e875bc, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/HE/he_ani_run_wing.anim
+    asset: {fileID: 7400000, guid: 64b0de1668599ae4781711b3d7e875bc, type: 2}
+  - key: om_ani_attack1
+    asset: {fileID: 7400000, guid: 1e5e5e5668638f64fbff5affbcca3204, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/OM/om_ani_attack1.anim
+    asset: {fileID: 7400000, guid: 1e5e5e5668638f64fbff5affbcca3204, type: 2}
+  - key: om_ani_attack2
+    asset: {fileID: 7400000, guid: 2235555cebfbe5c4d8ee0a5b35c66ab7, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/OM/om_ani_attack2.anim
+    asset: {fileID: 7400000, guid: 2235555cebfbe5c4d8ee0a5b35c66ab7, type: 2}
+  - key: om_ani_attack3
+    asset: {fileID: 7400000, guid: 2d6c57a319317c542ac8aa77e400da93, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/OM/om_ani_attack3.anim
+    asset: {fileID: 7400000, guid: 2d6c57a319317c542ac8aa77e400da93, type: 2}
+  - key: om_ani_attack4
+    asset: {fileID: 7400000, guid: 68c8ef4dd5792b8478c750f511ed2dda, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/OM/om_ani_attack4.anim
+    asset: {fileID: 7400000, guid: 68c8ef4dd5792b8478c750f511ed2dda, type: 2}
+  - key: om_ani_attack5
+    asset: {fileID: 7400000, guid: 4dea76a43217c90428eac9a0922ad8ef, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/OM/om_ani_attack5.anim
+    asset: {fileID: 7400000, guid: 4dea76a43217c90428eac9a0922ad8ef, type: 2}
+  - key: om_ani_attack6
+    asset: {fileID: 7400000, guid: cd8a9f361ee98234387f5b0bfcf87618, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/OM/om_ani_attack6.anim
+    asset: {fileID: 7400000, guid: cd8a9f361ee98234387f5b0bfcf87618, type: 2}
+  - key: om_ani_atteck1_wing
+    asset: {fileID: 7400000, guid: 0ed093136265e7d4287d963ad48004ca, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/OM/om_ani_attack1_wing.anim
+    asset: {fileID: 7400000, guid: 0ed093136265e7d4287d963ad48004ca, type: 2}
+  - key: om_ani_burst
+    asset: {fileID: 7400000, guid: 7bab34cdcdf116345926a9be42b88da2, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/OM/om_ani_burst.anim
+    asset: {fileID: 7400000, guid: 7bab34cdcdf116345926a9be42b88da2, type: 2}
+  - key: om_ani_burst_wing
+    asset: {fileID: 7400000, guid: 3f9b1eb1ba7cc7b4caf75d63c0f319c5, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/OM/om_ani_burst_wing.anim
+    asset: {fileID: 7400000, guid: 3f9b1eb1ba7cc7b4caf75d63c0f319c5, type: 2}
+  - key: om_ani_death
+    asset: {fileID: 7400000, guid: c4b76d16a3bcfd24fa1308535e4851af, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/OM/om_ani_death.anim
+    asset: {fileID: 7400000, guid: c4b76d16a3bcfd24fa1308535e4851af, type: 2}
+  - key: om_ani_death_wing
+    asset: {fileID: 7400000, guid: b0027eb9953d77244bee9539af0da2b3, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/OM/om_ani_death_wing.anim
+    asset: {fileID: 7400000, guid: b0027eb9953d77244bee9539af0da2b3, type: 2}
+  - key: om_ani_hit
+    asset: {fileID: 7400000, guid: bf18f8f802a7b494ba4a85c186a52397, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/OM/om_ani_hit.anim
+    asset: {fileID: 7400000, guid: bf18f8f802a7b494ba4a85c186a52397, type: 2}
+  - key: om_ani_hit_wing
+    asset: {fileID: 7400000, guid: cd36ce05e26a0a2449c0e9a4f75a9782, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/OM/om_ani_hit_wing.anim
+    asset: {fileID: 7400000, guid: cd36ce05e26a0a2449c0e9a4f75a9782, type: 2}
+  - key: om_ani_idle
+    asset: {fileID: 7400000, guid: 2eaf3a22ea731de4496d4248cf9ce3d8, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/OM/om_ani_idle.anim
+    asset: {fileID: 7400000, guid: 2eaf3a22ea731de4496d4248cf9ce3d8, type: 2}
+  - key: om_ani_idle_wing
+    asset: {fileID: 7400000, guid: 9a2c7983d8f4de14a9dd550459c39f8e, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/OM/om_ani_idle_wing.anim
+    asset: {fileID: 7400000, guid: 9a2c7983d8f4de14a9dd550459c39f8e, type: 2}
+  - key: om_ani_run
+    asset: {fileID: 7400000, guid: 12510a1494d30454aa63c7fc0286b3e0, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/OM/om_ani_run.anim
+    asset: {fileID: 7400000, guid: 12510a1494d30454aa63c7fc0286b3e0, type: 2}
+  - key: om_ani_run_wing
+    asset: {fileID: 7400000, guid: ac30b2b6db474b04588decbdfbe87e4f, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/OM/om_ani_run_wing.anim
+    asset: {fileID: 7400000, guid: ac30b2b6db474b04588decbdfbe87e4f, type: 2}
+  - key: ca_ani_death_wing
+    asset: {fileID: 7400000, guid: 4d18b19014d27844b81aa89c23457b9c, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/CA/ca_ani_death_wing.anim
+    asset: {fileID: 7400000, guid: 4d18b19014d27844b81aa89c23457b9c, type: 2}
+  - key: ca_ani_cc_stun
+    asset: {fileID: 7400000, guid: d203f3ef97ec5824192285e0d276132b, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/CA/ca_ani_cc_stun.anim
+    asset: {fileID: 7400000, guid: d203f3ef97ec5824192285e0d276132b, type: 2}
+  - key: ca_ani_hit_critical
+    asset: {fileID: 7400000, guid: 49675ae5b96cc2d4ab4ddf3ecf2cd484, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/CA/ca_ani_hit_critical.anim
+    asset: {fileID: 7400000, guid: 49675ae5b96cc2d4ab4ddf3ecf2cd484, type: 2}
+  - key: ca_blueberry_berry_gun
+    asset: {fileID: 7400000, guid: 016fbef55e47b9e4e8b0806d20b2a468, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/CA/ca_blueberry_berry_gun.anim
+    asset: {fileID: 7400000, guid: 016fbef55e47b9e4e8b0806d20b2a468, type: 2}
+  - key: ca_blueberry_bubble_shotgun
+    asset: {fileID: 7400000, guid: 037ddbfaacfb6294b98e4aad8d57de06, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/CA/ca_blueberry_bubble_shotgun.anim
+    asset: {fileID: 7400000, guid: 037ddbfaacfb6294b98e4aad8d57de06, type: 2}
+  - key: ca_blueberry_parabola_shot
+    asset: {fileID: 7400000, guid: 2ae0d79dfe314e24795de549dda9507c, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/CA/ca_blueberry_parabola_shot.anim
+    asset: {fileID: 7400000, guid: 2ae0d79dfe314e24795de549dda9507c, type: 2}
+  - key: ca_blueberry_tumbling_shot
+    asset: {fileID: 7400000, guid: a7417c99cfc3b854a96e9fdb59e0c577, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/CA/ca_blueberry_tumbling_shot.anim
+    asset: {fileID: 7400000, guid: a7417c99cfc3b854a96e9fdb59e0c577, type: 2}
+  - key: ca_coconut_barrier01
+    asset: {fileID: 7400000, guid: 049038f5d0f73cd4ba8db9eeadd6d8de, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/CA/ca_coconut_barrier01.anim
+    asset: {fileID: 7400000, guid: 049038f5d0f73cd4ba8db9eeadd6d8de, type: 2}
+  - key: ca_coconut_stomp
+    asset: {fileID: 7400000, guid: d10671b6f65d26846a51108a7f159cf5, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/CA/ca_coconut_stomp.anim
+    asset: {fileID: 7400000, guid: d10671b6f65d26846a51108a7f159cf5, type: 2}
+  - key: ca_coconut_tail_shot
+    asset: {fileID: 7400000, guid: 77317021fad7da246921365332dea9e3, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/CA/ca_coconut_tail_shot.anim
+    asset: {fileID: 7400000, guid: 77317021fad7da246921365332dea9e3, type: 2}
+  - key: ca_dragonfruit_fly_air_breath
+    asset: {fileID: 7400000, guid: a03290dcf614c4f4081da7d99b705b23, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/CA/ca_dragonfruit_fly_air_breath.anim
+    asset: {fileID: 7400000, guid: a03290dcf614c4f4081da7d99b705b23, type: 2}
+  - key: ca_dragonfruit_fly_l2r_breath
+    asset: {fileID: 7400000, guid: f9f55dd5e54638646a72057b35da4b97, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/CA/ca_dragonfruit_fly_l2r_breath.anim
+    asset: {fileID: 7400000, guid: f9f55dd5e54638646a72057b35da4b97, type: 2}
+  - key: ca_dragonfruit_fly_tumbleing_breath
+    asset: {fileID: 7400000, guid: 2002a68d79a23b549a59a3a8cdf10105, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/CA/ca_dragonfruit_fly_tumbleing_breath.anim
+    asset: {fileID: 7400000, guid: 2002a68d79a23b549a59a3a8cdf10105, type: 2}
+  - key: ca_orange_buff01
+    asset: {fileID: 7400000, guid: c483b661663ce0341baab88afca6457c, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/CA/ca_orange_buff01.anim
+    asset: {fileID: 7400000, guid: c483b661663ce0341baab88afca6457c, type: 2}
+  - key: ca_orange_Headbutt
+    asset: {fileID: 7400000, guid: 5f1011bbd327d634b86484cf8651ec55, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/CA/ca_orange_Headbutt.anim
+    asset: {fileID: 7400000, guid: 5f1011bbd327d634b86484cf8651ec55, type: 2}
+  - key: ca_ani_avoid
+    asset: {fileID: 7400000, guid: 21ec18914208862498915d8fe3562fe3, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/CA/ca_ani_avoid.anim
+    asset: {fileID: 7400000, guid: 21ec18914208862498915d8fe3562fe3, type: 2}
+  - key: ca_orange_moon_sword
+    asset: {fileID: 7400000, guid: a906d126af6da534199b2ad451662ba9, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/CA/ca_orange_moon_sword.anim
+    asset: {fileID: 7400000, guid: a906d126af6da534199b2ad451662ba9, type: 2}
+  - key: ca_orange_rolling_attack
+    asset: {fileID: 7400000, guid: 6c7f04d0f98ea914d90a98ccaaf06196, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/CA/ca_orange_rolling_attack.anim
+    asset: {fileID: 7400000, guid: 6c7f04d0f98ea914d90a98ccaaf06196, type: 2}
+  - key: ca_orange_tail_drill
+    asset: {fileID: 7400000, guid: 4abc2aff072ea5142839fdb669a6cebf, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/CA/ca_orange_tail_drill.anim
+    asset: {fileID: 7400000, guid: 4abc2aff072ea5142839fdb669a6cebf, type: 2}
+  - key: ca_orange_tail_knife
+    asset: {fileID: 7400000, guid: bdff1b0cadf8be24c99697213cbcf2a2, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/CA/ca_orange_tail_knife.anim
+    asset: {fileID: 7400000, guid: bdff1b0cadf8be24c99697213cbcf2a2, type: 2}
+  - key: ca_watermelon_Headbutt_rolling
+    asset: {fileID: 7400000, guid: ac7cad9cdc220b24499e8ba495feb464, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/CA/ca_watermelon_Headbutt_rolling.anim
+    asset: {fileID: 7400000, guid: ac7cad9cdc220b24499e8ba495feb464, type: 2}
+  - key: ca_watermelon_jump_attack
+    asset: {fileID: 7400000, guid: 58293706c17b8994eadc262f0c103e46, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/CA/ca_watermelon_jump_attack.anim
+    asset: {fileID: 7400000, guid: 58293706c17b8994eadc262f0c103e46, type: 2}
+  - key: ca_watermelon_seed_gun
+    asset: {fileID: 7400000, guid: 8af9b35c3520ff645b61e13c8a0ef0ef, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/CA/ca_watermelon_seed_gun.anim
+    asset: {fileID: 7400000, guid: 8af9b35c3520ff645b61e13c8a0ef0ef, type: 2}
+  - key: ca_watermelon_seed_turn
+    asset: {fileID: 7400000, guid: 4bf8a9e928be0c04e9b1d21e10de7b71, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/CA/ca_watermelon_seed_turn.anim
+    asset: {fileID: 7400000, guid: 4bf8a9e928be0c04e9b1d21e10de7b71, type: 2}
+  - key: he_blueberry_berry_gun
+    asset: {fileID: 7400000, guid: 3206959e746db2f478fba99bdeaa2930, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/HE/he_blueberry_berry_gun.anim
+    asset: {fileID: 7400000, guid: 3206959e746db2f478fba99bdeaa2930, type: 2}
+  - key: he_blueberry_bubble_shotgun
+    asset: {fileID: 7400000, guid: 32a710ba1fd74914f864ec70a4da450f, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/HE/he_blueberry_bubble_shotgun.anim
+    asset: {fileID: 7400000, guid: 32a710ba1fd74914f864ec70a4da450f, type: 2}
+  - key: he_blueberry_parabola_shot
+    asset: {fileID: 7400000, guid: 8ccb5b4e9411cd9428884ad1efcbe7a9, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/HE/he_blueberry_parabola_shot.anim
+    asset: {fileID: 7400000, guid: 8ccb5b4e9411cd9428884ad1efcbe7a9, type: 2}
+  - key: he_blueberry_tumbling_shot
+    asset: {fileID: 7400000, guid: d7bc2633928729c49866cf9255124ce4, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/HE/he_blueberry_tumbling_shot.anim
+    asset: {fileID: 7400000, guid: d7bc2633928729c49866cf9255124ce4, type: 2}
+  - key: he_coconut_barrier01
+    asset: {fileID: 7400000, guid: 1f38051c57aa7db489af3d35323d4b89, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/HE/he_coconut_barrier01.anim
+    asset: {fileID: 7400000, guid: 1f38051c57aa7db489af3d35323d4b89, type: 2}
+  - key: he_coconut_stomp
+    asset: {fileID: 7400000, guid: 438f30e71b776e64397abb851a2ecaae, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/HE/he_coconut_stomp.anim
+    asset: {fileID: 7400000, guid: 438f30e71b776e64397abb851a2ecaae, type: 2}
+  - key: he_coconut_tail_shot
+    asset: {fileID: 7400000, guid: ceea91274722d0844aaf8ce1dd14a74a, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/HE/he_coconut_tail_shot.anim
+    asset: {fileID: 7400000, guid: ceea91274722d0844aaf8ce1dd14a74a, type: 2}
+  - key: he_dragonfruit_fly_air_breath
+    asset: {fileID: 7400000, guid: 83ea3ada368c82540b1e7d5422d14790, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/HE/he_dragonfruit_fly_air_breath.anim
+    asset: {fileID: 7400000, guid: 83ea3ada368c82540b1e7d5422d14790, type: 2}
+  - key: he_dragonfruit_fly_l2r_breath
+    asset: {fileID: 7400000, guid: 1fc19f65a904a784fae6573dc42e134b, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/HE/he_dragonfruit_fly_l2r_breath.anim
+    asset: {fileID: 7400000, guid: 1fc19f65a904a784fae6573dc42e134b, type: 2}
+  - key: he_dragonfruit_fly_tumbleing_breath
+    asset: {fileID: 7400000, guid: 061935eda1c8f6c4f8402a5e7d79c18d, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/HE/he_dragonfruit_fly_tumbleing_breath.anim
+    asset: {fileID: 7400000, guid: 061935eda1c8f6c4f8402a5e7d79c18d, type: 2}
+  - key: he_orange_buff01
+    asset: {fileID: 7400000, guid: 707ab4db5b5e23a43b4ccf6e9552b6a2, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/HE/he_orange_buff01.anim
+    asset: {fileID: 7400000, guid: 707ab4db5b5e23a43b4ccf6e9552b6a2, type: 2}
+  - key: he_orange_Headbutt
+    asset: {fileID: 7400000, guid: c1473e9deff3dce4a98b03defdd1b6bd, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/HE/he_orange_Headbutt.anim
+    asset: {fileID: 7400000, guid: c1473e9deff3dce4a98b03defdd1b6bd, type: 2}
+  - key: he_orange_moon_sword
+    asset: {fileID: 7400000, guid: 196250776ecb081499162478a30ca38b, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/HE/he_orange_moon_sword.anim
+    asset: {fileID: 7400000, guid: 196250776ecb081499162478a30ca38b, type: 2}
+  - key: he_orange_rolling_attack
+    asset: {fileID: 7400000, guid: 1765315e30e335c4ab5ae6b10e5a2ece, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/HE/he_orange_rolling_attack.anim
+    asset: {fileID: 7400000, guid: 1765315e30e335c4ab5ae6b10e5a2ece, type: 2}
+  - key: he_orange_tail_drill
+    asset: {fileID: 7400000, guid: 19ff12b8f1503f54e82e95d69d0b0530, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/HE/he_orange_tail_drill.anim
+    asset: {fileID: 7400000, guid: 19ff12b8f1503f54e82e95d69d0b0530, type: 2}
+  - key: he_orange_tail_knife
+    asset: {fileID: 7400000, guid: b7137067558a9b94c965ce4298c08484, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/HE/he_orange_tail_knife.anim
+    asset: {fileID: 7400000, guid: b7137067558a9b94c965ce4298c08484, type: 2}
+  - key: he_watermelon_Headbutt_rolling
+    asset: {fileID: 7400000, guid: 454bd3870aea6544dbd2e95091064f8a, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/HE/he_watermelon_Headbutt_rolling.anim
+    asset: {fileID: 7400000, guid: 454bd3870aea6544dbd2e95091064f8a, type: 2}
+  - key: he_watermelon_healing01
+    asset: {fileID: 7400000, guid: ca93ac07f61f1724593d579b624c83fc, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/HE/he_skill_healing01.anim
+    asset: {fileID: 7400000, guid: ca93ac07f61f1724593d579b624c83fc, type: 2}
+  - key: he_watermelon_jump_attack
+    asset: {fileID: 7400000, guid: 6ad4a1635c6b8764aa684c3c600d3a35, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/HE/he_watermelon_jump_attack.anim
+    asset: {fileID: 7400000, guid: 6ad4a1635c6b8764aa684c3c600d3a35, type: 2}
+  - key: he_watermelon_seed_gun
+    asset: {fileID: 7400000, guid: 64d6b21851da9444abe01ac2bd5e818c, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/HE/he_watermelon_seed_gun.anim
+    asset: {fileID: 7400000, guid: 64d6b21851da9444abe01ac2bd5e818c, type: 2}
+  - key: he_watermelon_seed_turn
+    asset: {fileID: 7400000, guid: 33aebc9cb321ec24d9d5221a74fe9f2e, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/HE/he_watermelon_seed_turn.anim
+    asset: {fileID: 7400000, guid: 33aebc9cb321ec24d9d5221a74fe9f2e, type: 2}
+  - key: om_blueberry_berry_gun
+    asset: {fileID: 7400000, guid: 4ecb825894a934441ae8bb403c68fe9a, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/OM/om_blueberry_berry_gun.anim
+    asset: {fileID: 7400000, guid: 4ecb825894a934441ae8bb403c68fe9a, type: 2}
+  - key: om_blueberry_bubble_shotgun
+    asset: {fileID: 7400000, guid: 96bb6c924ab7fab46b592cf4a97aa8f1, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/OM/om_blueberry_bubble_shotgun.anim
+    asset: {fileID: 7400000, guid: 96bb6c924ab7fab46b592cf4a97aa8f1, type: 2}
+  - key: om_blueberry_parabola_shot
+    asset: {fileID: 7400000, guid: 738309fed22b59f44a576a0077dddc1c, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/OM/om_blueberry_parabola_shot.anim
+    asset: {fileID: 7400000, guid: 738309fed22b59f44a576a0077dddc1c, type: 2}
+  - key: om_blueberry_tumbling_shot
+    asset: {fileID: 7400000, guid: 051b3f593a8923d4d974fecb3d4b02e1, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/OM/om_blueberry_tumbling_shot.anim
+    asset: {fileID: 7400000, guid: 051b3f593a8923d4d974fecb3d4b02e1, type: 2}
+  - key: om_coconut_barrier01
+    asset: {fileID: 7400000, guid: 0b034bb80361fcc459eb01fd16e7a277, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/OM/om_coconut_barrier01.anim
+    asset: {fileID: 7400000, guid: 0b034bb80361fcc459eb01fd16e7a277, type: 2}
+  - key: om_coconut_stomp
+    asset: {fileID: 7400000, guid: afcb132dcad37b44cbc93b1c3c504abf, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/OM/om_coconut_stomp.anim
+    asset: {fileID: 7400000, guid: afcb132dcad37b44cbc93b1c3c504abf, type: 2}
+  - key: om_coconut_tail_shot
+    asset: {fileID: 7400000, guid: c2156bf4fd7ca3240b00f3ff7cdff629, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/OM/om_coconut_tail_shot.anim
+    asset: {fileID: 7400000, guid: c2156bf4fd7ca3240b00f3ff7cdff629, type: 2}
+  - key: om_dragonfruit_fly_air_breath
+    asset: {fileID: 7400000, guid: 3a63eda5f5ce1f5439bbb630f5c0a3de, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/OM/om_dragonfruit_fly_air_breath.anim
+    asset: {fileID: 7400000, guid: 3a63eda5f5ce1f5439bbb630f5c0a3de, type: 2}
+  - key: om_dragonfruit_fly_l2r_breath
+    asset: {fileID: 7400000, guid: aa9a69855aa81d5439aaf2292a566a8c, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/OM/om_dragonfruit_fly_l2r_breath.anim
+    asset: {fileID: 7400000, guid: aa9a69855aa81d5439aaf2292a566a8c, type: 2}
+  - key: om_dragonfruit_fly_tumbleing_breath
+    asset: {fileID: 7400000, guid: 077d1460aef83b446b5ffa3e7e64f63f, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/OM/om_dragonfruit_fly_tumbleing_breath.anim
+    asset: {fileID: 7400000, guid: 077d1460aef83b446b5ffa3e7e64f63f, type: 2}
+  - key: om_orange_buff01
+    asset: {fileID: 7400000, guid: bae64b954242d134780e9c609c7bdf27, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/OM/om_orange_buff01.anim
+    asset: {fileID: 7400000, guid: bae64b954242d134780e9c609c7bdf27, type: 2}
+  - key: om_orange_Headbutt
+    asset: {fileID: 7400000, guid: 1fc4b4bf4213df0449ab3cb1ebc3afbe, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/OM/om_orange_Headbutt.anim
+    asset: {fileID: 7400000, guid: 1fc4b4bf4213df0449ab3cb1ebc3afbe, type: 2}
+  - key: om_orange_moon_sword
+    asset: {fileID: 7400000, guid: 817bb01113437354e8877703ca7469b7, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/OM/om_orange_moon_sword.anim
+    asset: {fileID: 7400000, guid: 817bb01113437354e8877703ca7469b7, type: 2}
+  - key: om_orange_rolling_attack
+    asset: {fileID: 7400000, guid: a0d204168f4dfcb48864ebc2c06468fb, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/OM/om_orange_rolling_attack.anim
+    asset: {fileID: 7400000, guid: a0d204168f4dfcb48864ebc2c06468fb, type: 2}
+  - key: om_orange_tail_drill
+    asset: {fileID: 7400000, guid: aa2d660b42c9baf42a9de62c5156c510, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/OM/om_orange_tail_drill.anim
+    asset: {fileID: 7400000, guid: aa2d660b42c9baf42a9de62c5156c510, type: 2}
+  - key: om_orange_tail_knife
+    asset: {fileID: 7400000, guid: f7d2f3b35c425ab4c9375c37bf2b9345, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/OM/om_orange_tail_knife.anim
+    asset: {fileID: 7400000, guid: f7d2f3b35c425ab4c9375c37bf2b9345, type: 2}
+  - key: om_watermelon_Headbutt_rolling
+    asset: {fileID: 7400000, guid: 40a76dcf96840894094b2abaf2c21c64, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/OM/om_watermelon_Headbutt_rolling.anim
+    asset: {fileID: 7400000, guid: 40a76dcf96840894094b2abaf2c21c64, type: 2}
+  - key: om_watermelon_healing01
+    asset: {fileID: 7400000, guid: 1f90e6071177add408d028cd3b8a7908, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/OM/om_skill_healing01.anim
+    asset: {fileID: 7400000, guid: 1f90e6071177add408d028cd3b8a7908, type: 2}
+  - key: om_watermelon_jump_attack
+    asset: {fileID: 7400000, guid: c6d39abccb21f52418092990f1d0ba18, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/OM/om_watermelon_jump_attack.anim
+    asset: {fileID: 7400000, guid: c6d39abccb21f52418092990f1d0ba18, type: 2}
+  - key: om_watermelon_seed_gun
+    asset: {fileID: 7400000, guid: 80dcf4e877848504da367db2a974fe15, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/OM/om_watermelon_seed_gun.anim
+    asset: {fileID: 7400000, guid: 80dcf4e877848504da367db2a974fe15, type: 2}
+  - key: om_watermelon_seed_turn
+    asset: {fileID: 7400000, guid: 7723da20ae9d3f444ac4b2496ac52688, type: 2}
+  - key: Assets/Asset/Cha/Dino/Ani/OM/om_watermelon_seed_turn.anim
+    asset: {fileID: 7400000, guid: 7723da20ae9d3f444ac4b2496ac52688, type: 2}
+  - key: Assets/GUI/Textures/background/4.png
+    asset: {fileID: 2800000, guid: 7f8cc1e2879f0584698e151e57c11274, type: 3}
+  - key: Assets/GUI/Textures/background/3.png
+    asset: {fileID: 2800000, guid: 04422a8bbbee0ba49a8a1ba216bb1600, type: 3}
+  - key: Assets/GUI/Textures/background/2.png
+    asset: {fileID: 2800000, guid: 0ae5b39de2096e74db0b15c5541705b7, type: 3}
+  - key: Assets/GUI/Textures/background/1.png
+    asset: {fileID: 2800000, guid: 42f274f58ec091d469457c4ddb1bfb5d, type: 3}
