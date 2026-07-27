@@ -726,6 +726,7 @@ public class GameDataManager : Singleton<GameDataManager>
             
 
             LoadGameData();
+            InjectOfflineSquadIfNeeded();
 
             if(userData == null)
 			{
@@ -739,6 +740,54 @@ public class GameDataManager : Singleton<GameDataManager>
         resHeight = 128;
         path = Application.dataPath + "/ScreenShot/";
         Debug.Log(path);
+    }
+
+    // [OFFLINE] 서버 편성이 없을 때 로컬 테스트 스쿼드를 주입해 메뉴/전투가 정상 동작하게 한다.
+    // 서버 복구 시 ClientNetworkContents.OfflineMode=false 로 두면 자동으로 비활성.
+    void InjectOfflineSquadIfNeeded()
+    {
+        if (!ClientNetworkContents.OfflineMode) return;
+        if (userData == null) return;
+
+        // 이미 편성 데이터가 있으면(저장본 등) 건드리지 않음
+        if (userData.serverSquadDic.TryGetValue(modeType.Action, out var existing)
+            && existing != null && existing.TryGetValue(0, out var slot)
+            && slot != null && slot.serverSquadList.Count > 0)
+            return;
+
+        const int SquadCount = 3;
+        var squad = new UserData.CharacterSquadData();
+        for (int i = 0; i < SquadCount; i++)
+        {
+            var dino = MakeOfflineDino($"offline_{i}", CharacterClass.orange, CharacterTalent.Carnivore, i);
+            squad.serverSquadList[dino.dinoID] = dino;
+            userData.dinoServerList[dino.dinoID] = dino;
+        }
+
+        if (!userData.serverSquadDic.ContainsKey(modeType.Action))
+            userData.serverSquadDic[modeType.Action] = new Dictionary<int, UserData.CharacterSquadData>();
+        userData.serverSquadDic[modeType.Action][0] = squad;
+
+        Debug.Log($"[OFFLINE] injected test squad: {SquadCount} dinos into serverSquadDic[Action][0]");
+    }
+
+    // 검증된 기본 파츠셋(ca_orange_01). partslist 값은 GetFilenameByPartsData로 'ca_orange_01' 프리팹을 로드한다.
+    static UserData.CharacterServerData MakeOfflineDino(string id, CharacterClass cls, CharacterTalent talent, int pos)
+    {
+        var d = new UserData.CharacterServerData();
+        d.dinoID = id;
+        d.charClass = cls;
+        d.talent = talent;
+        d.grade = 1;
+        d.level = 1;
+        d.dinoPosition = pos;
+        d.partslist[ItemType.body]      = "ca_orange_01_body";
+        d.partslist[ItemType.headparts] = "ca_orange_01_headparts";
+        d.partslist[ItemType.eyes]      = "ca_orange_01_eyes";
+        d.partslist[ItemType.mouth]     = "ca_orange_01_mouth";
+        d.partslist[ItemType.back]      = "ca_orange_01_back";
+        d.partslist[ItemType.tail]      = "ca_orange_01_tail";
+        return d;
     }
 
     public void LoadGameData()
