@@ -282,7 +282,7 @@ Shader "VESTINEL/ENV - Nature (Transparent baking lightmap)" {
 
 				#ifdef LIGHTMAP_ONLY_OFF
 
-					c = fixed4((lmtex.rgb * lmtex.a * 2 + i.diff) * 4, 1);
+					c = fixed4((DecodeLightmap(lmtex) * 0.25 + i.diff) * 4, 1);
 
 					#ifdef SPECULAR_ON
 						c.rgb += i.spec;
@@ -292,7 +292,7 @@ Shader "VESTINEL/ENV - Nature (Transparent baking lightmap)" {
 					#endif
 
 				#else
-					c = fixed4(lmtex.rgb * lmtex.a * 8, 1);
+					c = fixed4(DecodeLightmap(lmtex), 1);
 				#endif
 
 				c *= mainTex*_MainColor*2.0f;			
@@ -430,7 +430,7 @@ Shader "VESTINEL/ENV - Nature (Transparent baking lightmap)" {
 
 				#ifdef LIGHTMAP_ONLY_OFF
 
-					c = fixed4((lmtex.rgb * lmtex.a * 2 + i.diff) * 4, 1);
+					c = fixed4((DecodeLightmap(lmtex) * 0.25 + i.diff) * 4, 1);
 
 					#ifdef SPECULAR_ON
 						c.rgb += i.spec;
@@ -440,7 +440,7 @@ Shader "VESTINEL/ENV - Nature (Transparent baking lightmap)" {
 					#endif
 
 				#else
-					c = fixed4(lmtex.rgb * lmtex.a * 8, 1);
+					c = fixed4(DecodeLightmap(lmtex), 1);
 				#endif
 
 				c *= mainTex*_MainColor*2.0f;		

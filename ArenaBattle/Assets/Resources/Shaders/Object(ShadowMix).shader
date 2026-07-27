@@ -149,7 +149,7 @@ Shader "VESTINEL/ENV - Static (Transparent baking lightmap)(Shadow mix)" {
 					fixed4 lmtex = UNITY_SAMPLE_TEX2D(unity_Lightmap, i.lmap.xy);
 					#ifdef LIGHTMAP_ONLY_OFF
 
-						c = fixed4((lmtex.rgb * lmtex.a * 4 + i.diff) * 2, 1);
+						c = fixed4((DecodeLightmap(lmtex) * 0.5 + i.diff) * 2, 1);
 					
 						#ifdef SPECULAR_ON
 							c.rgb += i.specular.rgb;
@@ -159,7 +159,7 @@ Shader "VESTINEL/ENV - Static (Transparent baking lightmap)(Shadow mix)" {
 						#endif
 
 					#else
-						c = fixed4(lmtex.rgb * lmtex.a * 8, 1);
+						c = fixed4(DecodeLightmap(lmtex), 1);
 					#endif
 				#endif
 				c *= mainTex*_MainColor*2.0f * SHADOW_ATTENUATION(i);	

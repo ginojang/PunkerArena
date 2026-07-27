@@ -83,7 +83,7 @@ Shader "VESTINEL/ENV GROUND - Static (baking lightmap)"
 
 				fixed4 lmtex = UNITY_SAMPLE_TEX2D(unity_Lightmap, i.lmap.xy);
 
-				float4 c = fixed4(ambientLighting + diffuseReflection * lmtex.rgb * lmtex.a * 8, 1);
+				float4 c = fixed4(ambientLighting + diffuseReflection * DecodeLightmap(lmtex), 1);
 
 				c *= mainTex;
 

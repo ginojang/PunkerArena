@@ -278,7 +278,7 @@ Shader "VESTINEL/ENV - Static (Transparent baking lightmap)" {
 
 				#ifdef LIGHTMAP_ONLY_OFF
 
-					c = fixed4((lmtex.rgb * lmtex.a * 4 + i.diff) * 2, 1);
+					c = fixed4((DecodeLightmap(lmtex) * 0.5 + i.diff) * 2, 1);
 					
 					#ifdef SPECULAR_ON
 						c.rgb += i.specular.rgb;
@@ -288,7 +288,7 @@ Shader "VESTINEL/ENV - Static (Transparent baking lightmap)" {
 					#endif
 
 				#else
-					c = fixed4(lmtex.rgb * lmtex.a * 8, 1);
+					c = fixed4(DecodeLightmap(lmtex), 1);
 				#endif
 
 				c *= mainTex*_MainColor*2.0f;			
@@ -426,7 +426,7 @@ Shader "VESTINEL/ENV - Static (Transparent baking lightmap)" {
 
 				#ifdef LIGHTMAP_ONLY_OFF
 
-					c = fixed4((lmtex.rgb * lmtex.a * 4 + i.diff) * 2, 1);
+					c = fixed4((DecodeLightmap(lmtex) * 0.5 + i.diff) * 2, 1);
 
 					#ifdef SPECULAR_ON
 						c.rgb += i.specular.rgb;
@@ -435,7 +435,7 @@ Shader "VESTINEL/ENV - Static (Transparent baking lightmap)" {
 						c.rgb += i.specular.rgb * maskTex.r;
 					#endif
 				#else
-					c = fixed4(lmtex.rgb * lmtex.a * 8, 1);
+					c = fixed4(DecodeLightmap(lmtex), 1);
 					//return lmtex.a;
 				#endif
 
