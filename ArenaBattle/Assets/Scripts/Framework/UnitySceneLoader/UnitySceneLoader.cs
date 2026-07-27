@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
 
@@ -462,7 +461,7 @@ public abstract class UnitySceneLoader : MonoBehaviour
 
 	private IEnumerator LoadScene()
 	{
-		var async = Addressables.LoadSceneAsync(assetFullPath);
+		var async = SceneManager.LoadSceneAsync(assetFullPath);
 		yield return async;
 
 		AdvancePhase(PHASE.DOWNLOAD_BEGIN);

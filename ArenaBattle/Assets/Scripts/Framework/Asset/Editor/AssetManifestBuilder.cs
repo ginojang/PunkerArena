@@ -82,6 +82,29 @@ public static class AssetManifestBuilder
             Debug.Log("[AssetManifest] 씬 목록(Build Settings 단계 대상):\n  " + string.Join("\n  ", scenes));
     }
 
+    // 모든 게임 씬을 Build Settings에 등록(main = index 0 시작 씬). Tool/_test/SampleScene 제외.
+    [MenuItem("Tools/Addressables Removal/Setup Build Settings Scenes")]
+    public static void SetupBuildScenes()
+    {
+        var guids = AssetDatabase.FindAssets("t:Scene", new[] { "Assets/Scenes" });
+        var paths = new List<string>();
+        foreach (var g in guids)
+        {
+            var p = AssetDatabase.GUIDToAssetPath(g);
+            if (p.Contains("/Tool/") || p.Contains("_test") || p.EndsWith("SampleScene.unity")) continue;
+            paths.Add(p);
+        }
+        paths.Sort();
+        int mainIdx = paths.FindIndex(p => p.EndsWith("/main.unity"));
+        if (mainIdx > 0) { var m = paths[mainIdx]; paths.RemoveAt(mainIdx); paths.Insert(0, m); }
+
+        var scenes = new List<EditorBuildSettingsScene>();
+        foreach (var p in paths) scenes.Add(new EditorBuildSettingsScene(p, true));
+        EditorBuildSettings.scenes = scenes.ToArray();
+
+        Debug.Log($"[BuildScenes] {scenes.Count}개 씬 등록(0=main):\n  " + string.Join("\n  ", paths));
+    }
+
     static bool AddKey(AssetManifest m, HashSet<string> seen, string key, Object asset)
     {
         if (string.IsNullOrEmpty(key) || !seen.Add(key)) return false;
