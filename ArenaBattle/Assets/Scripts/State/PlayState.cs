@@ -33,38 +33,22 @@ public class PlayState : MonoBehaviour
 		Title,
 		Menu,
 		StageMenu,
-		//Game,
 		Jungle,
 		Desert,
 		Ice,
 		Avatar,
 		Beach,
-		//CreateCharacter,
-		//WaitingRoom,
-		//MyHome,
-		//WorldMap,
-		//Battle,
-		//Mission,
-		//TimeGuardian,
-		//Workbook,
-		//ReadersBook,
-		//InteractionMovieWorld,
-		//SceneSoripen,
 	}
 
 	public STATES CurrentState { get { return fsm.State; } }
 
 	private StateMachine<STATES> fsm;
-//	private Player player;
 
 	private void Awake()
 	{
-		//Initialize State Machine Engine
+		// Initialize State Machine Engine
 		fsm = StateMachine<STATES>.Initialize(this, STATES.None);
-	}
-
-	private void Start()
-	{
+		fsm.Changed += OnStateChanged;
 	}
 
 	public void ChangePlayState(STATES state)
@@ -74,183 +58,15 @@ public class PlayState : MonoBehaviour
 		fsm.ChangeState(state);
 	}
 
-	#region InteractionMovieWorld
-	private void InteractionMovieWorld_Enter()
+	// [DATA-DRIVEN] 모든 상태는 "enum 이름 == 씬 이름"으로 로드된다.
+	// 예전엔 상태마다 X_Enter/Update/Exit 리전(전부 LoadAsync("X")만)이 있었으나
+	// MonsterLove의 Changed 이벤트 하나로 대체(약 180줄 → 이 메서드 하나).
+	// 새 스테이지 추가 시 enum에 값만 추가하면 됨(씬 이름을 enum과 동일하게).
+	private void OnStateChanged(STATES state)
 	{
-		UnitySceneLoader.LoadAsync("InteractionMovieWorld");
+		if (state == STATES.None)
+			return;
+
+		UnitySceneLoader.LoadAsync(state.ToString());
 	}
-
-	private void InteractionMovieWorld_Update()
-	{
-
-	}
-
-	private void InteractionMovieWorld_Exit()
-	{
-
-	}
-	#endregion
-
-	#region Patch
-	private void Patch_Enter()
-	{
-		UnitySceneLoader.LoadAsync("Patch");
-	}
-
-	private void Patch_Update()
-	{
-
-	}
-
-	private void Patch_Exit()
-	{
-
-	}
-	#endregion
-
-	#region Waiting Room
-	private void WaitingRoom_Enter()
-	{
-		UnitySceneLoader.LoadAsync("WaitingRoom");
-	}
-
-	private void WaitingRoom_Update()
-	{
-	}
-
-	private void WaitingRoom_Exit()
-	{
-	}
-	#endregion Waiting Room
-
-	#region Login
-	private void Login_Enter()
-	{
-		UnitySceneLoader.LoadAsync("LogIn");
-	}
-
-	private void Login_Update()
-	{
-	}
-
-	private void Login_Exit()
-	{
-	}
-    #endregion Login
-    #region Title
-	private void Title_Enter()
-    {
-		UnitySceneLoader.LoadAsync("Title");
-	}
-	private void Title_Update()
-    {
-
-    }
-	private void Title_Exit()
-    {
-
-    }
-    #endregion
-    #region Menu
-    private void Menu_Enter()
-	{
-		UnitySceneLoader.LoadAsync("Menu");
-	}
-
-	private void Menu_Update()
-	{
-
-	}
-
-	private void Menu_Exit()
-	{
-
-	}
-	#endregion
-
-    #region StageMenu
-	private void StageMenu_Enter()
-    {
-		UnitySceneLoader.LoadAsync("StageMenu");
-    }
-	private void StageMenu_Update()
-    {
-
-    }
-	private void StageMenu_Exit()
-    {
-
-    }
-    #endregion
-
-    #region Jungle
-	private void Jungle_Enter()
-    {
-		UnitySceneLoader.LoadAsync("Jungle");
-    }		
-	private void Jungle_Update()
-    {
-
-    }
-	private void Jungle_Exit()
-    {
-
-    }
-    #endregion
-    #region Desert
-	private void Desert_Enter()
-    {
-		UnitySceneLoader.LoadAsync("Desert");
-    }
-	private void Desert_Update()
-    {
-
-    }
-	private void Desert_Exit()
-    {
-
-    }
-    #endregion
-    #region Ice
-	private void Ice_Enter()
-    {
-		UnitySceneLoader.LoadAsync("Ice");
-	}
-	private void Ice_Update()
-    {
-
-    }
-	private void Ice_Exit()
-    {
-
-    }
-	#endregion
-	#region Avatar
-	private void Avatar_Enter()
-    {
-		UnitySceneLoader.LoadAsync("Avatar");
-	}
-	private void Avatar_Update()
-    {
-
-    }
-	private void Avatar_Exit()
-    {
-
-    }
-    #endregion
-    #region Beach
-	private void Beach_Enter()
-    {
-		UnitySceneLoader.LoadAsync("Beach");
-	}
-	private void Beach_Update()
-    {
-
-    }
-	private void Beach_Exit()
-    {
-
-    }
-	#endregion
 }
