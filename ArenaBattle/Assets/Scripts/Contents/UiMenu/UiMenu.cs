@@ -72,23 +72,10 @@ public class UiMenu : UiBase<UiMenu>, IDragHandler
 
 		snapShot.onClick.AddListener(CreateCharacterTexture);
 
-		classChangeBtn[0].onClick.AddListener(OnClickChangeClass1);
-		classChangeBtn[1].onClick.AddListener(OnClickChangeClass2);
-		classChangeBtn[2].onClick.AddListener(OnClickChangeClass3);
-		classChangeBtn[3].onClick.AddListener(OnClickChangeClass4);
-		classChangeBtn[4].onClick.AddListener(OnClickChangeClass5);
-
-		randomChangeBtn[0].onClick.AddListener(OnClickChangeRandom1);
-		randomChangeBtn[1].onClick.AddListener(OnClickChangeRandom2);
-		randomChangeBtn[2].onClick.AddListener(OnClickChangeRandom3);
-		randomChangeBtn[3].onClick.AddListener(OnClickChangeRandom4);
-		randomChangeBtn[4].onClick.AddListener(OnClickChangeRandom5);
-		
-		savePlayer_Btn[0].onClick.AddListener(OnClickSaveCharacter1);
-		savePlayer_Btn[1].onClick.AddListener(OnClickSaveCharacter2);
-		savePlayer_Btn[2].onClick.AddListener(OnClickSaveCharacter3);
-		savePlayer_Btn[3].onClick.AddListener(OnClickSaveCharacter4);
-		savePlayer_Btn[4].onClick.AddListener(OnClickSaveCharacter5);
+		// [SIMPLIFY] 5개씩 3그룹 래퍼(15개) 제거 → 인덱스 루프 (idx 캡처)
+		for (int i = 0; i < classChangeBtn.Length; i++)  { int idx = i; classChangeBtn[i].onClick.AddListener(() => Messenger.Broadcast(Definition.MENU_CHANGERANDOMCLASS, idx)); }
+		for (int i = 0; i < randomChangeBtn.Length; i++) { int idx = i; randomChangeBtn[i].onClick.AddListener(() => Messenger.Broadcast(Definition.MENU_CHANGERANDOMPARTS, idx)); }
+		for (int i = 0; i < savePlayer_Btn.Length; i++)  { int idx = i; savePlayer_Btn[i].onClick.AddListener(() => Messenger.Broadcast(Definition.MENU_CHANGESAVE, idx)); }
 
 		allrandomChangeBtn.onClick.AddListener(OnClickChangeAllRandom);
 
@@ -106,96 +93,6 @@ public class UiMenu : UiBase<UiMenu>, IDragHandler
 		Messenger.AddListener<int, GameObject>(Definition.MENU_CHARACTER_CHANGE, ChangeMenuCharacter);
 		Messenger.AddListener<int, GameObject>(Definition.MENU_INVENTORY_SNAPSHOT, CreateInventoryCharacterTexture);
 		Messenger.AddListener<string>(Definition.CreateDinoSetUI, CreateCharacterTestUI);
-	}
-
-	private void OnClickChangeClass1()
-	{
-		Messenger.Broadcast(Definition.MENU_CHANGERANDOMCLASS, 0);
-		//MenuUiController.Instance.ChangeRandomClass(0);
-	}
-
-	private void OnClickChangeClass2()
-	{
-		Messenger.Broadcast(Definition.MENU_CHANGERANDOMCLASS, 1);
-		//MenuUiController.Instance.ChangeRandomClass(1);
-	}
-
-	private void OnClickChangeClass3()
-	{
-		Messenger.Broadcast(Definition.MENU_CHANGERANDOMCLASS, 2);
-		//MenuUiController.Instance.ChangeRandomClass(2);
-	}
-
-	private void OnClickChangeClass4()
-	{
-		Messenger.Broadcast(Definition.MENU_CHANGERANDOMCLASS, 3);
-		//MenuUiController.Instance.ChangeRandomClass(2);
-	}
-
-	private void OnClickChangeClass5()
-	{
-		Messenger.Broadcast(Definition.MENU_CHANGERANDOMCLASS, 4);
-		//MenuUiController.Instance.ChangeRandomClass(2);
-	}
-	
-	private void OnClickChangeRandom1()
-	{
-		Messenger.Broadcast(Definition.MENU_CHANGERANDOMPARTS, 0);
-		//MenuUiController.Instance.ChangeRandomParts(0);
-	}
-
-	private void OnClickChangeRandom2()
-	{
-		Messenger.Broadcast(Definition.MENU_CHANGERANDOMPARTS, 1);
-		//MenuUiController.Instance.ChangeRandomParts(1);
-	}
-
-	private void OnClickChangeRandom3()
-	{
-		Messenger.Broadcast(Definition.MENU_CHANGERANDOMPARTS, 2);
-		//MenuUiController.Instance.ChangeRandomParts(2);
-	}
-
-	private void OnClickChangeRandom4()
-	{
-		Messenger.Broadcast(Definition.MENU_CHANGERANDOMPARTS, 3);
-		//MenuUiController.Instance.ChangeRandomParts(2);
-	}
-	
-	private void OnClickChangeRandom5()
-	{
-		Messenger.Broadcast(Definition.MENU_CHANGERANDOMPARTS, 4);
-		//MenuUiController.Instance.ChangeRandomParts(2);
-	}
-
-	private void OnClickSaveCharacter1()
-	{
-		Messenger.Broadcast(Definition.MENU_CHANGESAVE, 0);
-		//MenuUiController.Instance.ChangeRandomParts(0);
-	}
-
-	private void OnClickSaveCharacter2()
-	{
-		Messenger.Broadcast(Definition.MENU_CHANGESAVE, 1);
-		//MenuUiController.Instance.ChangeRandomParts(1);
-	}
-
-	private void OnClickSaveCharacter3()
-	{
-		Messenger.Broadcast(Definition.MENU_CHANGESAVE, 2);
-		//MenuUiController.Instance.ChangeRandomParts(2);
-	}
-
-	private void OnClickSaveCharacter4()
-	{
-		Messenger.Broadcast(Definition.MENU_CHANGESAVE, 3);
-		//MenuUiController.Instance.ChangeRandomParts(2);
-	}
-	
-	private void OnClickSaveCharacter5()
-	{
-		Messenger.Broadcast(Definition.MENU_CHANGESAVE, 4);
-		//MenuUiController.Instance.ChangeRandomParts(2);
 	}
 
 	private void OnClickChangeAllRandom()
