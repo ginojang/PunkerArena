@@ -10,6 +10,9 @@
 [Bb]uild/
 [Bb]uilds/
 [Ll]ogs/
+# Exception: Assets/Editor/Build/ holds build *scripts* (source), not build output
+!ArenaBattle/Assets/Editor/Build/
+!ArenaBattle/Assets/Editor/Build/**
 [Uu]ser[Ss]ettings/
 [Mm]emoryCaptures/
 
