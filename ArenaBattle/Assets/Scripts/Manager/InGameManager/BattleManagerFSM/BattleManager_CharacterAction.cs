@@ -58,6 +58,7 @@ public partial class BattleManager
         var atk = attacker.CharacterInfo.CharacterStatus;
         float dmg = Mathf.Max(1f, (atk != null ? atk.atk : 1f) - tgt.def);
         tgt.hp -= dmg;
+        Debug.Log($"[HIT] {attacker.name} -> {target.name} : -{dmg} (hp {tgt.hp})");
 
         if (tgt.hp <= 0f)
         {

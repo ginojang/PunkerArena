@@ -28,18 +28,9 @@ public partial class BattleManager
         CharacterBase character = InGameData.Instance.CurrentTurnCharacter;
         Camp camp = character.CharacterInfo.BattleCamp;
 
-        CharacterState state = null;
+        Debug.Log($"[TURN] {character.name} ({camp})"); // [CLI] 전투 로그
 
-       switch(camp)
-        {
-            case Camp.Ally:
-                InGameData.Instance.AllyList.TryGetValue(character, out state);
-                if (state.Auto_AI != Type_Target_Auto_AI.None)
-                    Messenger.Broadcast(Definition.SetMakeAIData);
-                break;
-            case Camp.Enemy:
-                Messenger.Broadcast(Definition.SetMakeAIData);
-                break;
-        }
+        // [AUTO/CLI] UI 무력화로 플레이어 입력 불가 → 아군/적 모두 AI가 선택(오토배틀)
+        Messenger.Broadcast(Definition.SetMakeAIData);
     }
 }

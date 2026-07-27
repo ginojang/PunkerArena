@@ -2,11 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// [UI 무력화 / CLI 오토배틀] 인게임 UI(UiGame)를 코드에서 무력화한 상태.
+/// UiGame 프리팹은 남아있지만(GuiMain.Open&lt;UiGame&gt;) 여기서 그 메서드를 호출하지 않아 inert.
+/// 단, 전투 FSM 진행에 물려 있던 브로드캐스트는 그대로 유지해야 전투가 멈추지 않는다:
+///   - CompleteState(UIGame)  : InGame 페이즈(Load/Ready/Result) 진행
+///   - BattleManagerInvokeAction : SetCurrentTurnUI/SetRound/AddBurst 완료 시 다음 액션
+///   - PassClick : SetPassNextTurn + GoToState(SetRoundUI)
+/// 나머지 시각 처리(스킬설명/아이콘/버튼 등)는 전부 no-op.
+/// 원복: 각 메서드 본문을 UiGame.Instance.X() 호출로 되돌리면 됨.
+/// </summary>
 public class GameUiController : BaseUiController<GameUiController>
 {
     protected override void OnCompletePreloadAsset()
     {
-        GuiMain.Instance.Open<UiGame>();
+        GuiMain.Instance.Open<UiGame>(); // 프리팹은 유지(inert)
     }
     protected override void OnAwake()
     {
@@ -21,83 +31,34 @@ public class GameUiController : BaseUiController<GameUiController>
         base.OnDestroyComponent();
         UIMessengerRemoveListner();
     }
-    #region InGameState
-    private void UIGameLoad()
-    {
-        StartCoroutine(DelayInstance());
-    }
-    private void UIGameReady()
-    {
-        UiGame.Instance.UIGameReady();
-    }
-    private void UIGameGame()
-    {
-        UiGame.Instance.UIGameGame();
-    }
-    private void UIGameResult()
-    {
-        UiGame.Instance.UIGameResult();
-    }
-    private IEnumerator DelayInstance()
-    {
-        yield return new WaitUntil(() => UiGame.Instance != null);
 
-        UiGame.Instance.UIGameLoad();
-        yield break;
-    }
+    #region InGameState (FSM 진행 브로드캐스트만)
+    private void UIGameLoad()   { Messenger.Broadcast(Definition.CompleteState, Complete.UIGame); }
+    private void UIGameReady()  { Messenger.Broadcast(Definition.CompleteState, Complete.UIGame); }
+    private void UIGameGame()   { /* Game 페이즈: UI 없음 */ }
+    private void UIGameResult() { Messenger.Broadcast(Definition.CompleteState, Complete.UIGame); }
     #endregion
 
-    private void SetSkillUI()
-    {
-        UiGame.Instance.SetSkillUI();
-    }
-    private void SetNextTurnUI(int index, CharacterProfile profile)
-    {
-        UiGame.Instance.SetNextTurnUI(index, profile);
-    }
-    
-    private void SetCurrentTurnUI()
-    {
-        UiGame.Instance.SetCurrentTurnUI();
-    }
-    private void SetSkillButtonInteractiveFalse()
-    {
-        UiGame.Instance.SetSkillButtonInteractiveFalse();
-    }
-    private void SetSkillDescription()
-    {
-        UiGame.Instance.SetSkillDescription();
-    }
-    private void SkillDescriptionOff()
-    {
-        UiGame.Instance.SkillDescriptionOff();
-    }
-    private void SetRound()
-    {
-        UiGame.Instance.SetRound();
-    }
-    private void InsertInfoIcon(CharacterBase _target, string _atlas , string _name, Action_Type _type)
-    {
-        UiGame.Instance.InsertInfoIcon(_target, _atlas, _name, _type);
-    }
-    private void RemoveInfoIcon(CharacterBase _target, string _name, Action_Type _type)
-    {
-        UiGame.Instance.RemoveInfoIcon(_target, _name, _type);
-    }
-
-    private void ResetPassClick()
-    {
-        UiGame.Instance.ResetPassClick();
-    }
+    // ---- FSM 진행에 물린 것: 진행 브로드캐스트로 대체 ----
+    private void SetCurrentTurnUI() { Messenger.Broadcast(Definition.BattleManagerInvokeAction); }
+    private void SetRound()         { Messenger.Broadcast(Definition.BattleManagerInvokeAction); }
+    private void AddBurst()         { Messenger.Broadcast(Definition.BattleManagerInvokeAction); }
     private void PassClick()
     {
-        UiGame.Instance.PassClick();
+        Messenger.Broadcast(Definition.SetPassNextTurn);
+        Messenger.Broadcast(Definition.GoToState, BattleManager.TRIGGER_FSM.SetRoundUI);
     }
 
-    private void AddBurst()
-    {
-        UiGame.Instance.AddBurst();
-    }
+    // ---- 순수 시각 처리: no-op ----
+    private void SetSkillUI() { }
+    private void SetNextTurnUI(int index, CharacterProfile profile) { }
+    private void SetSkillButtonInteractiveFalse() { }
+    private void SetSkillDescription() { }
+    private void SkillDescriptionOff() { }
+    private void InsertInfoIcon(CharacterBase _target, string _atlas, string _name, Action_Type _type) { }
+    private void RemoveInfoIcon(CharacterBase _target, string _name, Action_Type _type) { }
+    private void ResetPassClick() { }
+
     private void UIMessengerAddListner()
     {
         #region State
