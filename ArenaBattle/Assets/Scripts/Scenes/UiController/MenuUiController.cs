@@ -203,7 +203,7 @@ public class MenuUiController : BaseUiController<MenuUiController>
 		GameObject obj = GetMenuCharacter(index);
 		Character charbase = obj.GetComponent<Character>();
 		
-		UserData.CharacterServerData data = GameDataManager.Instance.userData.serverSquadDic[modeType.Action][0].serverSquadList[charbase.CharacterInfo.dinoID];
+		if (!TryGetActionDino(charbase.CharacterInfo.dinoID, out var data)) return;
 		
 		int count = charbase.CharacterInfo.costumeInfo.partList.Count;
 		for(int i = 0; i < count; i++)
@@ -217,7 +217,7 @@ public class MenuUiController : BaseUiController<MenuUiController>
 		GameObject obj = GetMenuCharacter(index);
 		Character charbase = obj.GetComponent<Character>();
 		
-		UserData.CharacterServerData data = GameDataManager.Instance.userData.serverSquadDic[modeType.Action][0].serverSquadList[charbase.CharacterInfo.dinoID];
+		if (!TryGetActionDino(charbase.CharacterInfo.dinoID, out var data)) return;
 
 		int count = charbase.CharacterInfo.costumeInfo.partList.Count;
 		for(int i = 0; i < count; i++)
@@ -240,7 +240,7 @@ public class MenuUiController : BaseUiController<MenuUiController>
 		GameObject obj = GetMenuCharacter(index);
 		Character charbase = obj.GetComponent<Character>();
 		
-		UserData.CharacterServerData data = GameDataManager.Instance.userData.serverSquadDic[modeType.Action][0].serverSquadList[charbase.CharacterInfo.dinoID];
+		if (!TryGetActionDino(charbase.CharacterInfo.dinoID, out var data)) return;
 
 		charUID = data.dinoID;
 		
@@ -253,6 +253,17 @@ public class MenuUiController : BaseUiController<MenuUiController>
 		bChangerDinoClass = true;
 	}
 
+	// [OFFLINE GUARD] serverSquadDic[Action][0].serverSquadList[dinoID] 안전 조회 (미편성 시 KeyNotFound 방지)
+	static bool TryGetActionDino(string dinoID, out UserData.CharacterServerData data)
+	{
+		data = null;
+		var dic = GameDataManager.Instance != null ? GameDataManager.Instance.userData?.serverSquadDic : null;
+		if (dic == null) return false;
+		if (!dic.TryGetValue(modeType.Action, out var slots) || slots == null) return false;
+		if (!slots.TryGetValue(0, out var squad) || squad == null || squad.serverSquadList == null) return false;
+		return squad.serverSquadList.TryGetValue(dinoID, out data) && data != null;
+	}
+
 	public void ChangeRandomParts(int index)
 	{
 		Messenger.AddListener<int, GameObject>(Definition.Dino_Costume_End, FinishCostumeChar);
@@ -260,7 +271,7 @@ public class MenuUiController : BaseUiController<MenuUiController>
 		GameObject obj = GetMenuCharacter(index);
 		Character charbase = obj.GetComponent<Character>();
 		
-		UserData.CharacterServerData data = GameDataManager.Instance.userData.serverSquadDic[modeType.Action][0].serverSquadList[charbase.CharacterInfo.dinoID];
+		if (!TryGetActionDino(charbase.CharacterInfo.dinoID, out var data)) return;
 		
 		charUID = data.dinoID;
 		
@@ -282,7 +293,7 @@ public class MenuUiController : BaseUiController<MenuUiController>
 
 			var character = charList[i];
 			var characterbase = character.GetComponent<CharacterBase>();
-			UserData.CharacterServerData data = GameDataManager.Instance.userData.serverSquadDic[modeType.Action][0].serverSquadList[characterbase.CharacterInfo.dinoID];
+			if (!TryGetActionDino(characterbase.CharacterInfo.dinoID, out var data)) continue;
 		
 			charUID = data.dinoID;
 		
@@ -314,7 +325,7 @@ public class MenuUiController : BaseUiController<MenuUiController>
 		GameObject obj = GetMenuCharacter(index);
 		Character charbase = obj.GetComponent<Character>();
 
-		UserData.CharacterServerData data = GameDataManager.Instance.userData.serverSquadDic[modeType.Action][0].serverSquadList[charbase.CharacterInfo.dinoID];
+		if (!TryGetActionDino(charbase.CharacterInfo.dinoID, out var data)) return;
 		
 		ClientNetworkContents.SendSetCharacter(data, (response) => 
 		{
