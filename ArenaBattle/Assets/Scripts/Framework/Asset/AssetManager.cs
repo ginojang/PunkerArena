@@ -197,117 +197,17 @@ public class AssetManager : SingletonWithMonoBehavior<AssetManager>
 			completeEvent?.Invoke();
 			yield break;
 		}
-		Dictionary<string, List<IResourceLocation>> bundleLocations = new Dictionary<string, List<IResourceLocation>>();
-
+		// [OFFLINE/LOCAL] 원격 번들 다운로드 체크 제거 — 오프라인 로컬 빌드는 내려받을 번들이 없다.
+		// 기존엔 모든 locator 키를 스캔하고 번들마다 GetDownloadSizeAsync(WaitUntil)를 순차 호출 →
+		// 죽은 CDN 조회 타임아웃으로 startup이 크게 블로킹됐다. 전부 스킵하고 즉시 완료한다.
+		// (다운로드 UI 소비자는 모두 TotalDownloadBundleSize > 0 게이트라 0이면 자연히 스킵된다.)
 		BundleFirstLocations.Clear();
 		DownloadBundles.Clear();
-		HasBundleInIconImage.Clear();
-
-		IList<IResourceLocation> locations;
-		foreach (var res in rootLocator.Keys)
-		{
-			rootLocator.Locate(res, typeof(object), out locations);
-			if (locations != null)
-			{
-				foreach (var loc in locations)
-				{
-					if (loc.Dependencies != null && loc.Dependencies.Count > 0)
-					{
-						List<IResourceLocation> firstLoc = null;
-						string locationsKey = null;
-						int depBundleCount = 0;
-						foreach (var dep in loc.Dependencies)
-						{
-							if (dep.PrimaryKey.Contains(".bundle") == true)
-							{
-								if (depBundleCount == 0)
-									locationsKey = dep.PrimaryKey;
-								depBundleCount++;
-
-								firstLoc = null;
-								if (bundleLocations.TryGetValue(dep.PrimaryKey, out firstLoc) == false)
-								{
-									firstLoc = new List<IResourceLocation>();
-									firstLoc.Add(loc);
-									bundleLocations.Add(dep.PrimaryKey, firstLoc);
-								}
-							}
-						}
-
-						if (string.IsNullOrEmpty(locationsKey) == false && depBundleCount == 1)
-						{
-							firstLoc = null;
-							if (loc.Dependencies.Count == 1 && BundleFirstLocations.TryGetValue(locationsKey, out firstLoc) == false)
-							{
-								firstLoc = new List<IResourceLocation>();
-								firstLoc.Add(loc);
-								BundleFirstLocations.Add(locationsKey, firstLoc);
-							}
-						}
-					}
-
-					if (loc.PrimaryKey.Contains("Assets/Asset/ui/world_map/") || loc.PrimaryKey.Contains("Assets/Asset/ui/episode_cut/"))
-					{
-						if (Path.GetExtension(loc.PrimaryKey) == ".png")
-						{
-							if (HasBundleInIconImage.Contains(loc.PrimaryKey) == false)
-								HasBundleInIconImage.Add(loc.PrimaryKey);
-						}
-					}
-				}
-			}
-		}
-
-		Debug.Log($"[BUNDLE] total bundle count #1 : {BundleFirstLocations.Count} == {bundleLocations.Count} ???");
-		if (BundleFirstLocations.Count < bundleLocations.Count)
-		{
-			foreach (var loc in bundleLocations)
-			{
-				if (BundleFirstLocations.ContainsKey(loc.Key) == false)
-					BundleFirstLocations.Add(loc.Key, loc.Value);
-			}
-		}
-
-		//TotalDownloadBundleSize = 0;
-
-		// 한번에 Download Size 가져오기
-		// Addressables Asset version upgrade 해야 기능이 작동 합니다.
-		//
-		// AsyncOperationHandle<long> totalDownloadSizeHandle = Addressables.GetDownloadSizeAsync(rootLocator.Keys);
-		// yield return new WaitUntil(() => totalDownloadSizeHandle.IsDone);
-		// long totalDownloadBundleSize = totalDownloadSizeHandle.Result;
-		// TotalDownloadBundleSize = totalDownloadBundleSize;
-
-
-		TotalDownloadBundleSize = 0;
 		DownloadBundlesSizeDic.Clear();
-		foreach (var bundle in BundleFirstLocations)
-		{
-			AsyncOperationHandle<long> downloadSizeHandle = Addressables.GetDownloadSizeAsync(bundle.Value);
-			yield return new WaitUntil(() => downloadSizeHandle.IsDone);
+		HasBundleInIconImage.Clear();
+		TotalDownloadBundleSize = 0;
 
-			if (downloadSizeHandle.Result > 0)
-			{
-				DownloadBundles.Add(bundle.Key, bundle.Value);
-				TotalDownloadBundleSize += downloadSizeHandle.Result;
-				DownloadBundlesSizeDic.Add(bundle.Key, downloadSizeHandle.Result);
-			}
-			else
-			{
-				Debug.Log($"[BUNDLE] Warning : downloadSizeHandle.Result is <= 0 {downloadSizeHandle.Result} : {bundle.Key} ");
-			}
-		}
-		//Debug.Log($"[BUNDLE] total download size : {totalDownloadBundleSize} == {TotalDownloadBundleSize} ???");
-
-
-		Debug.Log($"[BUNDLE] total locator count : {rootLocator.Keys.Count()}");
-		Debug.Log($"[BUNDLE] total bundle count #2 : {BundleFirstLocations.Count} == {bundleLocations.Count} ???");
-		Debug.Log($"[BUNDLE] download bundle count : {DownloadBundles.Count}");
-		Debug.Log($"[BUNDLE] icon images count : {HasBundleInIconImage.Count}");
-		var count = 1;
-		foreach (var b in BundleFirstLocations.Keys) Debug.Log($"[BUNDLE] {count++} : {b} in BundleFirstLocations.Keys");
-		count = 1;
-		foreach (var b in DownloadBundles.Keys) Debug.Log($"[BUNDLE] {count++} : download {b} in DownloadBundles.Keys");
+		Debug.Log("[BUNDLE] Addressables init done (offline: skip bundle download-size scan)");
 		completeEvent();
 	}
 
