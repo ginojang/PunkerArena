@@ -33,11 +33,15 @@ type Dino struct {
 	// 서브 스탯
 	HitRate    float64 // 명중률
 	AvoidRate  float64 // 회피율
+	PenetRate  float64 // 방어관통율
 	CritRate   float64 // 크리율
 	CritDamage float64 // 크리 데미지(%)
 	Luck       float64 // 모든 RNG 굴림에 관여
 	Level      int
 	Attribute  Attribute
+
+	// 전투 중 상태
+	Defending bool // 방어(Defence)모드: 피해 84~91% 경감, 단 관통에 뚫림
 }
 
 func (d *Dino) Alive() bool { return d.HP > 0 }

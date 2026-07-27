@@ -47,6 +47,43 @@ func isCrit(a, d *Dino) bool {
 	return rand.Float64()*100.0 < rate
 }
 
+// 방어(Defence)모드 대상 피해 경감율(%). [이식] GetDefenceDamageRate :356-401.
+//   ATK>=DEF : -A*sqrt(ATK-DEF)+B   (A,B=3,91)
+//   ATK< DEF :  C*sqrt(DEF-ATK)+D   (C,D=2,84)
+// → 84~91% 경감. [0,100] 클램프.
+// 원본 버그: NormalAttackTo가 이 값을 /100 없이 `dmg -= dmg*rate` 로 곱해 데미지가
+// 음수가 됐음. 여기선 의도대로 %(=/100)로 적용한다.
+func defenceDamageRate(atk, def float64) float64 {
+	var r float64
+	if atk >= def {
+		r = -DefA*math.Sqrt(atk-def) + DefB
+	} else {
+		r = DefC*math.Sqrt(def-atk) + DefD
+	}
+	if r > 100 {
+		r = 100
+	}
+	if r < 0 {
+		r = 0
+	}
+	return r
+}
+
+// 방어관통 성공? [이식] isPenetrateSuccess :136-193.
+// 관통율/2 + (ATK-DEF)/5 + rand(0,luck)*명중률/10. [0,100] 클램프 후 rand(0,100) 비교.
+func isPenetrate(a, d *Dino) bool {
+	rate := a.PenetRate / 2.0
+	rate += (a.Attack - d.Defence) / 5.0
+	rate += rand.Float64() * a.Luck * a.HitRate / 10.0
+	if rate > 100 {
+		rate = 100
+	}
+	if rate < 0 {
+		rate = 0
+	}
+	return rand.Float64()*100.0 < rate
+}
+
 // 속성 승자: 0=공격자 승, 1=방어자 승, -1=없음. NOON<NIGHT<DAWN<NOON(순환), ECLIPSE 중립.
 func attributeWinner(atk, def Attribute) int {
 	if atk == Eclipse || def == Eclipse || atk == AttrNone || def == AttrNone {
@@ -67,10 +104,13 @@ type AttackResult struct {
 	Damage      float64
 	Crit        bool
 	Avoided     bool
-	AttrWin     int // 0=공격자 속성승, 1=방어자, -1=없음
+	Penetrated  bool    // 방어모드 대상을 관통했는가
+	Defended    bool    // 방어모드 경감이 적용됐는가
+	DefenceRate float64 // 적용된 경감율(%) — Defended일 때만
+	AttrWin     int     // 0=공격자 속성승, 1=방어자, -1=없음
 }
 
-// 공격 판정: 회피 -> 크리 -> 속성보너스 순 (defence모드/관통은 후속 확장)
+// 공격 판정: 회피 -> 크리 -> 속성보너스 -> (대상 방어모드면) 관통/경감. [이식] NormalAttackTo.
 func Attack(a, d *Dino) AttackResult {
 	if isAvoid(a, d) {
 		return AttackResult{Avoided: true, AttrWin: -1}
@@ -85,5 +125,21 @@ func Attack(a, d *Dino) AttackResult {
 	if aw == 0 {
 		dmg += dmg * AttributeBonusDamage
 	}
-	return AttackResult{Damage: dmg, Crit: crit, AttrWin: aw}
+
+	res := AttackResult{Crit: crit, AttrWin: aw}
+	if d.Defending {
+		if isPenetrate(a, d) {
+			// 관통: 방어 경감을 무시하고 풀 데미지.
+			// 원본 버그: 관통 성공 시 오히려 *0.05/*0.1로 감소시킴(TODO 주석) → 여기선 경감 무시로 수정.
+			res.Penetrated = true
+			res.Damage = dmg
+			return res
+		}
+		rate := defenceDamageRate(a.Attack, d.Defence)
+		dmg -= dmg * (rate / 100.0)
+		res.Defended = true
+		res.DefenceRate = rate
+	}
+	res.Damage = dmg
+	return res
 }

@@ -91,6 +91,11 @@ func (b *Battle) Run(maxTurns int) int {
 			if r.AttrWin == 0 {
 				tag += " 속성+"
 			}
+			if r.Penetrated {
+				tag += " 관통!"
+			} else if r.Defended {
+				tag += fmt.Sprintf(" 방어(-%.0f%%)", r.DefenceRate)
+			}
 			b.logf("[T%d] %s -> %s : -%.0f%s (hp %.0f/%.0f)", b.Turn, a.Name, t.Name, r.Damage, tag, t.HP, t.MaxHP)
 			if !t.Alive() {
 				b.logf("      * %s 사망 (아군 %d / 적 %d)", t.Name, b.sideAlive(0), b.sideAlive(1))
