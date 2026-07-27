@@ -207,20 +207,24 @@ public class UiMenu : UiBase<UiMenu>, IDragHandler
 	private void OnClickSelectStage1()
 	{
 		tempState = PlayState.STATES.Beach;
+		GameDataManager.Instance.SelectedStage = 1;
 	}
 
 	private void OnClickSelectStage2()
 	{
 		tempState = PlayState.STATES.Desert;
+		GameDataManager.Instance.SelectedStage = 2;
 	}
 
 	private void OnClickSelectStage3()
 	{
 		tempState = PlayState.STATES.Ice;
+		GameDataManager.Instance.SelectedStage = 3;
 	}
 	private void OnClickSelectStage4()
     {
 		tempState = PlayState.STATES.Avatar;
+		GameDataManager.Instance.SelectedStage = 4;
 	}
 
 	private void ChangeMenuCharacter(int index, GameObject obj)

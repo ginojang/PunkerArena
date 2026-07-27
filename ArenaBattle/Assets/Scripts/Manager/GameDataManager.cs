@@ -678,6 +678,7 @@ public class GameDataManager : Singleton<GameDataManager>
     private bool isInitialize = false;
 
     public UserData userData { get; private set; } = new UserData();
+    public int SelectedStage { get; set; } = 1; // [OFFLINE] 메뉴에서 선택한 스테이지(기본 1)
 
     private GameDataManager() { }
 

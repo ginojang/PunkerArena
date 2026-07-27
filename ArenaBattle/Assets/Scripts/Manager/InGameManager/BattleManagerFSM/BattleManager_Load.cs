@@ -113,7 +113,7 @@ public partial class BattleManager
 
     private IEnumerator LoadMonsterObject()
     {
-        int currentStage = 1;
+        int currentStage = GameDataManager.Instance.SelectedStage; // [FIX] was hardcoded 1
 
         Attributes start = CSVDataManager.GetTable<StageTable>().GetData(currentStage).time_start;
         InGameData.Instance.CurrentAttribute = start;
