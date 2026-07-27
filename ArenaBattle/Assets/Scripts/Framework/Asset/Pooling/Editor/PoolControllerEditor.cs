@@ -31,7 +31,7 @@ namespace Devil.Editor
 
 		private void OnDragContents(UnityEngine.Object dragged_object)
 		{
-			string curID = AddressableEditorExtension.GetAddressableID(dragged_object);
+			string curID = UnityEditor.AssetDatabase.GetAssetPath(dragged_object); // [Addressables 제거] 매니페스트가 풀패스 키를 보유
 			if (string.IsNullOrEmpty(curID))
 			{
 				Debug.LogWarning($"{curID} is not an addressable object. Register it as addressable first.");

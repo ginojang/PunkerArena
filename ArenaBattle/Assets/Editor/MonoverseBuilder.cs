@@ -4,8 +4,6 @@ using UnityEngine;
 using System;
 using UnityEditor;
 using UnityEditor.Build.Reporting;
-using UnityEditor.AddressableAssets;
-using UnityEditor.AddressableAssets.Settings;
 
 public class MonoverseBuilder
 {
@@ -93,9 +91,6 @@ public class MonoverseBuilder
         PlayerSettings.companyName = "Monoverse";
         #endregion
 
-        #region Addressable
-        AddressableAssetSettingsDefaultObject.Settings.ActivePlayModeDataBuilderIndex = 2;
-        #endregion
 
 #if DEVELOPMENT
         QualitySettings.skinWeights = SkinWeights.FourBones;

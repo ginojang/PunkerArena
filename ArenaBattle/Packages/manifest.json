@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "com.unity.addressables": "2.3.16",
     "com.unity.cinemachine": "3.1.4",
     "com.unity.nuget.newtonsoft-json": "3.2.1",
     "com.unity.postprocessing": "3.4.0",

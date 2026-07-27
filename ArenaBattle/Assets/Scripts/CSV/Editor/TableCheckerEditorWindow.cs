@@ -2,10 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using UnityEngine.AddressableAssets;
-using UnityEngine.AddressableAssets.ResourceLocators;
-using UnityEditor.AddressableAssets.Settings;
-using UnityEditor.AddressableAssets;
 using Generated.CsvData;
 using System.Reflection;
 using UnityEngine.U2D;
@@ -64,31 +60,17 @@ public class TableCheckerEditorWindow : EditorWindow
         if (_spriteName.Length > 0)
             return true;
 
-        if( _name.ToLower() =="none")
+        if (_name.ToLower() == "none")
             return true;
 
-        foreach ( var element in AddressableAssetSettingsDefaultObject.Settings.groups)
-        {
-            foreach( var subElement in element.entries )
-            {
-                if (subElement.address != _name)
-                    continue;
+        var asset = AssetManifest.Instance != null ? AssetManifest.Instance.Get(_name) : null;
+        if (asset == null)
+            return false;
 
-                if (subElement.MainAsset.GetType() == typeof(SpriteAtlas))
-                {
-                    SpriteAtlas atals = subElement.MainAsset as SpriteAtlas;
+        if (asset is UnityEngine.U2D.SpriteAtlas atlas)
+            return atlas.GetSprite(_spriteName) != null;
 
-                    if (atals.GetSprite(_spriteName) != null)
-                        return true;
-                    else
-                        return false;
-                }
-                else
-                    return true;
-            }
-        }
-
-        return false;
+        return true;
     }
 
     bool IsContainAddressableList_DinoParts(string _talentName, string _partsName)
@@ -100,25 +82,12 @@ public class TableCheckerEditorWindow : EditorWindow
         string findPartsName = _talentName + _partsName;
         mainAssetName = mainAssetName.Remove(mainAssetName.LastIndexOf("_"));
 
-        foreach (var element in AddressableAssetSettingsDefaultObject.Settings.groups)
-        {
-            foreach (var subElement in element.entries)
-            {
-                if (subElement.address != mainAssetName)
-                    continue;
+        var asset = AssetManifest.Instance != null ? AssetManifest.Instance.Get(mainAssetName) : null;
+        GameObject findObject = asset as GameObject;
+        if (findObject == null)
+            return false;
 
-                GameObject findObject = subElement.MainAsset as GameObject;
-                if (findObject == null)
-                    return false;
-
-                if (findObject.transform.Find(findPartsName) != null)
-                    return true;
-                else
-                    return false;
-            }
-        }
-
-        return false;
+        return findObject.transform.Find(findPartsName) != null;
     }
 
     #region >> StageTable <<
