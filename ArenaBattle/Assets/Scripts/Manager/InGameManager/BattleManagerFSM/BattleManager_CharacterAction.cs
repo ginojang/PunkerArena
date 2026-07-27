@@ -41,8 +41,11 @@ public partial class BattleManager
         var targetList = InGameData.Instance.TargetList;
         for(int i = 0; i < targetList.Count ; i++)
         {
-            ApplyBattleDamage(attacker, targetList[i]);
-            targetList[i].StartSubAction<SUB_ACTION_ONDAMAGE>(SUB_ACTION_ONDAMAGE.ActionStart);
+            var t = targetList[i];
+            ApplyBattleDamage(attacker, t);
+            // 사망(비활성)한 대상엔 피격 서브액션을 시작하지 않음(inactive 코루틴 오류 방지)
+            if (t != null && t.gameObject.activeInHierarchy)
+                t.StartSubAction<SUB_ACTION_ONDAMAGE>(SUB_ACTION_ONDAMAGE.ActionStart);
         }
 
         InvokeAction();
@@ -56,7 +59,8 @@ public partial class BattleManager
         if (tgt == null || tgt.hp <= 0f) return;
 
         var atk = attacker.CharacterInfo.CharacterStatus;
-        float dmg = Mathf.Max(1f, (atk != null ? atk.atk : 1f) - tgt.def);
+        // [임시 배율] 스탯이 전부 플레이스홀더(atk 10 / def 10~100)라 atk-def가 1로 바닥침 → *3 배율로 전투가 실제로 끝나게. 대개편 때 제대로 된 공식으로 교체.
+        float dmg = Mathf.Max(1f, (atk != null ? atk.atk : 1f) * 3f - tgt.def);
         tgt.hp -= dmg;
         Debug.Log($"[HIT] {attacker.name} -> {target.name} : -{dmg} (hp {tgt.hp})");
 
@@ -81,7 +85,7 @@ public partial class BattleManager
 
     private void CharacterSkillAction()
     {
-        _checkCharacterBehavior = true;
+
         var skillData = InGameData.Instance.CurrentSkillData;
 
         Messenger.Broadcast(Definition.SkillDescriptionOff);
@@ -106,6 +110,10 @@ public partial class BattleManager
             case Type_Action.ParabolaRange:
                 InGameData.Instance.CurrentTurnCharacter.StartSubAction<SUB_ACTION_PARABOLARANGE>(SUB_ACTION_PARABOLARANGE.ActionStart);
                 break;
+            default:
+                // [FIX] type_action 데이터가 현행 enum과 불일치(예: 1) → 기본 근접공격 폴백(스톨 방지)
+                InGameData.Instance.CurrentTurnCharacter.StartSubAction<SUB_ACTION_MELEE>(SUB_ACTION_MELEE.ActionStart);
+                break;
         }
 
     }
@@ -124,7 +132,7 @@ public partial class BattleManager
         StartCoroutine(WaitForInsertBuff());
     }
     private IEnumerator WaitForInsertBuff()
-    {
+
         yield return new WaitUntil(() => _insertBuffComplete == true);
 
         InvokeAction();
@@ -136,11 +144,11 @@ public partial class BattleManager
 
 
     private void CharacterCheckBuff()
-    {
+
         Messenger.Broadcast(Definition.CharacterCheckTriggerBuff);
     }
     private void InsertBurstGauge()
-    {
+
         if(InGameData.Instance.BurstGauge >= 100)
         {
             InvokeAction();

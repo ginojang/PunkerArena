@@ -415,6 +415,7 @@ public class CharacterBase : MonoBehaviour
     public bool ChangeNextSubState(object[] arg = null)
 	{
         bool res = true;
+        if (sub_Fsm == null) return false; // [FIX] 죽은 캐릭터(DeastroyFSM)의 OnHit 등에서 sub_Fsm null → NRE 방지
 
         //MethodInfo info = sub_Fsm.GetType().GetMethod("ChangeNextState", new Type[] { typeof(string[])});
 

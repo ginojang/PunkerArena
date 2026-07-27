@@ -31,7 +31,8 @@ public partial class BattleManager
     {
         CharacterBase turnChar = InGameData.Instance.CurrentTurnCharacter;
 
-        if (turnChar != null)
+        // [FIX] 죽어서 비활성된 캐릭터가 턴을 받으면 inactive 오브젝트에 서브액션 시작 → 스톨. null처럼 스킵.
+        if (turnChar != null && turnChar.gameObject.activeInHierarchy)
         {
             if (InGameData.Instance.GetCharacterActionLock(turnChar) == true)
                 Messenger.Broadcast(Definition.PassClick);

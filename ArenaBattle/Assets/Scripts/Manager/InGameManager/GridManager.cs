@@ -280,9 +280,11 @@ public class GridManager : MonoBehaviour
                 if (tempGrid[i, j].SkillTarget == true)
                 {
                     CharacterBase character = tempGrid[i, j].GetComponentInChildren<CharacterBase>();
+                    if (character == null) continue; // [FIX] 죽어서 비활성된 셀 스킵
                     CharacterState state = null;
 
                     dic.TryGetValue(character, out state);
+                    if (state == null) continue; // [FIX] 리스트에 없는(죽은) 대상 스킵
                     if (state.TargetLock == Type_Target_Lock.Impossible)
                         continue;
                     else

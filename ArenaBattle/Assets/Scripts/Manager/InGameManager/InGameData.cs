@@ -206,48 +206,37 @@ public class InGameData : MonoBehaviour
         return state;
     }
 
+    // [FIX] 죽어서 리스트에서 빠진 대상은 GetCharacterState가 null → 무가드 deref로 NRE(스톨). 전부 null 가드.
     public bool GetCharacterTargetLock(CharacterBase target)
     {
-        bool inCC = false;
         CharacterState state = GetCharacterState(target);
-        if (state.TargetLock == Type_Target_Lock.Impossible)
-            inCC = true;
-
-        return inCC;
+        if (state == null) return false;
+        return state.TargetLock == Type_Target_Lock.Impossible;
     }
 
     public bool GetCharacterActionLock(CharacterBase _target)
     {
-        bool inCC = false;
         CharacterState state = GetCharacterState(_target);
-        if (state.ActionLock == Type_Action_Lock.Impossible)
-            inCC = true;
-
-        return inCC;
+        if (state == null) return false;
+        return state.ActionLock == Type_Action_Lock.Impossible;
     }
     public bool GetCharacterCC_Clear(CharacterBase _target)
     {
-        bool inCC = false;
         CharacterState state = GetCharacterState(_target);
-        if (state.CC_Clear == Type_CC_Clear.Possible)
-            inCC = true;
-
-        return inCC;
+        if (state == null) return false;
+        return state.CC_Clear == Type_CC_Clear.Possible;
     }
     public Type_Target_Auto_AI GetCharacterAuto_AI(CharacterBase _target)
     {
-        Type_Target_Auto_AI ai;
         CharacterState state = GetCharacterState(_target);
-        ai = state.Auto_AI;
-
-        return ai;
+        if (state == null) return Type_Target_Auto_AI.None;
+        return state.Auto_AI;
     }
     public Attack_Lock GetCharacterAttackLock(CharacterBase _target)
     {
         CharacterState state = GetCharacterState(_target);
-        Attack_Lock locks = state.AttackLock;
-
-        return locks;
+        if (state == null) return Attack_Lock.None;
+        return state.AttackLock;
     }
 
 
