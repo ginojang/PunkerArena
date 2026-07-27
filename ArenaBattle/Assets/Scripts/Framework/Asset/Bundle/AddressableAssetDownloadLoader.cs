@@ -52,8 +52,18 @@ public class AddressableAssetDownloadLoader<T> : AssetBundleLoader
     {
         if (loader == null || loader.IsFailed) { Fail("loader null/failed"); return; }
 
+        // 1) 기존(레거시) 에셋: 정적 매니페스트(짧은키/풀패스). 앞으로 여긴 안 건드린다.
+        UnityEngine.Object asset = null;
         var manifest = AssetManifest.Instance;
-        if (manifest != null && manifest.TryGet(path, out var asset) && asset != null)
+        if (manifest != null)
+            manifest.TryGet(path, out asset);
+
+        // 2) 정석 폴백: Resources 폴더. 새 에셋은 Assets/**/Resources/ 아래에 넣고
+        //    그 상대경로(예: "Character/foo")로 로드하면 매니페스트 수정 없이 자동으로 잡힌다.
+        if (asset == null)
+            asset = Resources.Load(ToResourcesPath(path));
+
+        if (asset != null)
         {
             if (loader.MainAsset == null)
                 loader.MainAsset = asset;
@@ -61,8 +71,22 @@ public class AddressableAssetDownloadLoader<T> : AssetBundleLoader
         }
         else
         {
-            Fail($"manifest key not found: {path}");
+            Fail($"매니페스트/Resources 어디에도 없음: {path}");
         }
+    }
+
+    // 로드 키를 Resources.Load용 상대경로로 정규화.
+    //  "Assets/.../Resources/Foo/Bar.prefab" -> "Foo/Bar",  "Foo/Bar" -> "Foo/Bar"
+    static string ToResourcesPath(string key)
+    {
+        const string marker = "Resources/";
+        int idx = key.LastIndexOf(marker, System.StringComparison.Ordinal);
+        string k = idx >= 0 ? key.Substring(idx + marker.Length) : key;
+        int slash = k.LastIndexOf('/');
+        int dot = k.LastIndexOf('.');
+        if (dot > slash) // 파일 확장자 제거(폴더/무확장 키는 그대로)
+            k = k.Substring(0, dot);
+        return k;
     }
 
     void CompleteLoad()
