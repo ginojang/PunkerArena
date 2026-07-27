@@ -6,22 +6,31 @@ using UnityEditor;
 #endif
 
 /// <summary>
-/// URP 제거 후 Built-in에서 가산(additive)/발광 이펙트가 톤매핑 없이 흰색으로 뭉개지는(워시아웃)
-/// 문제를 Post Processing v2 톤매핑으로 잡는다.
-/// 카메라가 HDR이라 ACES 톤매핑이 1을 넘는 값을 압축 -> 흰 블롭이 정상 밝기로.
+/// 원본(Project_FruitDino)은 Built-in RP + RealToon + Post Processing v2. Unity 2020.3 원본은
+/// 톤매핑 없이도 안 터졌지만, Unity 6은 같은 씬 데이터를 더 밝게 렌더 → 최종 합성값이 1을 초과해
+/// 톤매핑이 없으면 흰색으로 터진다(화이트 워시). 그래서 톤매핑 자체는 "필요"하다.
 ///
-/// 핵심: 코드로 PostProcessLayer를 붙일 땐 반드시 layer.Init(PostProcessResources)로
-/// 리소스를 넣어야 한다(안 넣으면 AmbientOcclusion 렌더에서 매프레임 NRE 폭주).
+/// ACES는 워시를 잡지만 하이라이트 채도까지 빼서 "색 빠짐"으로 보인다. → Neutral 톤매퍼 사용:
+/// 하이라이트만 부드럽게 압축하고 색/채도는 최대한 보존(파스텔 룩).
 ///
-/// ▼ 튜닝: 여전히 밝으면 PostExposure를 더 낮추고(-1.0), 톤이 세면 Tonemapper.Neutral로.
+/// 이 컴포넌트가 하는 일:
+///  1) 화면 카메라에 PostProcessLayer 부착 + Init(PostProcessResources) + volumeLayer=Everything
+///     → 씬 고유 Bloom이 적용됨(Init 안 하면 AmbientOcclusion 매프레임 NRE 폭주).
+///  2) 전역 볼륨(priority 1000)으로 Neutral 톤매핑만 얹어 Unity6 과밝음을 1 이하로 롤오프.
+///
+/// ▼ 튜닝(한 줄씩): 아직 밝으면 PostExposure를 -0.3~-0.6으로, 채도 부족하면 Saturation +10~+20.
+///   그래도 파스텔이 안 나오면 UseLDRClamp=true (카메라 HDR 끔 → 물리적으로 워시 불가, 무채도손실).
 /// </summary>
 public class GlobalPostProcess : MonoBehaviour
 {
     // ===== 튜닝 포인트 =====
-    static readonly Tonemapper Tonemap = Tonemapper.ACES; // ACES(강한 압축) / Neutral(부드러움)
-    const float PostExposure = -0.8f; // 전체 밝기(EV). 파스텔은 밝게. 더 어둡게: 낮춤
-    const float Saturation   = 25f;   // 채도(+): ACES가 뺀 채도 보강 → 파스텔 팝
-    const float Temperature  = 8f;    // 화이트밸런스: 양수=따뜻, 음수=차갑게
+    const bool ApplyGlobalGrading = true;  // Unity6 과밝음 롤오프(워시 방지). 필요
+    const bool UseLDRClamp        = false; // 최후수단: 카메라 HDR 끔(LDR 클램프). 워시 원천봉쇄, Bloom은 LDR
+
+    static readonly Tonemapper Tonemap = Tonemapper.Neutral; // Neutral(색보존) / ACES(강압축·채도손실)
+    const float PostExposure = 0f;    // 전체 밝기(EV). 아직 밝으면 -0.3~-0.6
+    const float Saturation   = 0f;    // 채도(+). Neutral은 색보존 → 0에서 시작, 부족하면 +10~+20
+    const float Temperature  = 0f;    // 화이트밸런스: 양수=따뜻, 음수=차갑게
     const float Tint         = 0f;    // 그린-마젠타 밸런스(필요시)
     // =====================
 
@@ -50,29 +59,34 @@ public class GlobalPostProcess : MonoBehaviour
             return;
         }
 
-        _volumeLayer = LayerMask.NameToLayer("Default");
+        // 원본 재현 기본값(ApplyGlobalGrading=false)에서는 전역 그레이딩 볼륨을 만들지 않고,
+        // 씬 고유 프로파일(Bloom 단독)이 그대로 룩을 결정하게 둔다.
+        if (ApplyGlobalGrading)
+        {
+            _volumeLayer = LayerMask.NameToLayer("Default");
 
-        _profile = ScriptableObject.CreateInstance<PostProcessProfile>();
-        var grade = _profile.AddSettings<ColorGrading>();
-        grade.gradingMode.overrideState = true;
-        grade.gradingMode.value = GradingMode.HighDefinitionRange;
-        grade.tonemapper.overrideState = true;
-        grade.tonemapper.value = Tonemap;
-        grade.postExposure.overrideState = true;
-        grade.postExposure.value = PostExposure;
-        grade.temperature.overrideState = true;
-        grade.temperature.value = Temperature;
-        grade.tint.overrideState = true;
-        grade.tint.value = Tint;
-        grade.saturation.overrideState = true;
-        grade.saturation.value = Saturation;
+            _profile = ScriptableObject.CreateInstance<PostProcessProfile>();
+            var grade = _profile.AddSettings<ColorGrading>();
+            grade.gradingMode.overrideState = true;
+            grade.gradingMode.value = GradingMode.HighDefinitionRange;
+            grade.tonemapper.overrideState = true;
+            grade.tonemapper.value = Tonemap;
+            grade.postExposure.overrideState = true;
+            grade.postExposure.value = PostExposure;
+            grade.temperature.overrideState = true;
+            grade.temperature.value = Temperature;
+            grade.tint.overrideState = true;
+            grade.tint.value = Tint;
+            grade.saturation.overrideState = true;
+            grade.saturation.value = Saturation;
 
-        var volGo = new GameObject("[GlobalPPVolume]") { layer = _volumeLayer };
-        DontDestroyOnLoad(volGo);
-        var vol = volGo.AddComponent<PostProcessVolume>();
-        vol.isGlobal = true;
-        vol.priority = 1000f;
-        vol.sharedProfile = _profile;
+            var volGo = new GameObject("[GlobalPPVolume]") { layer = _volumeLayer };
+            DontDestroyOnLoad(volGo);
+            var vol = volGo.AddComponent<PostProcessVolume>();
+            vol.isGlobal = true;
+            vol.priority = 1000f;
+            vol.sharedProfile = _profile;
+        }
 
         StartCoroutine(AttachLayers());
     }
@@ -99,6 +113,9 @@ public class GlobalPostProcess : MonoBehaviour
             {
                 var cam = cams[i];
                 if (cam == null || cam.targetTexture != null) continue; // 스냅샷/렌더텍스처 제외
+
+                if (UseLDRClamp) cam.allowHDR = false; // LDR 클램프: 1 초과값 원천 차단 → 워시 불가
+
                 if (cam.GetComponent<PostProcessLayer>() != null) continue;
 
                 var layer = cam.gameObject.AddComponent<PostProcessLayer>();
