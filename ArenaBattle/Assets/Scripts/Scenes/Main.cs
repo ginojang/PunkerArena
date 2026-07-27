@@ -71,34 +71,6 @@ public class Main : MonoBehaviour
 */
     }
 
-    private void CompleteServiceCheck(Definition.SERVICE_CHECK_ERROR serviceCheck)
-	{
-        switch (serviceCheck)
-        {
-            case Definition.SERVICE_CHECK_ERROR.SUCCESS:
-
-                PlayState.Instance.ChangePlayState(PlayState.STATES.Title);
-
-/*                ImmortalGameObject.AttachObject(gameObject);
-                AssetManager.Instance.Initialize(OnAssetManagerIntializeComplete);
-                GameDataManager.Instance.Initialize();
-                AnimationManager.Instance.Initialize();
-                NetworkManager.Instance.Initialize();*/
-                break;
-            case Definition.SERVICE_CHECK_ERROR.FILE_NOT_EXIST:
-                Application.Quit();
-                break;
-            case Definition.SERVICE_CHECK_ERROR.SERVERTYPE_NOT_MATCH:
-                break;
-            case Definition.SERVICE_CHECK_ERROR.RESOURCE_NUMBER_NOT_EXIST:
-                break;
-            case Definition.SERVICE_CHECK_ERROR.SERVER_CONNECT_INFO_NOT_EXIST:
-                break;
-            default:
-                break;
-        }
-    }
-
     protected virtual void OnAssetManagerIntializeComplete()
     {
         UiAddressablePoolManager.Instance.Initialize();
@@ -110,19 +82,10 @@ public class Main : MonoBehaviour
         ResourcePoolManager.Instance.AsyncLoadData("CharacterParts", objectType.atlasSprite);
         ResourcePoolManager.Instance.AsyncLoadData("Skill_Icon1", objectType.atlasSprite);
 
-        if (Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.OSXEditor)
-        {
-            CSVDataManager.InitTables();
-            GameDataManager.Instance.Initialize();
-
-            PlayState.Instance.ChangePlayState(PlayState.STATES.Title);
-        }
-        else
-        {
-            Debug.Log("UNITY_ANDROID");
-            CSVDataManager.InitAWSData(false, CompleteServiceCheck);
-            GameDataManager.Instance.Initialize();
-        }
+        // [OFFLINE] 서버(AWS) 테이블 로딩 제거 — 에디터/디바이스 모두 로컬 CSV로 부팅.
+        CSVDataManager.InitTables();
+        GameDataManager.Instance.Initialize();
+        PlayState.Instance.ChangePlayState(PlayState.STATES.Title);
 
         
 //        Login();
