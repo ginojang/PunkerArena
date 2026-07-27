@@ -1,12 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
-using UnityEngine.AddressableAssets.ResourceLocators;
-using UnityEngine.ResourceManagement.AsyncOperations;
-using UnityEngine.ResourceManagement.ResourceLocations;
 
 public class AssetManager : SingletonWithMonoBehavior<AssetManager>
 {
@@ -21,8 +16,6 @@ public class AssetManager : SingletonWithMonoBehavior<AssetManager>
 
 	public static Utility.ASSETBUNDLE_TYPE BundleType { get; private set; }
 
-	public Dictionary<string, List<IResourceLocation>> BundleFirstLocations = new Dictionary<string, List<IResourceLocation>>();
-	public Dictionary<string, List<IResourceLocation>> DownloadBundles { get; private set; } = new Dictionary<string, List<IResourceLocation>>();
 	public long TotalDownloadBundleSize { get; set; } = 0L;
 	public Dictionary<string, long> DownloadBundlesSizeDic = new Dictionary<string, long>();
 
@@ -160,19 +153,9 @@ public class AssetManager : SingletonWithMonoBehavior<AssetManager>
 		Debug.Log($"[BUNDLE] AssetManager.Initialize({completeEvent})");
 		if (!initialized)
 		{
-#if UNITY_IOS
-            // Debug.Log("ClearCache !!!!!") ;
-            // Caching.ClearCache(); //cache CRC error 처리 테스트용 
-#endif
 			initialized = true;
-			if (completeEvent == null)
-			{
-				Addressables.InitializeAsync();
-			}
-			else
-			{
+			if (completeEvent != null)
 				StartCoroutine(InitializeAddressableAndCheckBundle(completeEvent));
-			}
 
 			loadedAssets = new Dictionary<string, AssetLoader>();
 			loadedAssetBundles = new Dictionary<string, AssetBundleLoader>();
@@ -184,31 +167,14 @@ public class AssetManager : SingletonWithMonoBehavior<AssetManager>
 		}
 	}
 
+	// [Addressables 제거] 카탈로그/번들 초기화 불필요. 에셋은 AssetManifest에서 지연 로드.
 	private IEnumerator InitializeAddressableAndCheckBundle(System.Action completeEvent)
 	{
-		Debug.Log($"[BUNDLE] {Addressables.BuildPath} {Addressables.RuntimePath} {Addressables.PlayerBuildDataPath}");
-		AsyncOperationHandle<IResourceLocator> initHandle = Addressables.InitializeAsync();
-		yield return new WaitUntil(() => initHandle.IsDone);
-
-		IResourceLocator rootLocator = Addressables.ResourceLocators.FirstOrDefault();
-		if (rootLocator == null || rootLocator.Equals(default(IResourceLocator)))
-		{
-			Debug.LogError("[BUNDLE] NOT found root locator");
-			completeEvent?.Invoke();
-			yield break;
-		}
-		// [OFFLINE/LOCAL] 원격 번들 다운로드 체크 제거 — 오프라인 로컬 빌드는 내려받을 번들이 없다.
-		// 기존엔 모든 locator 키를 스캔하고 번들마다 GetDownloadSizeAsync(WaitUntil)를 순차 호출 →
-		// 죽은 CDN 조회 타임아웃으로 startup이 크게 블로킹됐다. 전부 스킵하고 즉시 완료한다.
-		// (다운로드 UI 소비자는 모두 TotalDownloadBundleSize > 0 게이트라 0이면 자연히 스킵된다.)
-		BundleFirstLocations.Clear();
-		DownloadBundles.Clear();
 		DownloadBundlesSizeDic.Clear();
 		HasBundleInIconImage.Clear();
 		TotalDownloadBundleSize = 0;
-
-		Debug.Log("[BUNDLE] Addressables init done (offline: skip bundle download-size scan)");
-		completeEvent();
+		yield return null;
+		completeEvent?.Invoke();
 	}
 
 	public AssetLoader PreLoadAsset(string addressPath, AssetLoader.cbFinishLoad cb, object param = null)

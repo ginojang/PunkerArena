@@ -9,7 +9,6 @@ using Devil.Common;
 using UnityEngine.EventSystems;
 using MonsterLove.StateMachine;
 using DG.Tweening;
-using UnityEngine.AddressableAssets;
 
 public partial class UiGame : UiBase<UiGame>
 {

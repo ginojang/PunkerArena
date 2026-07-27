@@ -1,30 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.AsyncOperations;
 
+/// [Addressables 제거] 다운로드 사이즈 체크 스텁. 로컬/오프라인 빌드에선 동작 없음.
 public class AddressableDownload : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void OnClick_CheckSize()
     {
-        Addressables.GetDownloadSizeAsync("Key").Completed +=
-             (AsyncOperationHandle<long> SizeHandle) =>
-             {
-                 string sizeText = string.Concat(SizeHandle.Result, " byte");
-                 Addressables.Release(SizeHandle);
-             };
+        // 어드레스블 제거로 원격 다운로드 사이즈 체크 없음.
     }
 }
