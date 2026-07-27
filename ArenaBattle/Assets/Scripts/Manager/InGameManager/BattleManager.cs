@@ -13,13 +13,9 @@ public partial class BattleManager : MonoBehaviour
         None = 0,
         Load,
         Intro,
-        TurnReady,
         InitTurn,
         SkillSelect,
         CharacterAction,
-        OnStack,
-        OnBurst,
-        ActionEnd,
         SetRoundUI,
         InitData,
         TurnEnd,
@@ -87,7 +83,7 @@ public partial class BattleManager : MonoBehaviour
     }
     private void BattleGame()
     {
-        StartCoroutine(WaitForNoneState(TRIGGER_FSM.TurnReady));
+        StartCoroutine(WaitForNoneState(TRIGGER_FSM.InitTurn));
     }
     private void BattleResult()
     {

@@ -50,6 +50,6 @@ public partial class BattleManager
         if (enemies == 0 || allies == 0)
             GoToState(TRIGGER_FSM.GameResult);
         else
-            GoToState(TRIGGER_FSM.TurnReady);
+            GoToState(TRIGGER_FSM.InitTurn);
     }
 }
