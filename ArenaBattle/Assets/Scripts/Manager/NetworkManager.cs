@@ -51,17 +51,17 @@ public class NetworkManager : MonoBehaviour
     private void OnDisable()
     {
         if(_channel != null)
-            _channel.ShutdownAsync().Wait();
+            _channel.ShutdownAsync();
     }
 
     private void OnEnable()
     {
-        if(_channel != null)
-            _channel.ShutdownAsync().Start();
+        // [FIX] ShutdownAsync().Start()는 이미 시작된 Task에 Start() → 예외. enable 시 종료는 무의미하여 제거.
     }
 
     public void Initialize()
 	{
+        if (ClientNetworkContents.OfflineMode) return; // [OFFLINE] 죽은 서버로 채널 생성 안 함
         _channel = new Channel(_server, ChannelCredentials.Insecure);
     }
 

@@ -103,8 +103,12 @@ public class AIManager : MonoBehaviour
         int randomIndex = -1;
         if(auto == Type_Target_Auto_AI.Anger)
         {
-            if (attackLock.HasFlag(Attack_Lock.Basic) == false)
+            // [FIX] Anger must use the basic skill; add it so randomSkill[0] is valid
+            if (attackLock.HasFlag(Attack_Lock.Basic) == false && skillData.Count > 0)
+            {
+                randomSkill.Add(skillData[0]);
                 randomIndex = 0;
+            }
         }
         else
         {
@@ -121,6 +125,10 @@ public class AIManager : MonoBehaviour
                 randomIndex = UnityEngine.Random.Range(0, randomSkill.Count);
         }
         
+        // [FIX] guard empty/invalid index (e.g. Anger with basic locked) -> skip action
+        if (randomIndex < 0 || randomIndex >= randomSkill.Count)
+            return;
+
         InGameData.Instance.CurrentSkillData = randomSkill[randomIndex];
 
         InvokeAction();
@@ -150,7 +158,7 @@ public class AIManager : MonoBehaviour
     }
     private void InvokeAction()
     {
-        if (actionIndex > actionList.Count)
+        if (actionIndex >= actionList.Count) // [FIX] was '>' -> off-by-one IndexOutOfRange
             return;
 
         var action = actionList[actionIndex];

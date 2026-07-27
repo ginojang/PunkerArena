@@ -186,6 +186,7 @@ public class ResourcePoolManager : MonoBehaviour
         Transform parent = null,  Action<UnityEngine.Object> call = null, string subObjName = "")
     {
         UnityEngine.Object obj = null;
+        bool failed = false;
 
         if (poolGameDataList.ContainsKey(objName).Equals(true))
         {
@@ -231,9 +232,10 @@ public class ResourcePoolManager : MonoBehaviour
                 {
                     var loadObj = ld.MainAsset;
 
-                    if (loadObj.Equals(null))
+                    if (loadObj == null)
                     {
                         Debug.LogError($"File Load Fail!!!!   {objName} is Not Exist");
+                        failed = true;
                     }
                     else
                     {
@@ -275,17 +277,23 @@ public class ResourcePoolManager : MonoBehaviour
             }
         }
 
-        yield return new WaitUntil(() => obj != null);
+        yield return new WaitUntil(() => obj != null || failed);
+
+        if (failed)
+        {
+            call?.Invoke(null);
+            yield break;
+        }
 
         switch(type)
         {
             case objectType.atlasSprite:
                 var spriteAtlas = obj as SpriteAtlas;
                 var sprite = spriteAtlas.GetSprite(subObjName);
-                call.Invoke(sprite);
+                call?.Invoke(sprite);
                 break;
             default:
-                call.Invoke(obj);
+                call?.Invoke(obj);
                 break;
         }
     }
