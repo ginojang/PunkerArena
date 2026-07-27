@@ -521,6 +521,7 @@ public class TurnManager : MonoBehaviour
         Messenger.AddListener(Definition.StartSetRoundProfile, StartSetRoundProfile);
         Messenger.AddListener(Definition.StartInsertNextTurn, StartInsertNextTurn);
         Messenger.AddListener(Definition.SetPassNextTurn, SetPassNextTurn);
+        Messenger.AddListener<CharacterBase>(Definition.CharacterDeath, RemoveCharacterInTurn);
     }
     private void MessengerRemoveListner()
     {
@@ -537,6 +538,7 @@ public class TurnManager : MonoBehaviour
         Messenger.RemoveListener(Definition.StartSetRoundProfile, StartSetRoundProfile);
         Messenger.RemoveListener(Definition.StartInsertNextTurn, StartInsertNextTurn);
         Messenger.RemoveListener(Definition.SetPassNextTurn, SetPassNextTurn);
+        Messenger.RemoveListener<CharacterBase>(Definition.CharacterDeath, RemoveCharacterInTurn);
     }
 
     private void OnDestroy()

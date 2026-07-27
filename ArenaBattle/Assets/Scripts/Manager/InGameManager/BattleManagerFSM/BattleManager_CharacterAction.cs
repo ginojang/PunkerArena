@@ -37,11 +37,45 @@ public partial class BattleManager
     }
     private void TargetOnDamageState()
     {
+        var attacker = InGameData.Instance.CurrentTurnCharacter;
         var targetList = InGameData.Instance.TargetList;
         for(int i = 0; i < targetList.Count ; i++)
+        {
+            ApplyBattleDamage(attacker, targetList[i]);
             targetList[i].StartSubAction<SUB_ACTION_ONDAMAGE>(SUB_ACTION_ONDAMAGE.ActionStart);
+        }
 
         InvokeAction();
+    }
+
+    // [OFFLINE 전투] 서버가 하던 데미지 계산을 클라에서 최소 구현: max(1, 공격자.atk - 대상.def).
+    private void ApplyBattleDamage(CharacterBase attacker, CharacterBase target)
+    {
+        if (attacker == null || target == null) return;
+        var tgt = target.CharacterInfo.CharacterStatus;
+        if (tgt == null || tgt.hp <= 0f) return;
+
+        var atk = attacker.CharacterInfo.CharacterStatus;
+        float dmg = Mathf.Max(1f, (atk != null ? atk.atk : 1f) - tgt.def);
+        tgt.hp -= dmg;
+
+        if (tgt.hp <= 0f)
+        {
+            tgt.hp = 0f;
+            KillCharacter(target);
+        }
+    }
+
+    // 사망 처리: 아군/적 리스트 + 턴(roundDic)에서 제거하고 오브젝트를 숨긴다.
+    private void KillCharacter(CharacterBase c)
+    {
+        if (c == null) return;
+        InGameData.Instance.AllyList.Remove(c);
+        InGameData.Instance.EnemyList.Remove(c);
+        Messenger.Broadcast<CharacterBase>(Definition.CharacterDeath, c); // TurnManager가 roundDic에서 제거
+        if (c.gameObject != null)
+            c.gameObject.SetActive(false);
+        Debug.Log($"[BATTLE] dead: {c.name} (Ally {InGameData.Instance.AllyList.Count} / Enemy {InGameData.Instance.EnemyList.Count})");
     }
 
     private void CharacterSkillAction()

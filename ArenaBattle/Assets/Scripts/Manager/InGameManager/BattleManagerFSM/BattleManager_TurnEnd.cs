@@ -22,7 +22,7 @@ public partial class BattleManager
         stateAction.Add(CheckRemoveCC);
         stateAction.Add(GridOff);
         stateAction.Add(ClearCurrentTurnData);
-        stateAction.Add(()=> GoToState(TRIGGER_FSM.TurnReady));
+        stateAction.Add(CheckBattleEnd);
     }
     private void GridOff()
     {
@@ -40,5 +40,16 @@ public partial class BattleManager
     private void CheckRemoveCC()
     {
         Messenger.Broadcast(Definition.CheckRemoveCC);
+    }
+
+    // 전멸 체크: 한쪽이 비면 GameResult로 종료, 아니면 다음 턴으로 루프.
+    private void CheckBattleEnd()
+    {
+        int allies = InGameData.Instance.AllyList.Count;
+        int enemies = InGameData.Instance.EnemyList.Count;
+        if (enemies == 0 || allies == 0)
+            GoToState(TRIGGER_FSM.GameResult);
+        else
+            GoToState(TRIGGER_FSM.TurnReady);
     }
 }
