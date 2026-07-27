@@ -12,6 +12,7 @@ public partial class ClientNetworkContents
 {
     public async static void SendLogin(string ID, Action<SigninResponse> callbackRecv = null)
     {
+        if (OfflineSkip(callbackRecv)) return;
         SigninService.SigninServiceClient _client1 =
             new SigninService.SigninServiceClient(NetworkManager.Instance.channel);
 
@@ -26,6 +27,7 @@ public partial class ClientNetworkContents
     // 서버에 내 키릭터 리스트 요청
     public async static void SendUsereData(long uid, string sid, System.Action<GetUserDataResponse> callbackRecv = null)
     {
+        if (OfflineSkip(callbackRecv)) return;
         GetUserDataService.GetUserDataServiceClient _client =
             new GetUserDataService.GetUserDataServiceClient(NetworkManager.Instance.channel);
 
@@ -152,6 +154,7 @@ public partial class ClientNetworkContents
     
     public async static void SendNoticeList(int store, int channel, System.Action<NoticeResponse> callbackRecv = null)
     {
+        if (OfflineSkip(callbackRecv)) return;
         NoticeService.NoticeServiceClient _client = new NoticeService.NoticeServiceClient(NetworkManager.Instance.channel);
         
         using var call = _client.GetNoticeListAsync(new NoticeRequest { StoreType = 1, LanguageType = (int)SystemLanguage.Korean }); //
