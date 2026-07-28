@@ -25,16 +25,25 @@ const (
 	statCleanse = 14 // SkillBuffTBL stat_type 14 = 상태이상 해제(res_clear)
 )
 
+// SubActDef: SkillTBL의 sub_act1/sub_act2 (main과 동일 구조의 2차 효과).
+type SubActDef struct {
+	Index              int // 0=sub_act1, 1=sub_act2 (레벨 수치 인덱스)
+	Trigger, Action    int
+	Id                 int
+	Target, TargetType int
+}
+
 // SkillDef: SkillTBL 한 행(전투 컬럼만).
 type SkillDef struct {
 	Idx, Type, Cool      int
 	Target, TargetType   int
 	MainTrigger, MainAct int
 	MainActId            int
-	Name                 string // StringTBL에서 해석한 실제 이름
+	Name                 string      // StringTBL에서 해석한 실제 이름
+	Subs                 []SubActDef // 채워진 sub_act (action!=0)만
 }
 
-// SkillLevel: SkillLevelTBL 한 (idx,lv) 행의 main_act 수치.
+// SkillLevel: SkillLevelTBL 한 (idx,lv) 행의 main_act + sub_act 수치.
 type SkillLevel struct {
 	Lv        int
 	Rate      float64 // 발동 확률(%)
@@ -42,6 +51,10 @@ type SkillLevel struct {
 	ValueType int     // 2=퍼센트
 	Value     float64
 	Turn      int
+
+	SubRate  [2]float64 // sub_act1/2 발동 확률
+	SubValue [2]float64
+	SubTurn  [2]int
 }
 
 // BuffDef: SkillBuffTBL — 버프/디버프 정의.
@@ -90,6 +103,17 @@ func (t *Tables) loadSkills(dir string) error {
 			MainActId: atoi(cell(r, h["main_act_id"])),
 			Name:      t.str(atoi(cell(r, h["name"]))), // name 컬럼 = StringTBL id
 		}
+		for i, pre := range []string{"sub_act1", "sub_act2"} {
+			act := atoi(cell(r, h[pre])) // sub_act1 / sub_act2 = 액션 컬럼
+			if act == 0 {
+				continue
+			}
+			sd.Subs = append(sd.Subs, SubActDef{
+				Index: i, Trigger: atoi(cell(r, h[pre+"_trigger"])), Action: act,
+				Id: atoi(cell(r, h[pre+"_id"])), Target: atoi(cell(r, h[pre+"_target"])),
+				TargetType: atoi(cell(r, h[pre+"_target_type"])),
+			})
+		}
 		t.Skills[sd.Idx] = sd
 	}
 
@@ -110,6 +134,9 @@ func (t *Tables) loadSkills(dir string) error {
 			ValueType: atoi(cell(r, h["main_act_value_type"])), Value: atof(cell(r, h["main_act_value"])),
 			Turn: atoi(cell(r, h["main_act_turn"])),
 		}
+		// sub_act 수치(고유 컬럼명). sub2의 ref/value_type은 테이블 오타로 중복명이라 미사용.
+		sl.SubRate[0], sl.SubValue[0], sl.SubTurn[0] = atof(cell(r, h["sub_act1_rate"])), atof(cell(r, h["sub_act1_value"])), atoi(cell(r, h["sub_act1_turn"]))
+		sl.SubRate[1], sl.SubValue[1], sl.SubTurn[1] = atof(cell(r, h["sub_act2_rate"])), atof(cell(r, h["sub_act2_value"])), atoi(cell(r, h["sub_act2_turn"]))
 		if t.SkillLevels[idx] == nil {
 			t.SkillLevels[idx] = map[int]SkillLevel{}
 		}
@@ -276,27 +303,32 @@ func actionKor(act int) string {
 	return "스킬"
 }
 
-// buildAction: 스킬의 액션 페이로드(*battle.Skill)를 생성. caster는 스탯 스케일용.
+// buildAction: 스킬의 메인 액션 페이로드. caster는 스탯 스케일용.
 func (t *Tables) buildAction(sd SkillDef, sl SkillLevel, caster *battle.Dino) (*battle.Skill, error) {
 	name := sd.Name
 	if name == "" { // StringTBL 미해석 시 합성 이름 폴백
 		name = fmt.Sprintf("%s#%d", actionKor(sd.MainAct), sd.Idx)
 	}
+	return t.buildActionRaw(sd.MainAct, sd.MainActId, name, sl.Value, sl.Turn, caster)
+}
+
+// buildActionRaw: (액션·참조id·이름·수치·지속)로 액션 페이로드 생성. main/sub 공용.
+func (t *Tables) buildActionRaw(action, actId int, name string, value float64, turn int, caster *battle.Dino) (*battle.Skill, error) {
 	s := &battle.Skill{Name: name}
-	switch sd.MainAct {
+	switch action {
 	case actAttack:
 		s.Action = battle.ActAttack
-		s.Power = sl.Value / 100.0 // value=150 → 1.5배
+		s.Power = value / 100.0 // value=150 → 1.5배
 		if s.Power <= 0 {
 			s.Power = 1.0
 		}
 	case actRecover:
 		s.Action = battle.ActHeal
-		s.Power = caster.Attack * sl.Value / 100.0 // 시전자 공격력의 value% 회복(근사)
+		s.Power = caster.Attack * value / 100.0 // 시전자 공격력의 value% 회복(근사)
 	case actBuffDbf:
-		bd, ok := t.Buffs[sd.MainActId]
+		bd, ok := t.Buffs[actId]
 		if !ok {
-			return nil, fmt.Errorf("SkillBuffTBL %d 없음", sd.MainActId)
+			return nil, fmt.Errorf("SkillBuffTBL %d 없음", actId)
 		}
 		if bd.StatType == statCleanse { // res_clear → 클렌즈
 			s.Action = battle.ActCleanse
@@ -312,20 +344,20 @@ func (t *Tables) buildAction(sd SkillDef, sl SkillLevel, caster *battle.Dino) (*
 		} else {
 			s.Op = battle.OpPercent
 		}
-		s.Delta = sl.Value
-		s.Dur = sl.Turn
+		s.Delta = value
+		s.Dur = turn
 		if bd.BuffType == 2 {
 			s.Action = battle.ActDebuff
 		} else {
 			s.Action = battle.ActBuff
 		}
 	case actCC:
-		cd, ok := t.Ccs[sd.MainActId]
+		cd, ok := t.Ccs[actId]
 		if !ok {
-			return nil, fmt.Errorf("SkillCcTBL %d 없음", sd.MainActId)
+			return nil, fmt.Errorf("SkillCcTBL %d 없음", actId)
 		}
 		s.Action = battle.ActCC
-		dur := sl.Turn
+		dur := turn
 		if dur <= 0 {
 			dur = 1
 		}
@@ -336,16 +368,46 @@ func (t *Tables) buildAction(sd SkillDef, sl SkillLevel, caster *battle.Dino) (*
 		if cd.ActLock == 1 { // 기절/빙결류
 			s.CC = battle.CCSpec{Name: ccName, ActLock: true, Duration: dur}
 		} else { // 비행동제약 + value → 지속피해(중독/출혈)로 근사
-			dot := caster.Attack * sl.Value / 100.0
+			dot := caster.Attack * value / 100.0
 			if dot <= 0 {
-				dot = sl.Value
+				dot = value
 			}
 			s.CC = battle.CCSpec{Name: ccName, DoT: dot, Duration: dur}
 		}
 	default:
-		return nil, fmt.Errorf("액션 %d 미지원", sd.MainAct)
+		return nil, fmt.Errorf("액션 %d 미지원", action)
 	}
 	return s, nil
+}
+
+// attachSubs: sd의 sub_act들을 처리. trig=0=메인과 함께 발동(라이더), trig!=0=이벤트 패시브.
+// 미지원 액션/트리거인 sub는 조용히 스킵.
+func (t *Tables) attachSubs(d *battle.Dino, sd SkillDef, sl SkillLevel, main *battle.Skill) {
+	for _, sub := range sd.Subs {
+		subName := fmt.Sprintf("%s·%s", main.Name, actionKor(sub.Action))
+		sp, err := t.buildActionRaw(sub.Action, sub.Id, subName, sl.SubValue[sub.Index], sl.SubTurn[sub.Index], d)
+		if err != nil {
+			continue // 미지원 서브액션(STEALTH/CRITICAL 등)
+		}
+		sp.Target = mapTarget(sub.Target)
+		sp.TType = mapTType(sub.TargetType)
+		if sub.Trigger == 0 { // 메인과 함께 발동
+			main.Riders = append(main.Riders, sp)
+			continue
+		}
+		ev, ok := triggerEvent(sub.Trigger)
+		if !ok {
+			continue // 미모델링 트리거
+		}
+		chance := sl.SubRate[sub.Index]
+		if chance >= 100 {
+			chance = 0
+		}
+		d.Passives = append(d.Passives, &battle.Passive{
+			Name: fmt.Sprintf("P:%s", subName), Event: ev, PTarget: mapPTarget(sub.Target),
+			Skill: sp, Chance: chance, MaxCool: sd.Cool,
+		})
+	}
 }
 
 // BuildSkillOn: skillIdx 스킬을 dino에 장착(액티브=Active, 패시브=Passives 추가).
@@ -363,6 +425,7 @@ func (t *Tables) BuildSkillOn(d *battle.Dino, skillIdx, skillLv int) error {
 	if err != nil {
 		return err
 	}
+	t.attachSubs(d, sd, sl, payload) // 2차 효과(라이더/서브 패시브) 부착
 
 	if sd.Type == skPassive || sd.MainTrigger != 0 { // 패시브(트리거 有)
 		ev, ok := triggerEvent(sd.MainTrigger)

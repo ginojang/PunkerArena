@@ -265,6 +265,14 @@ func (b *Battle) applyAction(a *Dino, s *Skill, targets []*Dino, label string) {
 			}
 		}
 	}
+
+	// 2차 효과(라이더): 각자 대상을 다시 잡아 함께 발동(sub_act trig=0). 라이더는 라이더를 갖지 않음.
+	for _, rd := range s.Riders {
+		rt := b.skillTargets(a, rd)
+		if len(rt) > 0 {
+			b.applyAction(a, rd, rt, rd.Name)
+		}
+	}
 }
 
 // startTurn: 턴 시작 처리 — 지속피해 적용 → 효과 지속턴 감소 → 쿨다운 감소.

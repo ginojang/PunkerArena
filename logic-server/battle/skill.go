@@ -56,6 +56,8 @@ type Skill struct {
 
 	CC CCSpec // ActCC 상태이상
 
+	Riders []*Skill // 사용 시 함께 발동하는 2차 효과(sub_act trig=0). 각자 Target 보유.
+
 	MaxCool int // 최대 쿨타임(턴)
 	cur     int // 현재 쿨다운(0 이하면 사용 가능)
 }

@@ -39,10 +39,18 @@ type unit struct {
 func skillLabel(d *battle.Dino) string {
 	var parts []string
 	if d.Active != nil {
-		parts = append(parts, "액티브 "+d.Active.Name)
+		s := "액티브 " + d.Active.Name
+		if n := len(d.Active.Riders); n > 0 {
+			s += fmt.Sprintf("(+2차 %d)", n)
+		}
+		parts = append(parts, s)
 	}
 	for _, p := range d.Passives {
-		parts = append(parts, p.Name)
+		s := p.Name
+		if n := len(p.Skill.Riders); n > 0 {
+			s += fmt.Sprintf("(+2차 %d)", n)
+		}
+		parts = append(parts, s)
 	}
 	if len(parts) == 0 {
 		return "평타"
