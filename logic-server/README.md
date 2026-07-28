@@ -45,6 +45,7 @@ go run ./cmd/sim      # 3v3 오토배틀 로그 + 승패 출력
 - [x] CC·디버프 저항(Resist 스탯 굴림: `저항율 + (행운차)/2`, CC·디버프 부여 시 판정) + 클렌즈(ActCleanse: 대상 아군의 CC·음수버프 제거, 이로운 버프는 유지)
 - [x] 실데이터 로딩 + 레벨 성장: `data/` 가 Table/csv(DinoBaseTBL 계수) → 실제 스탯 생성. 1레벨 결정(`init_coef×coef/100` 후 교차가중) + 레벨업 성장(GrowthBase→rank→`constValue/GROWTH`). 편대·적을 idx+레벨로 편성
 - [x] 파츠(DinoPartsTBL): 슬롯(parts_type 1~5)별 최적 파츠 자동 장착 → 파츠 메인계수를 몸통에 합산 + 부스탯(명중/회피/치명/치명뎀/저항/관통/행운)을 파츠 합으로 산출(원본 CreateDino 방식). grade-1 파츠라 부스탯은 실제로 작음(크리 희소)
+- [x] 파츠→스킬 자동 파생: 다이노 스킬셋 = 몸통 skill + 장착 파츠들의 skill 컬럼. `AutoEquipSkills`가 액티브(내 모델상 1슬롯 → 최고 idx 하나) + 지원되는 패시브 모두 장착. 로스터에 `파생풀[…] → 장착[…]` 출력. 클래스별로 공격/버프/CC/힐이 자연히 갈림(예: class2→버프, class4→CC 보유)
 - [x] 스킬 CSV 로딩: SkillTBL(구조)+SkillLevelTBL(레벨수치)+SkillBuffTBL/SkillCcTBL(효과) → `BuildSkillOn`이 액티브/패시브로 매핑. 액션 ATTACK(배율)/RECOVERY(atk% 회복)/BUFF_DEBUF(스탯·%·해제)/CC(행동불가·DoT), 트리거(Kill/Hited/Dead/Defpen→OnKill/OnHit/OnDeath/OnAttack) 근사. 미지원 액션·트리거는 평타 폴백. 스킬명은 StringTBL 미로드로 `액션#idx` 합성
 - [ ] WebSocket 서버 + 클라 프로토콜
 

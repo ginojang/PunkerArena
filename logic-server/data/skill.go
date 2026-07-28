@@ -354,3 +354,68 @@ func (t *Tables) BuildSkillOn(d *battle.Dino, skillIdx, skillLv int) error {
 	d.Active = payload
 	return nil
 }
+
+// DinoSkillIDs: 다이노가 보유하는 스킬 = 몸통 대표 스킬 + 장착 파츠들의 스킬(중복/0 제외).
+// [모델] 원본: 몸통 skill_slot + 파츠 skill 컬럼이 다이노 스킬셋을 구성.
+func (t *Tables) DinoSkillIDs(dinoIdx int) []int {
+	b, ok := t.Bases[dinoIdx]
+	if !ok {
+		return nil
+	}
+	var out []int
+	seen := map[int]bool{}
+	add := func(id int) {
+		if id > 0 && !seen[id] {
+			seen[id] = true
+			out = append(out, id)
+		}
+	}
+	add(b.Skill)
+	for _, p := range t.bestParts(b.Class) {
+		add(p.Skill)
+	}
+	return out
+}
+
+// DescribeSkills: 다이노가 파생한 스킬 풀을 사람이 읽을 문자열로. (예: "1010101(공격),1020404(버프)")
+func (t *Tables) DescribeSkills(dinoIdx int) string {
+	ids := t.DinoSkillIDs(dinoIdx)
+	if len(ids) == 0 {
+		return "-"
+	}
+	parts := make([]string, 0, len(ids))
+	for _, id := range ids {
+		tag := "?"
+		if sd, ok := t.Skills[id]; ok {
+			tag = actionKor(sd.MainAct)
+			if sd.Type == skPassive || sd.MainTrigger != 0 {
+				tag += "/패시브"
+			}
+		}
+		parts = append(parts, fmt.Sprintf("%d(%s)", id, tag))
+	}
+	return strings.Join(parts, ", ")
+}
+
+// AutoEquipSkills: 몸통+파츠에서 파생된 스킬들을 다이노에 장착.
+// 액티브는 (내 모델상 슬롯 1개라) 가장 높은 idx 하나만 주 스킬로, 패시브는 모두 부착한다.
+// 미지원 스킬은 조용히 건너뛴다(로그 노이즈 방지).
+func (t *Tables) AutoEquipSkills(d *battle.Dino, dinoIdx, skillLv int) {
+	primaryActive := 0
+	for _, id := range t.DinoSkillIDs(dinoIdx) {
+		sd, ok := t.Skills[id]
+		if !ok {
+			continue
+		}
+		if sd.Type != skPassive && sd.MainTrigger == 0 { // 액티브 후보 → 최고 idx 하나만
+			if id > primaryActive {
+				primaryActive = id
+			}
+			continue
+		}
+		_ = t.BuildSkillOn(d, id, skillLv) // 패시브: 지원되면 부착
+	}
+	if primaryActive != 0 {
+		_ = t.BuildSkillOn(d, primaryActive, skillLv)
+	}
+}
