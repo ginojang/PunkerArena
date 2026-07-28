@@ -48,6 +48,7 @@ go run ./cmd/sim      # 3v3 오토배틀 로그 + 승패 출력
 - [x] 파츠→스킬 자동 파생: 다이노 스킬셋 = 몸통 skill + 장착 파츠들의 skill 컬럼. `AutoEquipSkills`가 액티브(내 모델상 1슬롯 → 최고 idx 하나) + 지원되는 패시브 모두 장착. 로스터에 `파생풀[…] → 장착[…]` 출력. 클래스별로 공격/버프/CC/힐이 자연히 갈림(예: class2→버프, class4→CC 보유)
 - [x] StringTBL 실제 이름: SkillTBL.name·SkillCcTBL.name = StringTBL id → 실제 스킬/CC명 해석(초고속 꼬리, 랜덤 야자 미사일, 기절, 중독 등). 버프는 stat 기반 표기 유지(SkillBuffTBL.name은 placeholder). 미해석 시 `액션#idx` 폴백
 - [x] sub_act 로딩: SkillTBL의 sub_act1/2(2차 효과, main과 동일 구조)를 매핑. trig=0 → 스킬 사용 시 함께 발동(Riders, 각자 대상), trig!=0 → 이벤트 서브 패시브. 미지원 액션(STEALTH 등)·트리거는 스킵. 예: 공격 스킬에 자기 순발력 버프/적 기절 라이더가 붙음(로스터 `+2차 N`)
+- [x] 다단 히트(main_act_count / sub_act_count): 공격 액션을 count번 반복 타격, 각 타 독립 판정(데미지·크리·회피·속성). 대상 사망 시 남은 타 중단. 로그 `(2/3타)`. class-5 "가로로 발사!"(3타) 등
 - [x] 트리거 완전 매핑: TriggerTBL 34종 전부 처리 — 18종→이벤트(스테이지/웨이브/턴시작·턴종료, 공격/치명/피격/회피/피CC/위기/처치/사망/아군처치/아군사망), 16종(버스트콤보/실드/aura임계 등 전투모델 밖)은 명시적 미지원. 실데이터 main 트리거(1/2/3/12/28)는 31(Target Defence) 빼고 전부 발동. `turn=0` 버프는 상시(영구) 아우라로 처리(스테이지 내내 유지). 이전에 드롭되던 스테이지시작 패시브(치명/방어/공격 버프)가 이제 발동
 - [x] 스킬 CSV 로딩: SkillTBL(구조)+SkillLevelTBL(레벨수치)+SkillBuffTBL/SkillCcTBL(효과) → `BuildSkillOn`이 액티브/패시브로 매핑. 액션 ATTACK(배율)/RECOVERY(atk% 회복)/BUFF_DEBUF(스탯·%·해제)/CC(행동불가·DoT), 트리거(Kill/Hited/Dead/Defpen→OnKill/OnHit/OnDeath/OnAttack) 근사. 미지원 액션·트리거는 평타 폴백. 스킬명은 StringTBL 미로드로 `액션#idx` 합성
 - [ ] WebSocket 서버 + 클라 프로토콜

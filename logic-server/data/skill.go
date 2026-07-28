@@ -29,7 +29,7 @@ const (
 type SubActDef struct {
 	Index              int // 0=sub_act1, 1=sub_act2 (레벨 수치 인덱스)
 	Trigger, Action    int
-	Id                 int
+	Id, Count          int
 	Target, TargetType int
 }
 
@@ -38,7 +38,7 @@ type SkillDef struct {
 	Idx, Type, Cool      int
 	Target, TargetType   int
 	MainTrigger, MainAct int
-	MainActId            int
+	MainActId, MainCount int
 	Name                 string      // StringTBL에서 해석한 실제 이름
 	Subs                 []SubActDef // 채워진 sub_act (action!=0)만
 }
@@ -100,8 +100,8 @@ func (t *Tables) loadSkills(dir string) error {
 			Idx: atoi(cell(r, h["idx"])), Type: atoi(cell(r, h["type"])), Cool: atoi(cell(r, h["cool_turn"])),
 			Target: atoi(cell(r, h["target"])), TargetType: atoi(cell(r, h["target_type"])),
 			MainTrigger: atoi(cell(r, h["main_trigger"])), MainAct: atoi(cell(r, h["main_act"])),
-			MainActId: atoi(cell(r, h["main_act_id"])),
-			Name:      t.str(atoi(cell(r, h["name"]))), // name 컬럼 = StringTBL id
+			MainActId: atoi(cell(r, h["main_act_id"])), MainCount: atoi(cell(r, h["main_act_count"])),
+			Name: t.str(atoi(cell(r, h["name"]))), // name 컬럼 = StringTBL id
 		}
 		for i, pre := range []string{"sub_act1", "sub_act2"} {
 			act := atoi(cell(r, h[pre])) // sub_act1 / sub_act2 = 액션 컬럼
@@ -110,8 +110,8 @@ func (t *Tables) loadSkills(dir string) error {
 			}
 			sd.Subs = append(sd.Subs, SubActDef{
 				Index: i, Trigger: atoi(cell(r, h[pre+"_trigger"])), Action: act,
-				Id: atoi(cell(r, h[pre+"_id"])), Target: atoi(cell(r, h[pre+"_target"])),
-				TargetType: atoi(cell(r, h[pre+"_target_type"])),
+				Id: atoi(cell(r, h[pre+"_id"])), Count: atoi(cell(r, h[pre+"_count"])),
+				Target: atoi(cell(r, h[pre+"_target"])), TargetType: atoi(cell(r, h[pre+"_target_type"])),
 			})
 		}
 		t.Skills[sd.Idx] = sd
@@ -309,12 +309,12 @@ func (t *Tables) buildAction(sd SkillDef, sl SkillLevel, caster *battle.Dino) (*
 	if name == "" { // StringTBL 미해석 시 합성 이름 폴백
 		name = fmt.Sprintf("%s#%d", actionKor(sd.MainAct), sd.Idx)
 	}
-	return t.buildActionRaw(sd.MainAct, sd.MainActId, name, sl.Value, sl.Turn, caster)
+	return t.buildActionRaw(sd.MainAct, sd.MainActId, sd.MainCount, name, sl.Value, sl.Turn, caster)
 }
 
-// buildActionRaw: (액션·참조id·이름·수치·지속)로 액션 페이로드 생성. main/sub 공용.
-func (t *Tables) buildActionRaw(action, actId int, name string, value float64, turn int, caster *battle.Dino) (*battle.Skill, error) {
-	s := &battle.Skill{Name: name}
+// buildActionRaw: (액션·참조id·타수·이름·수치·지속)로 액션 페이로드 생성. main/sub 공용.
+func (t *Tables) buildActionRaw(action, actId, count int, name string, value float64, turn int, caster *battle.Dino) (*battle.Skill, error) {
+	s := &battle.Skill{Name: name, Count: count}
 	switch action {
 	case actAttack:
 		s.Action = battle.ActAttack
@@ -385,7 +385,7 @@ func (t *Tables) buildActionRaw(action, actId int, name string, value float64, t
 func (t *Tables) attachSubs(d *battle.Dino, sd SkillDef, sl SkillLevel, main *battle.Skill) {
 	for _, sub := range sd.Subs {
 		subName := fmt.Sprintf("%s·%s", main.Name, actionKor(sub.Action))
-		sp, err := t.buildActionRaw(sub.Action, sub.Id, subName, sl.SubValue[sub.Index], sl.SubTurn[sub.Index], d)
+		sp, err := t.buildActionRaw(sub.Action, sub.Id, sub.Count, subName, sl.SubValue[sub.Index], sl.SubTurn[sub.Index], d)
 		if err != nil {
 			continue // 미지원 서브액션(STEALTH/CRITICAL 등)
 		}

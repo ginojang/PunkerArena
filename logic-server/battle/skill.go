@@ -48,6 +48,7 @@ type Skill struct {
 	Action  Action
 
 	Power float64 // ActAttack: 평타 대비 배수 / ActHeal: 회복량
+	Count int     // ActAttack 다단 히트 횟수(0/1=단타). 각 타격 독립 판정.
 
 	Stat  StatKind // ActBuff/ActDebuff 대상 스탯
 	Op    Operator // ActBuff/ActDebuff 연산

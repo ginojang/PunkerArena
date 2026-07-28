@@ -200,10 +200,23 @@ func (b *Battle) castSkill(a *Dino, s *Skill) {
 func (b *Battle) applyAction(a *Dino, s *Skill, targets []*Dino, label string) {
 	switch s.Action {
 	case ActAttack:
+		hits := s.Count
+		if hits < 1 {
+			hits = 1
+		}
 		for _, t := range targets {
-			r := Attack(a, t)
-			r.Damage *= s.Power
-			b.resolveHit(a, t, r, label)
+			for h := 0; h < hits; h++ {
+				lbl := label
+				if hits > 1 {
+					lbl = fmt.Sprintf("%s(%d/%d타)", label, h+1, hits)
+				}
+				r := Attack(a, t)
+				r.Damage *= s.Power
+				b.resolveHit(a, t, r, lbl)
+				if !t.Alive() { // 대상 사망 시 남은 타 중단
+					break
+				}
+			}
 		}
 	case ActHeal:
 		for _, t := range targets {
