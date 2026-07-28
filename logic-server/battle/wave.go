@@ -55,7 +55,7 @@ func (s *Stage) Run(maxTurnsPerWave int) StageResult {
 		s.logf("========================  Wave %d/%d  ========================", wi+1, total)
 
 		// 이 웨이브용 Battle: 편대(현재 HP 이월) + 신규 적. 같은 포인터라 HP가 자연 이월된다.
-		b := &Battle{}
+		b := &Battle{StageStart: wi == 0} // 첫 웨이브에서만 OnStageStart
 		b.Dinos = append(b.Dinos, s.Squad...)
 		b.Dinos = append(b.Dinos, enemies...)
 

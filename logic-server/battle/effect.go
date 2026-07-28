@@ -41,9 +41,10 @@ type Effect struct {
 	Stat    StatKind // EffBuff 대상 스탯
 	Op      Operator // EffBuff 연산
 	Delta   float64  // EffBuff 증감량(부호 포함: 디버프=음수)
-	DoT     float64  // EffCC 턴당 지속피해(출혈/중독)
-	ActLock bool     // EffCC 행동 불가(기절/빙결/수면)
-	Remain  int
+	DoT       float64 // EffCC 턴당 지속피해(출혈/중독)
+	ActLock   bool    // EffCC 행동 불가(기절/빙결/수면)
+	Remain    int
+	Permanent bool // 상시(영구) 효과 — 감쇠/만료 없음(스테이지시작 아우라 등, turn=0)
 }
 
 // statOf: 기준값 base에 활성 버프/디버프를 모두 적용한 유효 스탯.
@@ -99,6 +100,10 @@ func (d *Dino) dotTotal() float64 {
 func (d *Dino) decayEffects() {
 	out := d.Effects[:0]
 	for _, e := range d.Effects {
+		if e.Permanent { // 상시 효과는 감쇠/만료 없음
+			out = append(out, e)
+			continue
+		}
 		e.Remain--
 		if e.Remain > 0 {
 			out = append(out, e)
@@ -107,8 +112,16 @@ func (d *Dino) decayEffects() {
 	d.Effects = out
 }
 
-// clearEffects: 모든 지속 효과 제거(웨이브 전환 시 리셋용).
-func (d *Dino) clearEffects() { d.Effects = nil }
+// clearEffects: 전투 임시 효과 제거(웨이브 전환 시 리셋용). 상시 아우라는 스테이지 내내 유지.
+func (d *Dino) clearEffects() {
+	out := d.Effects[:0]
+	for _, e := range d.Effects {
+		if e.Permanent {
+			out = append(out, e)
+		}
+	}
+	d.Effects = out
+}
 
 // removeDebuffs: 적대적 효과(모든 CC + 음수 버프=디버프)만 제거. 버프/DoT아닌 이로운 효과는 유지.
 // 반환 = 제거한 효과 수. (클렌즈용)

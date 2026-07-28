@@ -197,17 +197,39 @@ func statTypeToKind(st int) (battle.StatKind, bool) {
 	return 0, false
 }
 
-// triggerEvent: TriggerTBL idx → battle.TriggerEvent. (근사 매핑)
+// triggerEvent: TriggerTBL idx → battle.TriggerEvent. 미모델링 트리거는 (0,false).
+// [미지원] 11 Me Alive(상시아우라), 13 Target Cc, 16~20·32 Burstcombo, 21 예약스킬,
+//          29 Shield, 31 Target Defence, 33·34 Def/Atk 임계 아우라 — 전투모델 밖.
 func triggerEvent(trig int) (battle.TriggerEvent, bool) {
 	switch trig {
-	case 4: // Me Kill Enemy
+	case 1: // Stage Start
+		return battle.OnStageStart, true
+	case 2: // Wave Start
+		return battle.OnWaveStart, true
+	case 3: // Turn Start
+		return battle.OnTurnStart, true
+	case 4, 23: // Me Kill Enemy / Target dead
 		return battle.OnKill, true
 	case 5, 7: // Me Hited
 		return battle.OnHit, true
+	case 6: // Me Cc
+		return battle.OnCCed, true
+	case 8, 24, 25, 26, 27: // Me Crihit / MainAct Crihit
+		return battle.OnCrit, true
+	case 9: // Me Avd
+		return battle.OnAvoid, true
 	case 10: // Me Dead
 		return battle.OnDeath, true
-	case 8, 12, 28: // 공격 성사(크리/타격/관통) → 공격시
+	case 12, 28: // Target Hited(내 공격 명중) / Defpen
 		return battle.OnAttack, true
+	case 14: // Ally Kill Enemy
+		return battle.OnAllyKill, true
+	case 15: // Ally Dead
+		return battle.OnAllyDeath, true
+	case 22: // Turn end
+		return battle.OnTurnEnd, true
+	case 30: // MyHp Less
+		return battle.OnLowHP, true
 	}
 	return 0, false
 }

@@ -9,10 +9,11 @@ import (
 
 // Battle: 한 판의 전투 상태 + 로그
 type Battle struct {
-	Dinos     []*Dino
-	Log       []string
-	Turn      int
-	inPassive bool // 패시브가 유발한 타격 처리 중 — 패시브 재귀 발동 방지
+	Dinos      []*Dino
+	Log        []string
+	Turn       int
+	StageStart bool // 이 전투가 스테이지의 첫 웨이브인가(OnStageStart 발동용)
+	inPassive  bool // 패시브가 유발한 타격 처리 중 — 패시브 재귀 발동 방지
 }
 
 func (b *Battle) logf(f string, a ...any) { b.Log = append(b.Log, fmt.Sprintf(f, a...)) }
@@ -99,6 +100,7 @@ func (b *Battle) skillTargets(caster *Dino, s *Skill) []*Dino {
 func (b *Battle) resolveHit(a, t *Dino, r AttackResult, label string) {
 	if r.Avoided {
 		b.logf("[T%d] %s =%s=> %s : 회피!", b.Turn, a.Name, label, t.Name)
+		b.fireEvent(t, a, OnAvoid, 0) // 회피자 반응
 		return
 	}
 	t.HP -= r.Damage
@@ -122,13 +124,22 @@ func (b *Battle) resolveHit(a, t *Dino, r AttackResult, label string) {
 	if died {
 		b.logf("      * %s 사망 (아군 %d / 적 %d)", t.Name, b.sideAlive(0), b.sideAlive(1))
 	}
-	// 패시브 트리거: 공격자(공격/처치) → 피격자(피격/사망). 순서 = 공격시 → 처치시 → 사망시/피격시.
+	// 패시브 트리거: 공격자(공격/치명/처치) → 피격자(피격/위기/사망) → 아군(아군처치/아군사망).
 	b.fireEvent(a, t, OnAttack, r.Damage)
+	if r.Crit {
+		b.fireEvent(a, t, OnCrit, r.Damage)
+	}
 	if died {
 		b.fireEvent(a, t, OnKill, r.Damage)
+		b.fireAllies(a, OnAllyKill, t)
 		b.fireEvent(t, a, OnDeath, r.Damage)
+		b.fireAllies(t, OnAllyDeath, a)
 	} else {
 		b.fireEvent(t, a, OnHit, r.Damage)
+		if t.HP/t.MaxHP < lowHPThreshold && !t.lowHPFired {
+			t.lowHPFired = true
+			b.fireEvent(t, a, OnLowHP, 0)
+		}
 	}
 }
 
@@ -201,6 +212,9 @@ func (b *Battle) applyAction(a *Dino, s *Skill, targets []*Dino, label string) {
 			if t.HP > t.MaxHP {
 				t.HP = t.MaxHP
 			}
+			if t.HP/t.MaxHP >= lowHPThreshold {
+				t.lowHPFired = false // 임계 위로 회복 → OnLowHP 재발동 허용
+			}
 			b.logf("[T%d] %s =%s=> %s : +%.0f 회복 (hp %.0f/%.0f)", b.Turn, a.Name, label, t.Name, t.HP-before, t.HP, t.MaxHP)
 		}
 	case ActBuff, ActDebuff:
@@ -213,15 +227,20 @@ func (b *Battle) applyAction(a *Dino, s *Skill, targets []*Dino, label string) {
 			unit = "%"
 		}
 		delta := sign * math.Abs(s.Delta)
+		perm := s.Dur <= 0 // turn=0 → 상시(영구) 아우라
 		for _, t := range targets {
 			if s.Action == ActDebuff && isResisted(a, t) { // 디버프 저항
 				b.logf("[T%d] %s =%s=> %s : 저항! (%s 무효)", b.Turn, a.Name, label, t.Name, statName(s.Stat))
 				continue
 			}
 			t.Effects = append(t.Effects, &Effect{
-				Kind: EffBuff, Name: label, Stat: s.Stat, Op: s.Op, Delta: delta, Remain: s.Dur,
+				Kind: EffBuff, Name: label, Stat: s.Stat, Op: s.Op, Delta: delta, Remain: s.Dur, Permanent: perm,
 			})
-			b.logf("[T%d] %s =%s=> %s : <%s> %s %s%s (%d턴)", b.Turn, a.Name, label, t.Name, word, statName(s.Stat), signedNum(delta), unit, s.Dur)
+			dur := fmt.Sprintf("%d턴", s.Dur)
+			if perm {
+				dur = "상시"
+			}
+			b.logf("[T%d] %s =%s=> %s : <%s> %s %s%s (%s)", b.Turn, a.Name, label, t.Name, word, statName(s.Stat), signedNum(delta), unit, dur)
 		}
 	case ActCC:
 		for _, t := range targets {
@@ -237,6 +256,7 @@ func (b *Battle) applyAction(a *Dino, s *Skill, targets []*Dino, label string) {
 				kind = fmt.Sprintf("지속피해 %.0f", s.CC.DoT)
 			}
 			b.logf("[T%d] %s =%s=> %s : [%s] %s (%d턴)", b.Turn, a.Name, label, t.Name, s.CC.Name, kind, s.CC.Duration)
+			b.fireEvent(t, a, OnCCed, 0) // 상태이상 피대상 반응(패시브발 CC는 inPassive 가드로 무시)
 		}
 	case ActCleanse:
 		for _, t := range targets {
@@ -274,6 +294,10 @@ func (b *Battle) startTurn(a *Dino) (bool, string) {
 
 // Run: 완전 자동 전투. 반환 winner side (0 아군 / 1 적 / -1 무승부·시간초과)
 func (b *Battle) Run(maxTurns int) int {
+	if b.StageStart {
+		b.fireAll(OnStageStart)
+	}
+	b.fireAll(OnWaveStart)
 	for round := 1; ; round++ {
 		b.logf("--- Round %d ---", round)
 		for _, a := range b.order() {
@@ -293,6 +317,10 @@ func (b *Battle) Run(maxTurns int) int {
 			if !a.Alive() { // 지속피해로 사망
 				continue
 			}
+			b.fireEvent(a, nil, OnTurnStart, 0)
+			if !a.Alive() {
+				continue
+			}
 			if locked {
 				b.logf("[T%d] %s — [%s]로 행동 불가", b.Turn, a.Name, ccName)
 				continue
@@ -304,6 +332,7 @@ func (b *Battle) Run(maxTurns int) int {
 			} else {
 				b.basicAttack(a)
 			}
+			b.fireEvent(a, nil, OnTurnEnd, 0)
 		}
 	}
 done:

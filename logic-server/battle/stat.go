@@ -42,10 +42,11 @@ type Dino struct {
 	Attribute  Attribute
 
 	// 전투 중 상태
-	Defending bool       // 방어(Defence)모드: 피해 84~91% 경감, 단 관통에 뚫림
-	Effects   []*Effect  // 걸려있는 버프/디버프/CC/DoT (지속턴 有)
-	Active    *Skill     // 액티브 스킬 (쿨다운 되면 평타 대신 사용)
-	Passives  []*Passive // 패시브 트리거 (공격/피격/처치/사망 시 발동)
+	Defending  bool       // 방어(Defence)모드: 피해 84~91% 경감, 단 관통에 뚫림
+	Effects    []*Effect  // 걸려있는 버프/디버프/CC/DoT (지속턴 有)
+	Active     *Skill     // 액티브 스킬 (쿨다운 되면 평타 대신 사용)
+	Passives   []*Passive // 패시브 트리거 (이벤트 시 발동)
+	lowHPFired bool       // OnLowHP 중복 발동 방지(임계 재상승 시 해제)
 }
 
 func (d *Dino) Alive() bool { return d.HP > 0 }
