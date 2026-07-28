@@ -12,11 +12,18 @@ type Battle struct {
 	Dinos      []*Dino
 	Log        []string
 	Turn       int
-	StageStart bool // 이 전투가 스테이지의 첫 웨이브인가(OnStageStart 발동용)
-	inPassive  bool // 패시브가 유발한 타격 처리 중 — 패시브 재귀 발동 방지
+	StageStart bool                    // 이 전투가 스테이지의 첫 웨이브인가(OnStageStart 발동용)
+	OnLog      func(b *Battle, s string) // 로그 1줄마다 호출(전송 스트리밍용). b.Dinos로 현재 상태 조회.
+	inPassive  bool                    // 패시브가 유발한 타격 처리 중 — 패시브 재귀 발동 방지
 }
 
-func (b *Battle) logf(f string, a ...any) { b.Log = append(b.Log, fmt.Sprintf(f, a...)) }
+func (b *Battle) logf(f string, a ...any) {
+	line := fmt.Sprintf(f, a...)
+	b.Log = append(b.Log, line)
+	if b.OnLog != nil {
+		b.OnLog(b, line)
+	}
+}
 
 // 턴 순서: 유효 aux(속도) 내림차순, 동률이면 luck.
 func (b *Battle) order() []*Dino {

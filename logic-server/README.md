@@ -23,14 +23,18 @@ logic-server/
     build.go       실제 스탯/성장 공식: 1레벨 결정 + 레벨업 성장(rank×constValue) + 파츠 계수·부스탯
     skill.go       SkillTBL/SkillLevelTBL/SkillBuffTBL/SkillCcTBL → battle.Skill/Passive 매핑 (main_act + sub_act1/2)
     csv/           Dino*TBL(스탯/성장/파츠) + Skill*TBL/TriggerTBL(스킬) + StringTBL(이름)
+  scenario/demo.go 데모 편성(스테이지) 구성 — CLI·WS 서버 공용
   cmd/sim/main.go  헤드리스 스테이지 러너 (편대·적을 CSV 실스탯+레벨+실스킬로 편성)
+  cmd/server/main.go  WebSocket 전투 서버 (localhost:8080/ws) — 전투를 한 줄씩 스트리밍
 ```
 
 ## 실행
 ```
 cd logic-server
-go run ./cmd/sim      # 3v3 오토배틀 로그 + 승패 출력
+go run ./cmd/sim              # 헤드리스: 오토배틀 로그 + 승패 출력
+go run ./cmd/server          # WS 서버: ws://localhost:8080/ws (웹 클라 연결용)
 ```
+웹 클라이언트(React/TS)는 저장소 루트 `../web-client` 참고 — SVG 도형 전장 + 콘솔 + CLI 한 화면.
 
 ## 이식 현황 (ServerWaveCore 대비)
 - [x] 기본 데미지 곡선 `ATK*(50/(DEF+50))` ±분산, `ATK<DEF→1`

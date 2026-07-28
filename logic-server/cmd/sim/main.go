@@ -7,6 +7,7 @@ import (
 
 	"punker/logic-server/battle"
 	"punker/logic-server/data"
+	"punker/logic-server/scenario"
 )
 
 // 헤드리스 전투 시뮬레이터: go run ./cmd/sim
@@ -27,12 +28,6 @@ func attrName(a battle.Attribute) string {
 		return "월식"
 	}
 	return "-"
-}
-
-// unit: 데모 편성 단위 — 다이노 + 원본 테이블 idx(스킬 파생 출력용).
-type unit struct {
-	d   *battle.Dino
-	idx int
 }
 
 // skillLabel: 다이노에 장착된 스킬 요약(로스터 출력용).
@@ -59,8 +54,7 @@ func skillLabel(d *battle.Dino) string {
 }
 
 func main() {
-	rand.Seed(1)                             // 전투 판정 RNG(재현용)
-	buildRng := rand.New(rand.NewSource(42)) // 다이노 생성 RNG(전투와 분리)
+	rand.Seed(1) // 전투 판정 RNG(재현용)
 
 	tables, err := data.LoadTables(csvDir)
 	if err != nil {
@@ -69,55 +63,18 @@ func main() {
 		return
 	}
 
-	const skLv = 3 // 스킬 레벨(SkillLevelTBL)
+	squad, waves, stage := scenario.Demo(tables)
 
-	// spawn: 테이블에서 다이노 생성 + 몸통·파츠에서 스킬 자동 파생.
-	spawn := func(idx, level int, name string, side int) unit {
-		d, err := tables.BuildDino(idx, level, buildRng, name, side)
-		if err != nil {
-			panic(err)
-		}
-		tables.AutoEquipSkills(d, idx, skLv)
-		return unit{d, idx}
-	}
-
-	// ── 플레이어 편대(side 0) ───────────────────────────────────────
-	allyAtk := spawn(111, 60, "Ally_Atk", 0)  // 정오, 딜러형
-	allyDef := spawn(411, 60, "Ally_Def", 0)  // 밤, 탱커형
-	allyDef.d.Defending = true                // 방어모드(데모 설정)
-	allySpd := spawn(1061, 60, "Ally_Spd", 0) // 월식, 스피드형
-	squad := []unit{allyAtk, allyDef, allySpd}
-
-	// ── 적 웨이브(side 1) ───────────────────────────────────────────
-	waves := [][]unit{
-		{spawn(112, 40, "W1_112", 1), spawn(212, 42, "W1_212", 1)},
-		{spawn(113, 50, "W2_113", 1), spawn(213, 50, "W2_213", 1), spawn(511, 38, "W2_C5", 1)},
-		{spawn(1061, 58, "W3_Boss", 1), spawn(221, 50, "W3_Guard", 1)},
-	}
-
-	dinosOf := func(us []unit) []*battle.Dino {
-		out := make([]*battle.Dino, len(us))
-		for i, u := range us {
-			out[i] = u.d
-		}
-		return out
-	}
-	stageWaves := make([][]*battle.Dino, len(waves))
-	for i, w := range waves {
-		stageWaves[i] = dinosOf(w)
-	}
-	stage := &battle.Stage{Squad: dinosOf(squad), Waves: stageWaves}
-
-	// 편성표 + 스킬 파생 출력(스탯=테이블+레벨+파츠, 스킬=몸통+파츠 파생임을 확인).
+	// 편성표 + 스킬 파생 출력(스탯=테이블+레벨+파츠, 스킬=몸통+파츠 자동파생).
 	fmt.Println("======== 편성 (실스탯·레벨성장·파츠 / 스킬=몸통+파츠 자동파생) ========")
-	printRoster := func(title string, us []unit) {
+	printRoster := func(title string, es []scenario.Entry) {
 		fmt.Println("--", title)
-		for _, u := range us {
-			d := u.d
+		for _, e := range es {
+			d := e.D
 			fmt.Printf("   %-9s Lv%-3d %-3s  HP %-6.0f ATK %-5.0f DEF %-5.0f SPD %-5.0f  [명중%.0f 치명%.0f 관통%.0f 저항%.0f 행운%.0f]\n",
 				d.Name, d.Level, attrName(d.Attribute), d.MaxHP, d.Attack, d.Defence, d.Aux,
 				d.HitRate, d.CritRate, d.PenetRate, d.Resist, d.Luck)
-			fmt.Printf("             파생풀[%s] → 장착[%s]\n", tables.DescribeSkills(u.idx), skillLabel(d))
+			fmt.Printf("             파생풀[%s] → 장착[%s]\n", tables.DescribeSkills(e.Idx), skillLabel(d))
 		}
 	}
 	printRoster("편대(side0)", squad)
