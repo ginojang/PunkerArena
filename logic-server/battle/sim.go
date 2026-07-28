@@ -9,9 +9,10 @@ import (
 
 // Battle: 한 판의 전투 상태 + 로그
 type Battle struct {
-	Dinos []*Dino
-	Log   []string
-	Turn  int
+	Dinos     []*Dino
+	Log       []string
+	Turn      int
+	inPassive bool // 패시브가 유발한 타격 처리 중 — 패시브 재귀 발동 방지
 }
 
 func (b *Battle) logf(f string, a ...any) { b.Log = append(b.Log, fmt.Sprintf(f, a...)) }
@@ -117,8 +118,17 @@ func (b *Battle) resolveHit(a, t *Dino, r AttackResult, label string) {
 		tag += fmt.Sprintf(" 방어(-%.0f%%)", r.DefenceRate)
 	}
 	b.logf("[T%d] %s =%s=> %s : -%.0f%s (hp %.0f/%.0f)", b.Turn, a.Name, label, t.Name, r.Damage, tag, t.HP, t.MaxHP)
-	if !t.Alive() {
+	died := !t.Alive()
+	if died {
 		b.logf("      * %s 사망 (아군 %d / 적 %d)", t.Name, b.sideAlive(0), b.sideAlive(1))
+	}
+	// 패시브 트리거: 공격자(공격/처치) → 피격자(피격/사망). 순서 = 공격시 → 처치시 → 사망시/피격시.
+	b.fireEvent(a, t, OnAttack, r.Damage)
+	if died {
+		b.fireEvent(a, t, OnKill, r.Damage)
+		b.fireEvent(t, a, OnDeath, r.Damage)
+	} else {
+		b.fireEvent(t, a, OnHit, r.Damage)
 	}
 }
 
@@ -169,12 +179,18 @@ func (b *Battle) castSkill(a *Dino, s *Skill) {
 		b.basicAttack(a)
 		return
 	}
+	b.applyAction(a, s, targets, s.Name)
+}
+
+// applyAction: 스킬 액션 1건을 대상들에 적용 + 로그. 액티브·패시브 공용.
+// label = 표시 이름(액티브=스킬명, 패시브=패시브명).
+func (b *Battle) applyAction(a *Dino, s *Skill, targets []*Dino, label string) {
 	switch s.Action {
 	case ActAttack:
 		for _, t := range targets {
 			r := Attack(a, t)
 			r.Damage *= s.Power
-			b.resolveHit(a, t, r, s.Name)
+			b.resolveHit(a, t, r, label)
 		}
 	case ActHeal:
 		for _, t := range targets {
@@ -183,7 +199,7 @@ func (b *Battle) castSkill(a *Dino, s *Skill) {
 			if t.HP > t.MaxHP {
 				t.HP = t.MaxHP
 			}
-			b.logf("[T%d] %s =%s=> %s : +%.0f 회복 (hp %.0f/%.0f)", b.Turn, a.Name, s.Name, t.Name, t.HP-before, t.HP, t.MaxHP)
+			b.logf("[T%d] %s =%s=> %s : +%.0f 회복 (hp %.0f/%.0f)", b.Turn, a.Name, label, t.Name, t.HP-before, t.HP, t.MaxHP)
 		}
 	case ActBuff, ActDebuff:
 		sign, word := 1.0, "버프"
@@ -197,9 +213,9 @@ func (b *Battle) castSkill(a *Dino, s *Skill) {
 		delta := sign * math.Abs(s.Delta)
 		for _, t := range targets {
 			t.Effects = append(t.Effects, &Effect{
-				Kind: EffBuff, Name: s.Name, Stat: s.Stat, Op: s.Op, Delta: delta, Remain: s.Dur,
+				Kind: EffBuff, Name: label, Stat: s.Stat, Op: s.Op, Delta: delta, Remain: s.Dur,
 			})
-			b.logf("[T%d] %s =%s=> %s : <%s> %s %s%s (%d턴)", b.Turn, a.Name, s.Name, t.Name, word, statName(s.Stat), signedNum(delta), unit, s.Dur)
+			b.logf("[T%d] %s =%s=> %s : <%s> %s %s%s (%d턴)", b.Turn, a.Name, label, t.Name, word, statName(s.Stat), signedNum(delta), unit, s.Dur)
 		}
 	case ActCC:
 		for _, t := range targets {
@@ -210,7 +226,7 @@ func (b *Battle) castSkill(a *Dino, s *Skill) {
 			if s.CC.DoT > 0 {
 				kind = fmt.Sprintf("지속피해 %.0f", s.CC.DoT)
 			}
-			b.logf("[T%d] %s =%s=> %s : [%s] %s (%d턴)", b.Turn, a.Name, s.Name, t.Name, s.CC.Name, kind, s.CC.Duration)
+			b.logf("[T%d] %s =%s=> %s : [%s] %s (%d턴)", b.Turn, a.Name, label, t.Name, s.CC.Name, kind, s.CC.Duration)
 		}
 	}
 }
@@ -226,12 +242,16 @@ func (b *Battle) startTurn(a *Dino) (bool, string) {
 		b.logf("[T%d] %s 지속피해 -%.0f (hp %.0f/%.0f)", b.Turn, a.Name, dot, a.HP, a.MaxHP)
 		if !a.Alive() {
 			b.logf("      * %s 사망 (아군 %d / 적 %d)", a.Name, b.sideAlive(0), b.sideAlive(1))
+			b.fireEvent(a, nil, OnDeath, dot) // 지속피해로 사망 시에도 사망 트리거
 		}
 	}
 	locked, ccName := a.ccLocked()
 	a.decayEffects()
 	if a.Active != nil {
 		a.Active.cool()
+	}
+	for _, p := range a.Passives {
+		p.cool()
 	}
 	return locked, ccName
 }

@@ -48,6 +48,9 @@ func (s *Stage) Run(maxTurnsPerWave int) StageResult {
 			if d.Active != nil {
 				d.Active.reset()
 			}
+			for _, p := range d.Passives {
+				p.reset()
+			}
 		}
 		s.logf("========================  Wave %d/%d  ========================", wi+1, total)
 

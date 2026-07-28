@@ -27,6 +27,10 @@ func main() {
 		Name: "강타", Target: battle.TgtEnemy, TType: battle.TTSingle,
 		Action: battle.ActAttack, Power: 2.2, MaxCool: 3,
 	}
+	allyAtk.Passives = []*battle.Passive{{ // 광폭: 적 처치 시 자신 공격력 +20% 3턴(스노볼)
+		Name: "광폭", Event: battle.OnKill, PTarget: battle.PSelf,
+		Skill: &battle.Skill{Action: battle.ActBuff, Stat: battle.StatAttack, Op: battle.OpPercent, Delta: 20, Dur: 3},
+	}}
 
 	allyDef := mkDino("Ally_Def", 0, 200, 28, 55, 15, battle.Night)
 	allyDef.Defending = true         // 방어모드: 피해 84~91% 경감(관통에만 뚫림)
@@ -34,6 +38,10 @@ func main() {
 		Name: "방어호령", Target: battle.TgtAlly, TType: battle.TTAll,
 		Action: battle.ActBuff, Stat: battle.StatDefence, Op: battle.OpPercent, Delta: 25, Dur: 3, MaxCool: 4,
 	}
+	allyDef.Passives = []*battle.Passive{{ // 가시갑옷: 피격 시 60% 확률로 공격자에게 반격(평타 0.7배)
+		Name: "가시갑옷", Event: battle.OnHit, PTarget: battle.POther, Chance: 60,
+		Skill: &battle.Skill{Action: battle.ActAttack, Power: 0.7},
+	}}
 
 	allySpd := mkDino("Ally_Spd", 0, 100, 30, 15, 50, battle.Dawn)
 	allySpd.Active = &battle.Skill{ // 치유: 최저 HP 아군 +45 회복
@@ -61,6 +69,10 @@ func main() {
 		Name: "공포", Target: battle.TgtEnemy, TType: battle.TTSingle,
 		Action: battle.ActCC, CC: battle.CCSpec{Name: "기절", ActLock: true, Duration: 1}, MaxCool: 3,
 	}
+	w3boss.Passives = []*battle.Passive{{ // 최후의 발악: 사망 시 편대 전원에게 1.2배 광역 피해
+		Name: "최후의발악", Event: battle.OnDeath, PTarget: battle.PEnemies,
+		Skill: &battle.Skill{Action: battle.ActAttack, Power: 1.2},
+	}}
 
 	stage := &battle.Stage{
 		Squad: squad,
