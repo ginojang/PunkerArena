@@ -13,7 +13,7 @@ logic-server/
   battle/          전투 코어 (순수 Go, 테스트/헤드리스 가능)
     stat.go        Dino 스탯셋(DataDinoCore 이식) + 상수(TableData.Stat)
     damage.go      진짜 데미지 공식: ATK*(50/(DEF+50)) ±1/16, 크리, 회피, 속성 RPS(+30%)
-    sim.go         단일 전투 루프: 속도(aux)순 턴 → 턴시작 틱(DoT·CC·감쇠·쿨) → 스킬/평타 → 전멸 승패
+    sim.go         단일 전투 루프: 속도(aux)순 턴 → 턴시작 틱(DoT·CC·감쇠·쿨) → 액티브 선택/평타 → 전멸 승패
     wave.go        스테이지=편대(HP 이월) vs 순차 적 웨이브 체이닝
     effect.go      지속효과: 버프/디버프(스탯 레이어) + CC(행동불가/지속피해), Remain 턴 감쇠
     skill.go       액티브 스킬 정의: 대상(자신/아군/적)·범위(단일/전체)·액션(공격/힐/버프/디버프/CC)·쿨다운
@@ -49,6 +49,7 @@ go run ./cmd/sim      # 3v3 오토배틀 로그 + 승패 출력
 - [x] StringTBL 실제 이름: SkillTBL.name·SkillCcTBL.name = StringTBL id → 실제 스킬/CC명 해석(초고속 꼬리, 랜덤 야자 미사일, 기절, 중독 등). 버프는 stat 기반 표기 유지(SkillBuffTBL.name은 placeholder). 미해석 시 `액션#idx` 폴백
 - [x] sub_act 로딩: SkillTBL의 sub_act1/2(2차 효과, main과 동일 구조)를 매핑. trig=0 → 스킬 사용 시 함께 발동(Riders, 각자 대상), trig!=0 → 이벤트 서브 패시브. 미지원 액션(STEALTH 등)·트리거는 스킵. 예: 공격 스킬에 자기 순발력 버프/적 기절 라이더가 붙음(로스터 `+2차 N`)
 - [x] 다단 히트(main_act_count / sub_act_count): 공격 액션을 count번 반복 타격, 각 타 독립 판정(데미지·크리·회피·속성). 대상 사망 시 남은 타 중단. 로그 `(2/3타)`. class-5 "가로로 발사!"(3타) 등
+- [x] 액티브 다중 슬롯: 다이노가 몸통+파츠에서 파생한 모든 액티브를 슬롯으로 보유(각자 쿨다운). 매 턴 사용 가능한 것 중 쿨 긴(강한) 스킬 우선 선택, 없으면 평타. 부적합 액티브(아군 대상 CC/디버프 등)는 장착 필터로 제외. 로스터 `A:스킬명`
 - [x] 트리거 완전 매핑: TriggerTBL 34종 전부 처리 — 18종→이벤트(스테이지/웨이브/턴시작·턴종료, 공격/치명/피격/회피/피CC/위기/처치/사망/아군처치/아군사망), 16종(버스트콤보/실드/aura임계 등 전투모델 밖)은 명시적 미지원. 실데이터 main 트리거(1/2/3/12/28)는 31(Target Defence) 빼고 전부 발동. `turn=0` 버프는 상시(영구) 아우라로 처리(스테이지 내내 유지). 이전에 드롭되던 스테이지시작 패시브(치명/방어/공격 버프)가 이제 발동
 - [x] 스킬 CSV 로딩: SkillTBL(구조)+SkillLevelTBL(레벨수치)+SkillBuffTBL/SkillCcTBL(효과) → `BuildSkillOn`이 액티브/패시브로 매핑. 액션 ATTACK(배율)/RECOVERY(atk% 회복)/BUFF_DEBUF(스탯·%·해제)/CC(행동불가·DoT), 트리거(Kill/Hited/Dead/Defpen→OnKill/OnHit/OnDeath/OnAttack) 근사. 미지원 액션·트리거는 평타 폴백. 스킬명은 StringTBL 미로드로 `액션#idx` 합성
 - [ ] WebSocket 서버 + 클라 프로토콜

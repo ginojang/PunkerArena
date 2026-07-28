@@ -185,6 +185,21 @@ func statName(s StatKind) string {
 	return "?"
 }
 
+// chooseActive: 사용 가능한 액티브 중 하나 선택. 쿨 긴(강한) 스킬 우선, 동률이면 슬롯 순서.
+// 전부 쿨다운/없음이면 nil → 평타. (기본공격 슬롯은 cool 0이라 보통 항상 하나는 가능)
+func (b *Battle) chooseActive(a *Dino) *Skill {
+	var best *Skill
+	for _, s := range a.Actives {
+		if !s.Ready() {
+			continue
+		}
+		if best == nil || s.MaxCool > best.MaxCool {
+			best = s
+		}
+	}
+	return best
+}
+
 // castSkill: 액티브 스킬 시전. 대상이 없으면 평타로 대체.
 func (b *Battle) castSkill(a *Dino, s *Skill) {
 	targets := b.skillTargets(a, s)
@@ -304,8 +319,8 @@ func (b *Battle) startTurn(a *Dino) (bool, string) {
 	}
 	locked, ccName := a.ccLocked()
 	a.decayEffects()
-	if a.Active != nil {
-		a.Active.cool()
+	for _, s := range a.Actives {
+		s.cool()
 	}
 	for _, p := range a.Passives {
 		p.cool()
@@ -347,9 +362,9 @@ func (b *Battle) Run(maxTurns int) int {
 				continue
 			}
 
-			if a.Active != nil && a.Active.Ready() {
-				b.castSkill(a, a.Active)
-				a.Active.fire()
+			if act := b.chooseActive(a); act != nil {
+				b.castSkill(a, act)
+				act.fire()
 			} else {
 				b.basicAttack(a)
 			}

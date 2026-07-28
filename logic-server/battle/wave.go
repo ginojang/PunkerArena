@@ -45,8 +45,8 @@ func (s *Stage) Run(maxTurnsPerWave int) StageResult {
 		// 웨이브 전환 시 전투 임시 상태 리셋: 지속 효과 제거 + 스킬 쿨다운 초기화(HP는 이월).
 		for _, d := range s.Squad {
 			d.clearEffects()
-			if d.Active != nil {
-				d.Active.reset()
+			for _, sk := range d.Actives {
+				sk.reset()
 			}
 			for _, p := range d.Passives {
 				p.reset()

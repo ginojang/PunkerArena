@@ -38,9 +38,9 @@ type unit struct {
 // skillLabel: 다이노에 장착된 스킬 요약(로스터 출력용).
 func skillLabel(d *battle.Dino) string {
 	var parts []string
-	if d.Active != nil {
-		s := "액티브 " + d.Active.Name
-		if n := len(d.Active.Riders); n > 0 {
+	for _, act := range d.Actives {
+		s := "A:" + act.Name
+		if n := len(act.Riders); n > 0 {
 			s += fmt.Sprintf("(+2차 %d)", n)
 		}
 		parts = append(parts, s)

@@ -44,7 +44,7 @@ type Dino struct {
 	// 전투 중 상태
 	Defending  bool       // 방어(Defence)모드: 피해 84~91% 경감, 단 관통에 뚫림
 	Effects    []*Effect  // 걸려있는 버프/디버프/CC/DoT (지속턴 有)
-	Active     *Skill     // 액티브 스킬 (쿨다운 되면 평타 대신 사용)
+	Actives    []*Skill   // 액티브 스킬 슬롯(여럿). 매 턴 사용 가능한 것 중 하나 사용.
 	Passives   []*Passive // 패시브 트리거 (이벤트 시 발동)
 	lowHPFired bool       // OnLowHP 중복 발동 방지(임계 재상승 시 해제)
 }

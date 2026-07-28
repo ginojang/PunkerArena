@@ -443,12 +443,27 @@ func (t *Tables) BuildSkillOn(d *battle.Dino, skillIdx, skillLv int) error {
 		return nil
 	}
 
-	// 액티브
+	// 액티브 슬롯에 추가
 	payload.Target = mapTarget(sd.Target)
 	payload.TType = mapTType(sd.TargetType)
 	payload.MaxCool = sd.Cool
-	d.Active = payload
+	if !sensibleActive(payload) {
+		return fmt.Errorf("부적합 액티브(액션/대상 불일치)")
+	}
+	d.Actives = append(d.Actives, payload)
 	return nil
+}
+
+// sensibleActive: 액션과 대상이 상식적으로 맞는가(이로운 효과=아군/자신, 해로운 효과=적).
+// 내 CC 모델은 해로운 것(락/DoT)이라 아군 대상 CC/디버프는 자책이 되므로 제외.
+func sensibleActive(s *battle.Skill) bool {
+	switch s.Action {
+	case battle.ActHeal, battle.ActBuff, battle.ActCleanse:
+		return s.Target != battle.TgtEnemy
+	case battle.ActDebuff, battle.ActCC:
+		return s.Target == battle.TgtEnemy
+	}
+	return true // 공격 등은 대상 무관
 }
 
 // DinoSkillIDs: 다이노가 보유하는 스킬 = 몸통 대표 스킬 + 장착 파츠들의 스킬(중복/0 제외).
@@ -496,25 +511,10 @@ func (t *Tables) DescribeSkills(dinoIdx int) string {
 	return strings.Join(parts, ", ")
 }
 
-// AutoEquipSkills: 몸통+파츠에서 파생된 스킬들을 다이노에 장착.
-// 액티브는 (내 모델상 슬롯 1개라) 가장 높은 idx 하나만 주 스킬로, 패시브는 모두 부착한다.
-// 미지원 스킬은 조용히 건너뛴다(로그 노이즈 방지).
+// AutoEquipSkills: 몸통+파츠에서 파생된 스킬들을 다이노에 모두 장착(액티브 여러 슬롯 + 패시브).
+// 미지원/부적합 스킬은 조용히 건너뛴다.
 func (t *Tables) AutoEquipSkills(d *battle.Dino, dinoIdx, skillLv int) {
-	primaryActive := 0
 	for _, id := range t.DinoSkillIDs(dinoIdx) {
-		sd, ok := t.Skills[id]
-		if !ok {
-			continue
-		}
-		if sd.Type != skPassive && sd.MainTrigger == 0 { // 액티브 후보 → 최고 idx 하나만
-			if id > primaryActive {
-				primaryActive = id
-			}
-			continue
-		}
-		_ = t.BuildSkillOn(d, id, skillLv) // 패시브: 지원되면 부착
-	}
-	if primaryActive != 0 {
-		_ = t.BuildSkillOn(d, primaryActive, skillLv)
+		_ = t.BuildSkillOn(d, id, skillLv) // 액티브→슬롯 추가, 패시브→부착 (BuildSkillOn이 분기)
 	}
 }
