@@ -22,7 +22,7 @@ logic-server/
     loader.go      CSV 파싱(BOM 제거) + 성장 랭크 선택
     build.go       실제 스탯/성장 공식: 1레벨 결정 + 레벨업 성장(rank×constValue) + 파츠 계수·부스탯
     skill.go       SkillTBL/SkillLevelTBL/SkillBuffTBL/SkillCcTBL → battle.Skill/Passive 매핑
-    csv/           Dino*TBL(스탯/성장/파츠) + Skill*TBL/TriggerTBL(스킬)
+    csv/           Dino*TBL(스탯/성장/파츠) + Skill*TBL/TriggerTBL(스킬) + StringTBL(이름)
   cmd/sim/main.go  헤드리스 스테이지 러너 (편대·적을 CSV 실스탯+레벨+실스킬로 편성)
 ```
 
@@ -46,6 +46,7 @@ go run ./cmd/sim      # 3v3 오토배틀 로그 + 승패 출력
 - [x] 실데이터 로딩 + 레벨 성장: `data/` 가 Table/csv(DinoBaseTBL 계수) → 실제 스탯 생성. 1레벨 결정(`init_coef×coef/100` 후 교차가중) + 레벨업 성장(GrowthBase→rank→`constValue/GROWTH`). 편대·적을 idx+레벨로 편성
 - [x] 파츠(DinoPartsTBL): 슬롯(parts_type 1~5)별 최적 파츠 자동 장착 → 파츠 메인계수를 몸통에 합산 + 부스탯(명중/회피/치명/치명뎀/저항/관통/행운)을 파츠 합으로 산출(원본 CreateDino 방식). grade-1 파츠라 부스탯은 실제로 작음(크리 희소)
 - [x] 파츠→스킬 자동 파생: 다이노 스킬셋 = 몸통 skill + 장착 파츠들의 skill 컬럼. `AutoEquipSkills`가 액티브(내 모델상 1슬롯 → 최고 idx 하나) + 지원되는 패시브 모두 장착. 로스터에 `파생풀[…] → 장착[…]` 출력. 클래스별로 공격/버프/CC/힐이 자연히 갈림(예: class2→버프, class4→CC 보유)
+- [x] StringTBL 실제 이름: SkillTBL.name·SkillCcTBL.name = StringTBL id → 실제 스킬/CC명 해석(초고속 꼬리, 랜덤 야자 미사일, 기절, 중독 등). 버프는 stat 기반 표기 유지(SkillBuffTBL.name은 placeholder). 미해석 시 `액션#idx` 폴백
 - [x] 스킬 CSV 로딩: SkillTBL(구조)+SkillLevelTBL(레벨수치)+SkillBuffTBL/SkillCcTBL(효과) → `BuildSkillOn`이 액티브/패시브로 매핑. 액션 ATTACK(배율)/RECOVERY(atk% 회복)/BUFF_DEBUF(스탯·%·해제)/CC(행동불가·DoT), 트리거(Kill/Hited/Dead/Defpen→OnKill/OnHit/OnDeath/OnAttack) 근사. 미지원 액션·트리거는 평타 폴백. 스킬명은 StringTBL 미로드로 `액션#idx` 합성
 - [ ] WebSocket 서버 + 클라 프로토콜
 

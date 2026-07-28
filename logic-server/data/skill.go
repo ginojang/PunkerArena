@@ -27,10 +27,11 @@ const (
 
 // SkillDef: SkillTBL 한 행(전투 컬럼만).
 type SkillDef struct {
-	Idx, Type, Cool         int
-	Target, TargetType      int
-	MainTrigger, MainAct    int
-	MainActId               int
+	Idx, Type, Cool      int
+	Target, TargetType   int
+	MainTrigger, MainAct int
+	MainActId            int
+	Name                 string // StringTBL에서 해석한 실제 이름
 }
 
 // SkillLevel: SkillLevelTBL 한 (idx,lv) 행의 main_act 수치.
@@ -50,7 +51,8 @@ type BuffDef struct {
 
 // CcDef: SkillCcTBL — 상태이상 정의.
 type CcDef struct {
-	Idx, ActLock int // ActLock 1=행동불가
+	Idx, ActLock int    // ActLock 1=행동불가
+	Name         string // StringTBL에서 해석한 실제 이름(기절/중독 등)
 }
 
 func headerIndex(header []string) map[string]int {
@@ -86,6 +88,7 @@ func (t *Tables) loadSkills(dir string) error {
 			Target: atoi(cell(r, h["target"])), TargetType: atoi(cell(r, h["target_type"])),
 			MainTrigger: atoi(cell(r, h["main_trigger"])), MainAct: atoi(cell(r, h["main_act"])),
 			MainActId: atoi(cell(r, h["main_act_id"])),
+			Name:      t.str(atoi(cell(r, h["name"]))), // name 컬럼 = StringTBL id
 		}
 		t.Skills[sd.Idx] = sd
 	}
@@ -140,7 +143,8 @@ func (t *Tables) loadSkills(dir string) error {
 		if strings.TrimSpace(cell(r, h["idx"])) == "" {
 			continue
 		}
-		cd := CcDef{Idx: atoi(cell(r, h["idx"])), ActLock: atoi(cell(r, h["type_act_lock"]))}
+		cd := CcDef{Idx: atoi(cell(r, h["idx"])), ActLock: atoi(cell(r, h["type_act_lock"])),
+			Name: t.str(atoi(cell(r, h["name"])))} // name 컬럼 = StringTBL id
 		t.Ccs[cd.Idx] = cd
 	}
 	return nil
@@ -252,7 +256,10 @@ func actionKor(act int) string {
 
 // buildAction: 스킬의 액션 페이로드(*battle.Skill)를 생성. caster는 스탯 스케일용.
 func (t *Tables) buildAction(sd SkillDef, sl SkillLevel, caster *battle.Dino) (*battle.Skill, error) {
-	name := fmt.Sprintf("%s#%d", actionKor(sd.MainAct), sd.Idx)
+	name := sd.Name
+	if name == "" { // StringTBL 미해석 시 합성 이름 폴백
+		name = fmt.Sprintf("%s#%d", actionKor(sd.MainAct), sd.Idx)
+	}
 	s := &battle.Skill{Name: name}
 	switch sd.MainAct {
 	case actAttack:
@@ -300,14 +307,18 @@ func (t *Tables) buildAction(sd SkillDef, sl SkillLevel, caster *battle.Dino) (*
 		if dur <= 0 {
 			dur = 1
 		}
+		ccName := cd.Name
+		if ccName == "" {
+			ccName = fmt.Sprintf("CC%d", cd.Idx)
+		}
 		if cd.ActLock == 1 { // 기절/빙결류
-			s.CC = battle.CCSpec{Name: fmt.Sprintf("CC%d", cd.Idx), ActLock: true, Duration: dur}
+			s.CC = battle.CCSpec{Name: ccName, ActLock: true, Duration: dur}
 		} else { // 비행동제약 + value → 지속피해(중독/출혈)로 근사
 			dot := caster.Attack * sl.Value / 100.0
 			if dot <= 0 {
 				dot = sl.Value
 			}
-			s.CC = battle.CCSpec{Name: fmt.Sprintf("CC%d", cd.Idx), DoT: dot, Duration: dur}
+			s.CC = battle.CCSpec{Name: ccName, DoT: dot, Duration: dur}
 		}
 	default:
 		return nil, fmt.Errorf("액션 %d 미지원", sd.MainAct)
@@ -385,14 +396,17 @@ func (t *Tables) DescribeSkills(dinoIdx int) string {
 	}
 	parts := make([]string, 0, len(ids))
 	for _, id := range ids {
-		tag := "?"
+		nm, tag := fmt.Sprintf("#%d", id), "?"
 		if sd, ok := t.Skills[id]; ok {
+			if sd.Name != "" {
+				nm = sd.Name
+			}
 			tag = actionKor(sd.MainAct)
 			if sd.Type == skPassive || sd.MainTrigger != 0 {
 				tag += "/패시브"
 			}
 		}
-		parts = append(parts, fmt.Sprintf("%d(%s)", id, tag))
+		parts = append(parts, fmt.Sprintf("%s(%s)", nm, tag))
 	}
 	return strings.Join(parts, ", ")
 }

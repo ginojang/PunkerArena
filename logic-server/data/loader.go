@@ -59,7 +59,12 @@ type Tables struct {
 	SkillLevels map[int]map[int]SkillLevel // idx → lv → 수치
 	Buffs       map[int]BuffDef
 	Ccs         map[int]CcDef
+
+	Strings map[int]string // StringTBL: id → 한국어 이름
 }
+
+// str: StringTBL 이름 조회(없으면 빈 문자열).
+func (t *Tables) str(id int) string { return t.Strings[id] }
 
 // readCSV: BOM 제거 + 빈 줄 스킵. 첫 줄은 헤더로 반환 rows[0].
 func readCSV(path string) ([][]string, error) {
@@ -138,6 +143,25 @@ func LoadTables(dir string) (*Tables, error) {
 	}
 	if len(t.Ranks) == 0 {
 		return nil, fmt.Errorf("성장 랭크 테이블이 비었음")
+	}
+
+	// StringTBL: id,kr,en,... (스킬/CC 실제 이름) — 스킬 로드 전에 준비.
+	t.Strings = map[int]string{}
+	strRows, err := readCSV(filepath.Join(dir, "StringTBL.csv"))
+	if err != nil {
+		return nil, fmt.Errorf("StringTBL: %w", err)
+	}
+	for _, r := range strRows[1:] {
+		if len(r) < 2 || strings.TrimSpace(r[0]) == "" {
+			continue
+		}
+		name := strings.TrimSpace(r[1]) // kr
+		if name == "" && len(r) >= 3 {
+			name = strings.TrimSpace(r[2]) // en 폴백
+		}
+		if name != "" {
+			t.Strings[atoi(r[0])] = name
+		}
 	}
 
 	if err := t.loadSkills(dir); err != nil {
