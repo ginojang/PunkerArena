@@ -14,7 +14,7 @@ func mkDino(name string, side int, hp, atk, def, aux float64, attr battle.Attrib
 		Name: name, Side: side,
 		HP: hp, MaxHP: hp, Attack: atk, Defence: def, Aux: aux,
 		HitRate: 50, AvoidRate: 5, PenetRate: 20, CritRate: 10, CritDamage: 50, Luck: 10,
-		Level: 1, Attribute: attr,
+		Resist: 10, Level: 1, Attribute: attr,
 	}
 }
 
@@ -27,10 +27,17 @@ func main() {
 		Name: "강타", Target: battle.TgtEnemy, TType: battle.TTSingle,
 		Action: battle.ActAttack, Power: 2.2, MaxCool: 3,
 	}
-	allyAtk.Passives = []*battle.Passive{{ // 광폭: 적 처치 시 자신 공격력 +20% 3턴(스노볼)
-		Name: "광폭", Event: battle.OnKill, PTarget: battle.PSelf,
-		Skill: &battle.Skill{Action: battle.ActBuff, Stat: battle.StatAttack, Op: battle.OpPercent, Delta: 20, Dur: 3},
-	}}
+	allyAtk.Resist = 25
+	allyAtk.Passives = []*battle.Passive{
+		{ // 광폭: 적 처치 시 자신 공격력 +20% 3턴(스노볼)
+			Name: "광폭", Event: battle.OnKill, PTarget: battle.PSelf,
+			Skill: &battle.Skill{Action: battle.ActBuff, Stat: battle.StatAttack, Op: battle.OpPercent, Delta: 20, Dur: 3},
+		},
+		{ // 재생: 적 처치 시 아군 전체 +15 회복
+			Name: "재생", Event: battle.OnKill, PTarget: battle.PAllies,
+			Skill: &battle.Skill{Action: battle.ActHeal, Power: 15},
+		},
+	}
 
 	allyDef := mkDino("Ally_Def", 0, 200, 28, 55, 15, battle.Night)
 	allyDef.Defending = true         // 방어모드: 피해 84~91% 경감(관통에만 뚫림)
@@ -38,15 +45,17 @@ func main() {
 		Name: "방어호령", Target: battle.TgtAlly, TType: battle.TTAll,
 		Action: battle.ActBuff, Stat: battle.StatDefence, Op: battle.OpPercent, Delta: 25, Dur: 3, MaxCool: 4,
 	}
+	allyDef.Resist = 45 // 탱커: 상태이상 저항 높음
 	allyDef.Passives = []*battle.Passive{{ // 가시갑옷: 피격 시 60% 확률로 공격자에게 반격(평타 0.7배)
 		Name: "가시갑옷", Event: battle.OnHit, PTarget: battle.POther, Chance: 60,
 		Skill: &battle.Skill{Action: battle.ActAttack, Power: 0.7},
 	}}
 
 	allySpd := mkDino("Ally_Spd", 0, 100, 30, 15, 50, battle.Dawn)
-	allySpd.Active = &battle.Skill{ // 치유: 최저 HP 아군 +45 회복
-		Name: "치유", Target: battle.TgtAlly, TType: battle.TTSingle,
-		Action: battle.ActHeal, Power: 45, MaxCool: 3,
+	allySpd.Resist = 30
+	allySpd.Active = &battle.Skill{ // 정화: 아군 전체의 디버프/CC 해제(클렌즈)
+		Name: "정화", Target: battle.TgtAlly, TType: battle.TTAll,
+		Action: battle.ActCleanse, MaxCool: 3,
 	}
 
 	squad := []*battle.Dino{allyAtk, allyDef, allySpd}

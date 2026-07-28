@@ -29,6 +29,7 @@ const (
 	ActBuff                 // 아군 스탯 증가
 	ActDebuff               // 적 스탯 감소
 	ActCC                   // 상태이상 부여
+	ActCleanse              // 아군 디버프/CC 해제(클렌즈)
 )
 
 // CCSpec: 상태이상 정의. ActLock=행동불가(기절/빙결/수면), DoT>0=지속피해(출혈/중독).

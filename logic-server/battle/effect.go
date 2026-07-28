@@ -15,6 +15,7 @@ const (
 	StatPenetRate
 	StatCritRate
 	StatLuck
+	StatResist // 상태이상(CC/디버프) 저항율
 )
 
 // Operator: 버프 연산 방식.
@@ -73,6 +74,7 @@ func (d *Dino) EffAvoidRate() float64 { return d.statOf(d.AvoidRate, StatAvoidRa
 func (d *Dino) EffPenetRate() float64 { return d.statOf(d.PenetRate, StatPenetRate) }
 func (d *Dino) EffCritRate() float64  { return d.statOf(d.CritRate, StatCritRate) }
 func (d *Dino) EffLuck() float64      { return d.statOf(d.Luck, StatLuck) }
+func (d *Dino) EffResist() float64    { return d.statOf(d.Resist, StatResist) }
 
 // ccLocked: 현재 행동 불가 CC가 걸려있는가.
 func (d *Dino) ccLocked() (bool, string) {
@@ -107,3 +109,20 @@ func (d *Dino) decayEffects() {
 
 // clearEffects: 모든 지속 효과 제거(웨이브 전환 시 리셋용).
 func (d *Dino) clearEffects() { d.Effects = nil }
+
+// removeDebuffs: 적대적 효과(모든 CC + 음수 버프=디버프)만 제거. 버프/DoT아닌 이로운 효과는 유지.
+// 반환 = 제거한 효과 수. (클렌즈용)
+func (d *Dino) removeDebuffs() int {
+	kept := d.Effects[:0]
+	removed := 0
+	for _, e := range d.Effects {
+		hostile := e.Kind == EffCC || (e.Kind == EffBuff && e.Delta < 0)
+		if hostile {
+			removed++
+			continue
+		}
+		kept = append(kept, e)
+	}
+	d.Effects = kept
+	return removed
+}

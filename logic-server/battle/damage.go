@@ -85,6 +85,21 @@ func isPenetrate(a, d *Dino) bool {
 	return rand.Float64()*100.0 < rate
 }
 
+// isResisted: 대상 d가 공격자 a의 CC/디버프를 저항하는가.
+// [신규 규칙] 원본은 저항 스탯만 있고 판정이 스텁 → 여기서 정의.
+//   저항율(유효) + (대상 행운 - 공격자 행운)/2, [0,100] 클램프 후 rand(0,100) 비교.
+//   (행운 동률이면 저항율이 곧 성공확률.)
+func isResisted(a, d *Dino) bool {
+	rate := d.EffResist() + (d.EffLuck()-a.EffLuck())/2.0
+	if rate < 0 {
+		rate = 0
+	}
+	if rate > 100 {
+		rate = 100
+	}
+	return rand.Float64()*100.0 < rate
+}
+
 // 속성 승자: 0=공격자 승, 1=방어자 승, -1=없음. NOON<NIGHT<DAWN<NOON(순환), ECLIPSE 중립.
 func attributeWinner(atk, def Attribute) int {
 	if atk == Eclipse || def == Eclipse || atk == AttrNone || def == AttrNone {

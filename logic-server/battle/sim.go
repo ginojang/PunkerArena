@@ -168,6 +168,8 @@ func statName(s StatKind) string {
 		return "치명확률"
 	case StatLuck:
 		return "행운"
+	case StatResist:
+		return "상태저항"
 	}
 	return "?"
 }
@@ -212,6 +214,10 @@ func (b *Battle) applyAction(a *Dino, s *Skill, targets []*Dino, label string) {
 		}
 		delta := sign * math.Abs(s.Delta)
 		for _, t := range targets {
+			if s.Action == ActDebuff && isResisted(a, t) { // 디버프 저항
+				b.logf("[T%d] %s =%s=> %s : 저항! (%s 무효)", b.Turn, a.Name, label, t.Name, statName(s.Stat))
+				continue
+			}
 			t.Effects = append(t.Effects, &Effect{
 				Kind: EffBuff, Name: label, Stat: s.Stat, Op: s.Op, Delta: delta, Remain: s.Dur,
 			})
@@ -219,6 +225,10 @@ func (b *Battle) applyAction(a *Dino, s *Skill, targets []*Dino, label string) {
 		}
 	case ActCC:
 		for _, t := range targets {
+			if isResisted(a, t) { // CC 저항
+				b.logf("[T%d] %s =%s=> %s : 저항! (%s 무효)", b.Turn, a.Name, label, t.Name, s.CC.Name)
+				continue
+			}
 			t.Effects = append(t.Effects, &Effect{
 				Kind: EffCC, Name: s.CC.Name, ActLock: s.CC.ActLock, DoT: s.CC.DoT, Remain: s.CC.Duration,
 			})
@@ -227,6 +237,12 @@ func (b *Battle) applyAction(a *Dino, s *Skill, targets []*Dino, label string) {
 				kind = fmt.Sprintf("지속피해 %.0f", s.CC.DoT)
 			}
 			b.logf("[T%d] %s =%s=> %s : [%s] %s (%d턴)", b.Turn, a.Name, label, t.Name, s.CC.Name, kind, s.CC.Duration)
+		}
+	case ActCleanse:
+		for _, t := range targets {
+			if n := t.removeDebuffs(); n > 0 {
+				b.logf("[T%d] %s =%s=> %s : 디버프/CC %d개 해제", b.Turn, a.Name, label, t.Name, n)
+			}
 		}
 	}
 }

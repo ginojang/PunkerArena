@@ -37,6 +37,7 @@ type Dino struct {
 	CritRate   float64 // 크리율
 	CritDamage float64 // 크리 데미지(%)
 	Luck       float64 // 모든 RNG 굴림에 관여
+	Resist     float64 // 상태이상(CC/디버프) 저항율(%)
 	Level      int
 	Attribute  Attribute
 
