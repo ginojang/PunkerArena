@@ -26,24 +26,25 @@ func critDamage(base, def float64, atkLv, defLv int, critDmgPct float64) float64
 	return c
 }
 
-// 회피 성공? aux(속도)차 sqrt + (회피율 - 명중률 + rand(0,luck))/2
+// 회피 성공? aux(속도)차 sqrt + (회피율 - 명중률 + rand(0,luck))/2. 유효(버프반영) 스탯 사용.
 func isAvoid(a, d *Dino) bool {
+	da, aa := d.EffAux(), a.EffAux()
 	var rate float64
-	if d.Aux > a.Aux {
-		rate += math.Sqrt(d.Aux - a.Aux)
+	if da > aa {
+		rate += math.Sqrt(da - aa)
 	}
-	rate += (d.AvoidRate - a.HitRate + rand.Float64()*d.Luck) / 2.0
+	rate += (d.EffAvoidRate() - a.EffHitRate() + rand.Float64()*d.EffLuck()) / 2.0
 	return rand.Float64()*100.0 < rate
 }
 
-// 크리 성공? sqrt(aux차/0.09) + 크리율*0.5 + rand(0,luck)
+// 크리 성공? sqrt(aux차/0.09) + 크리율*0.5 + rand(0,luck). 유효(버프반영) 스탯 사용.
 func isCrit(a, d *Dino) bool {
-	auxDiff := a.Aux - d.Aux
+	auxDiff := a.EffAux() - d.EffAux()
 	var rate float64
 	if auxDiff > 0 {
 		rate += math.Sqrt(auxDiff / 0.09)
 	}
-	rate += a.CritRate*0.5 + rand.Float64()*a.Luck
+	rate += a.EffCritRate()*0.5 + rand.Float64()*a.EffLuck()
 	return rand.Float64()*100.0 < rate
 }
 
@@ -72,9 +73,9 @@ func defenceDamageRate(atk, def float64) float64 {
 // 방어관통 성공? [이식] isPenetrateSuccess :136-193.
 // 관통율/2 + (ATK-DEF)/5 + rand(0,luck)*명중률/10. [0,100] 클램프 후 rand(0,100) 비교.
 func isPenetrate(a, d *Dino) bool {
-	rate := a.PenetRate / 2.0
-	rate += (a.Attack - d.Defence) / 5.0
-	rate += rand.Float64() * a.Luck * a.HitRate / 10.0
+	rate := a.EffPenetRate() / 2.0
+	rate += (a.EffAttack() - d.EffDefence()) / 5.0
+	rate += rand.Float64() * a.EffLuck() * a.EffHitRate() / 10.0
 	if rate > 100 {
 		rate = 100
 	}
@@ -115,11 +116,12 @@ func Attack(a, d *Dino) AttackResult {
 	if isAvoid(a, d) {
 		return AttackResult{Avoided: true, AttrWin: -1}
 	}
-	base := baseDamage(a.Attack, d.Defence)
+	atk, def := a.EffAttack(), d.EffDefence()
+	base := baseDamage(atk, def)
 	dmg := base
 	crit := isCrit(a, d)
 	if crit {
-		dmg = critDamage(base, d.Defence, a.Level, d.Level, a.CritDamage)
+		dmg = critDamage(base, def, a.Level, d.Level, a.CritDamage)
 	}
 	aw := attributeWinner(a.Attribute, d.Attribute)
 	if aw == 0 {
@@ -135,7 +137,7 @@ func Attack(a, d *Dino) AttackResult {
 			res.Damage = dmg
 			return res
 		}
-		rate := defenceDamageRate(a.Attack, d.Defence)
+		rate := defenceDamageRate(atk, def)
 		dmg -= dmg * (rate / 100.0)
 		res.Defended = true
 		res.DefenceRate = rate

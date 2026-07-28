@@ -42,6 +42,13 @@ func (s *Stage) Run(maxTurnsPerWave int) StageResult {
 		if aliveCount(s.Squad) == 0 {
 			break
 		}
+		// 웨이브 전환 시 전투 임시 상태 리셋: 지속 효과 제거 + 스킬 쿨다운 초기화(HP는 이월).
+		for _, d := range s.Squad {
+			d.clearEffects()
+			if d.Active != nil {
+				d.Active.reset()
+			}
+		}
 		s.logf("========================  Wave %d/%d  ========================", wi+1, total)
 
 		// 이 웨이브용 Battle: 편대(현재 HP 이월) + 신규 적. 같은 포인터라 HP가 자연 이월된다.
