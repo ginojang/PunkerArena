@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"math/rand"
+	"strings"
 
 	"punker/logic-server/battle"
 	"punker/logic-server/data"
@@ -37,6 +38,28 @@ func mustBuild(t *data.Tables, idx, level int, rng *rand.Rand, name string, side
 	return d
 }
 
+// loadSkill: 실제 SkillTBL id를 다이노에 장착. 미지원이면 경고 후 평타 폴백.
+func loadSkill(t *data.Tables, d *battle.Dino, skillIdx, skillLv int) {
+	if err := t.BuildSkillOn(d, skillIdx, skillLv); err != nil {
+		fmt.Printf("   [스킬 폴백] %s ← skill %d: %v\n", d.Name, skillIdx, err)
+	}
+}
+
+// skillLabel: 다이노에 장착된 스킬 요약(로스터 출력용).
+func skillLabel(d *battle.Dino) string {
+	var parts []string
+	if d.Active != nil {
+		parts = append(parts, "액티브 "+d.Active.Name)
+	}
+	for _, p := range d.Passives {
+		parts = append(parts, p.Name)
+	}
+	if len(parts) == 0 {
+		return "평타"
+	}
+	return strings.Join(parts, ", ")
+}
+
 func main() {
 	rand.Seed(1)                          // 전투 판정 RNG(재현용)
 	buildRng := rand.New(rand.NewSource(42)) // 다이노 생성 RNG(전투와 분리)
@@ -48,60 +71,34 @@ func main() {
 		return
 	}
 
-	// ── 플레이어 편대(side 0): 실제 다이노를 레벨 성장시켜 편성 + 스킬 부여 ──────
+	// ── 플레이어 편대(side 0): 실제 다이노 + 실제 SkillTBL 스킬 장착 ────────────
+	const skLv = 3 // 스킬 레벨(SkillLevelTBL)
+
 	allyAtk := mustBuild(tables, 111, 60, buildRng, "Ally_Atk", 0) // 정오, 딜러형
-	allyAtk.Active = &battle.Skill{ // 강타
-		Name: "강타", Target: battle.TgtEnemy, TType: battle.TTSingle,
-		Action: battle.ActAttack, Power: 2.2, MaxCool: 3,
-	}
-	allyAtk.Passives = []*battle.Passive{
-		{Name: "광폭", Event: battle.OnKill, PTarget: battle.PSelf,
-			Skill: &battle.Skill{Action: battle.ActBuff, Stat: battle.StatAttack, Op: battle.OpPercent, Delta: 20, Dur: 3}},
-		{Name: "재생", Event: battle.OnKill, PTarget: battle.PAllies,
-			Skill: &battle.Skill{Action: battle.ActHeal, Power: 15}},
-	}
+	loadSkill(tables, allyAtk, 1010202, skLv)                     // 액티브: 강타(공격 배율)
 
 	allyDef := mustBuild(tables, 411, 60, buildRng, "Ally_Def", 0) // 밤, 탱커형
 	allyDef.Defending = true                                       // 방어모드
 	allyDef.Resist = 45                                            // 탱커: 상태이상 저항 강화
-	allyDef.Active = &battle.Skill{ // 방어호령
-		Name: "방어호령", Target: battle.TgtAlly, TType: battle.TTAll,
-		Action: battle.ActBuff, Stat: battle.StatDefence, Op: battle.OpPercent, Delta: 25, Dur: 3, MaxCool: 4,
-	}
-	allyDef.Passives = []*battle.Passive{{Name: "가시갑옷", Event: battle.OnHit, PTarget: battle.POther, Chance: 60,
-		Skill: &battle.Skill{Action: battle.ActAttack, Power: 0.7}}}
+	loadSkill(tables, allyDef, 2010204, skLv)                      // 액티브: 방어력 버프(아군 전체)
 
 	allySpd := mustBuild(tables, 1061, 60, buildRng, "Ally_Spd", 0) // 월식, 스피드형
-	allySpd.Active = &battle.Skill{ // 정화
-		Name: "정화", Target: battle.TgtAlly, TType: battle.TTAll,
-		Action: battle.ActCleanse, MaxCool: 3,
-	}
+	loadSkill(tables, allySpd, 2010203, skLv)                       // 액티브: 회복
 
 	squad := []*battle.Dino{allyAtk, allyDef, allySpd}
 
-	// ── 적 웨이브(side 1): 실제 다이노를 웨이브마다 레벨을 올려 생성 + 일부 스킬 ────
+	// ── 적 웨이브(side 1): 실제 다이노 + 일부 실제 스킬(패시브 CC 포함) ──────────
 	w1a := mustBuild(tables, 112, 40, buildRng, "W1_112", 1)
 	w1b := mustBuild(tables, 212, 42, buildRng, "W1_212", 1)
-	w1b.Active = &battle.Skill{ // 맹독
-		Name: "맹독", Target: battle.TgtEnemy, TType: battle.TTSingle,
-		Action: battle.ActCC, CC: battle.CCSpec{Name: "중독", DoT: 7, Duration: 3}, MaxCool: 2,
-	}
+	loadSkill(tables, w1b, 1020401, skLv) // 패시브: 공격 성사 시 중독(DoT)
 
 	w2a := mustBuild(tables, 113, 50, buildRng, "W2_113", 1)
-	w2a.Active = &battle.Skill{ // 약화
-		Name: "약화", Target: battle.TgtEnemy, TType: battle.TTSingle,
-		Action: battle.ActDebuff, Stat: battle.StatAttack, Op: battle.OpPercent, Delta: 25, Dur: 2, MaxCool: 3,
-	}
+	loadSkill(tables, w2a, 1010202, skLv) // 액티브: 강타
 	w2b := mustBuild(tables, 213, 50, buildRng, "W2_213", 1)
 	w2c := mustBuild(tables, 121, 52, buildRng, "W2_121", 1)
 
 	w3boss := mustBuild(tables, 1061, 58, buildRng, "W3_Boss", 1) // 월식 보스(고레벨)
-	w3boss.Active = &battle.Skill{ // 공포
-		Name: "공포", Target: battle.TgtEnemy, TType: battle.TTSingle,
-		Action: battle.ActCC, CC: battle.CCSpec{Name: "기절", ActLock: true, Duration: 1}, MaxCool: 3,
-	}
-	w3boss.Passives = []*battle.Passive{{Name: "최후의발악", Event: battle.OnDeath, PTarget: battle.PEnemies,
-		Skill: &battle.Skill{Action: battle.ActAttack, Power: 1.2}}}
+	loadSkill(tables, w3boss, 5020404, skLv)                      // 패시브: 공격 성사 시 빙결(행동불가)
 	w3guard := mustBuild(tables, 221, 50, buildRng, "W3_Guard", 1)
 
 	stage := &battle.Stage{
@@ -118,8 +115,8 @@ func main() {
 	printRoster := func(title string, ds []*battle.Dino) {
 		fmt.Println("--", title)
 		for _, d := range ds {
-			fmt.Printf("   %-9s Lv%-3d %-3s  HP %-6.0f ATK %-5.0f DEF %-5.0f SPD %-5.0f\n",
-				d.Name, d.Level, attrName(d.Attribute), d.MaxHP, d.Attack, d.Defence, d.Aux)
+			fmt.Printf("   %-9s Lv%-3d %-3s  HP %-6.0f ATK %-5.0f DEF %-5.0f SPD %-5.0f  | %s\n",
+				d.Name, d.Level, attrName(d.Attribute), d.MaxHP, d.Attack, d.Defence, d.Aux, skillLabel(d))
 		}
 	}
 	printRoster("편대(side0)", squad)

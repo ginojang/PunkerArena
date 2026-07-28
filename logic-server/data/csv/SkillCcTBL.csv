@@ -1,0 +1,13 @@
+﻿idx,name,type,type_act_lock,type_target_lock,type_cc_clear,type_act,type_act_dupl,group,group_priority_level,fx_type,res_fx_cc_start,res_fx_cc_on,res_fx_text,res_ani_cc,res_atlas,res_icon
+1,163,1,1,0,0,0,0,1,1,1,,fx_cc_stun,,ani_cc_stun,Skill_Icon1,icon_cc_stun
+2,164,2,1,0,2,0,0,1,1,1,,fx_cc_freeze,,ani_cc_freeze,Skill_Icon1,icon_cc_freeze
+3,165,3,1,0,0,2,0,1,1,1,,fx_cc_petrifaction,,ani_cc_petrifaction,Skill_Icon1,icon_cc_petrifaction
+4,166,4,1,0,1,0,0,1,1,1,,fx_cc_sleep,,ani_cc_sleep,Skill_Icon1,icon_cc_sleep
+5,167,5,0,0,0,1,0,3,1,2,,fx_cc_bleeding,,ani_cc_bleeding,Skill_Icon1,icon_cc_bleeding
+6,168,6,0,0,0,1,1,3,2,2,,fx_cc_addicted,,ani_cc_addicted,Skill_Icon1,icon_cc_addicted
+7,169,7,0,1,0,6,0,2,1,2,,fx_cc_provocation,,ani_cc_provocation,Skill_Icon1,icon_cc_provocation
+8,170,8,0,0,0,3,0,2,1,1,,fx_cc_confuse,,ani_cc_confuse,Skill_Icon1,icon_cc_confuse
+9,171,9,0,0,0,5,0,2,1,1,,fx_cc_charm,,ani_cc_charm,Skill_Icon1,iocn_cc_charm
+10,172,10,0,0,0,7,0,4,1,1,,fx_cc_property_inversion,,,Skill_Icon1,icon_cc_property_inversion
+11,173,11,0,0,0,8,0,4,2,1,,fx_ccproperty_ignore,,,Skill_Icon1,icon_c_'property_inversion
+12,174,12,0,0,0,9,1,0,0,1,fx_shield_start,fx_skill_coconut_barrier01_loop,,,Skill_Icon1,

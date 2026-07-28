@@ -37,6 +37,12 @@ type RankRow struct {
 type Tables struct {
 	Bases map[int]BaseRow
 	Ranks []RankRow // Rank 오름차순
+
+	// 스킬 테이블 (skill.go)
+	Skills      map[int]SkillDef
+	SkillLevels map[int]map[int]SkillLevel // idx → lv → 수치
+	Buffs       map[int]BuffDef
+	Ccs         map[int]CcDef
 }
 
 // readCSV: BOM 제거 + 빈 줄 스킵. 첫 줄은 헤더로 반환 rows[0].
@@ -98,6 +104,10 @@ func LoadTables(dir string) (*Tables, error) {
 	}
 	if len(t.Ranks) == 0 {
 		return nil, fmt.Errorf("성장 랭크 테이블이 비었음")
+	}
+
+	if err := t.loadSkills(dir); err != nil {
+		return nil, err
 	}
 	return t, nil
 }

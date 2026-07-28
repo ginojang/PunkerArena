@@ -1,0 +1,356 @@
+package data
+
+import (
+	"fmt"
+	"path/filepath"
+	"strings"
+
+	"punker/logic-server/battle"
+)
+
+// [스펙 출처] SkillTBL(구조) + SkillLevelTBL(레벨별 수치) + SkillBuffTBL/SkillCcTBL(효과 정의).
+// 원본 enum: SkillType(ACTIVE=1,PASSIVE=2), SkillTarget(SELF1/ALLY2/ENEMY3),
+// SkillTargetType(SINGLE1/ALL2/…), SkillAction(ATTACK1/RECOVERY2/BUFF_DEBUF4/CC5/…).
+// 원본 실행부는 스텁이었으므로, 데이터 의미를 여기서 battle 모델로 매핑한다.
+
+const (
+	skActive  = 1
+	skPassive = 2
+
+	actAttack  = 1
+	actRecover = 2
+	actBuffDbf = 4
+	actCC      = 5
+
+	statCleanse = 14 // SkillBuffTBL stat_type 14 = 상태이상 해제(res_clear)
+)
+
+// SkillDef: SkillTBL 한 행(전투 컬럼만).
+type SkillDef struct {
+	Idx, Type, Cool         int
+	Target, TargetType      int
+	MainTrigger, MainAct    int
+	MainActId               int
+}
+
+// SkillLevel: SkillLevelTBL 한 (idx,lv) 행의 main_act 수치.
+type SkillLevel struct {
+	Lv        int
+	Rate      float64 // 발동 확률(%)
+	Ref       int     // 참조 스탯(1/2=atk 계열 — 근사)
+	ValueType int     // 2=퍼센트
+	Value     float64
+	Turn      int
+}
+
+// BuffDef: SkillBuffTBL — 버프/디버프 정의.
+type BuffDef struct {
+	Idx, BuffType, Calc, StatType int // BuffType 1버프/2디버프, Calc ±2%/±1상수/0특수
+}
+
+// CcDef: SkillCcTBL — 상태이상 정의.
+type CcDef struct {
+	Idx, ActLock int // ActLock 1=행동불가
+}
+
+func headerIndex(header []string) map[string]int {
+	m := map[string]int{}
+	for i, h := range header {
+		m[strings.TrimSpace(strings.TrimPrefix(h, "\ufeff"))] = i
+	}
+	return m
+}
+
+func cell(row []string, i int) string {
+	if i >= 0 && i < len(row) {
+		return row[i]
+	}
+	return ""
+}
+
+// loadSkills: 4개 스킬 테이블을 Tables에 로드.
+func (t *Tables) loadSkills(dir string) error {
+	// SkillTBL
+	rows, err := readCSV(filepath.Join(dir, "SkillTBL.csv"))
+	if err != nil {
+		return fmt.Errorf("SkillTBL: %w", err)
+	}
+	t.Skills = map[int]SkillDef{}
+	h := headerIndex(rows[0])
+	for _, r := range rows[1:] {
+		if strings.TrimSpace(cell(r, h["idx"])) == "" {
+			continue
+		}
+		sd := SkillDef{
+			Idx: atoi(cell(r, h["idx"])), Type: atoi(cell(r, h["type"])), Cool: atoi(cell(r, h["cool_turn"])),
+			Target: atoi(cell(r, h["target"])), TargetType: atoi(cell(r, h["target_type"])),
+			MainTrigger: atoi(cell(r, h["main_trigger"])), MainAct: atoi(cell(r, h["main_act"])),
+			MainActId: atoi(cell(r, h["main_act_id"])),
+		}
+		t.Skills[sd.Idx] = sd
+	}
+
+	// SkillLevelTBL
+	rows, err = readCSV(filepath.Join(dir, "SkillLevelTBL.csv"))
+	if err != nil {
+		return fmt.Errorf("SkillLevelTBL: %w", err)
+	}
+	t.SkillLevels = map[int]map[int]SkillLevel{}
+	h = headerIndex(rows[0])
+	for _, r := range rows[1:] {
+		idx := atoi(cell(r, h["idx"]))
+		if idx == 0 && strings.TrimSpace(cell(r, h["idx"])) == "" {
+			continue
+		}
+		sl := SkillLevel{
+			Lv: atoi(cell(r, h["lv"])), Rate: atof(cell(r, h["main_act_rate"])), Ref: atoi(cell(r, h["main_act_ref"])),
+			ValueType: atoi(cell(r, h["main_act_value_type"])), Value: atof(cell(r, h["main_act_value"])),
+			Turn: atoi(cell(r, h["main_act_turn"])),
+		}
+		if t.SkillLevels[idx] == nil {
+			t.SkillLevels[idx] = map[int]SkillLevel{}
+		}
+		t.SkillLevels[idx][sl.Lv] = sl
+	}
+
+	// SkillBuffTBL
+	rows, err = readCSV(filepath.Join(dir, "SkillBuffTBL.csv"))
+	if err != nil {
+		return fmt.Errorf("SkillBuffTBL: %w", err)
+	}
+	t.Buffs = map[int]BuffDef{}
+	h = headerIndex(rows[0])
+	for _, r := range rows[1:] {
+		if strings.TrimSpace(cell(r, h["idx"])) == "" || strings.TrimSpace(cell(r, h["stat_type"])) == "" {
+			continue
+		}
+		bd := BuffDef{Idx: atoi(cell(r, h["idx"])), BuffType: atoi(cell(r, h["buff_type"])),
+			Calc: atoi(cell(r, h["buff_calculation"])), StatType: atoi(cell(r, h["stat_type"]))}
+		t.Buffs[bd.Idx] = bd
+	}
+
+	// SkillCcTBL
+	rows, err = readCSV(filepath.Join(dir, "SkillCcTBL.csv"))
+	if err != nil {
+		return fmt.Errorf("SkillCcTBL: %w", err)
+	}
+	t.Ccs = map[int]CcDef{}
+	h = headerIndex(rows[0])
+	for _, r := range rows[1:] {
+		if strings.TrimSpace(cell(r, h["idx"])) == "" {
+			continue
+		}
+		cd := CcDef{Idx: atoi(cell(r, h["idx"])), ActLock: atoi(cell(r, h["type_act_lock"]))}
+		t.Ccs[cd.Idx] = cd
+	}
+	return nil
+}
+
+// pickLevel: 요청 레벨 이하의 최고 레벨 행, 없으면 최저 행.
+func (t *Tables) pickLevel(idx, want int) (SkillLevel, bool) {
+	m := t.SkillLevels[idx]
+	if len(m) == 0 {
+		return SkillLevel{}, false
+	}
+	best, bestLv, found := SkillLevel{}, -1, false
+	minLv, min := 1 <<30, SkillLevel{}
+	for lv, sl := range m {
+		if lv < minLv {
+			minLv, min = lv, sl
+		}
+		if lv <= want && lv > bestLv {
+			bestLv, best, found = lv, sl, true
+		}
+	}
+	if found {
+		return best, true
+	}
+	return min, true
+}
+
+// statTypeToKind: SkillBuffTBL stat_type → battle.StatKind. (0=미지원)
+func statTypeToKind(st int) (battle.StatKind, bool) {
+	switch st {
+	case 2:
+		return battle.StatAttack, true
+	case 3:
+		return battle.StatDefence, true
+	case 4:
+		return battle.StatAux, true
+	case 5:
+		return battle.StatHitRate, true
+	case 6:
+		return battle.StatPenetRate, true
+	case 7:
+		return battle.StatAvoidRate, true
+	case 8:
+		return battle.StatCritRate, true
+	case 10:
+		return battle.StatResist, true
+	case 11:
+		return battle.StatLuck, true
+	}
+	return 0, false
+}
+
+// triggerEvent: TriggerTBL idx → battle.TriggerEvent. (근사 매핑)
+func triggerEvent(trig int) (battle.TriggerEvent, bool) {
+	switch trig {
+	case 4: // Me Kill Enemy
+		return battle.OnKill, true
+	case 5, 7: // Me Hited
+		return battle.OnHit, true
+	case 10: // Me Dead
+		return battle.OnDeath, true
+	case 8, 12, 28: // 공격 성사(크리/타격/관통) → 공격시
+		return battle.OnAttack, true
+	}
+	return 0, false
+}
+
+func mapTarget(tg int) battle.Target {
+	switch tg {
+	case 1:
+		return battle.TgtSelf
+	case 2:
+		return battle.TgtAlly
+	}
+	return battle.TgtEnemy
+}
+
+func mapTType(tt int) battle.TargetType {
+	if tt == 2 { // ALL
+		return battle.TTAll
+	}
+	return battle.TTSingle // SINGLE 및 ROW/COL/FRONT/FUTHER는 단일로 근사
+}
+
+// mapPTarget: 패시브 대상(이벤트 문맥) — 적 대상=상대, 자신=자신, 아군=아군전체.
+func mapPTarget(tg int) battle.PassiveTarget {
+	switch tg {
+	case 1:
+		return battle.PSelf
+	case 2:
+		return battle.PAllies
+	}
+	return battle.POther
+}
+
+func actionKor(act int) string {
+	switch act {
+	case actAttack:
+		return "공격"
+	case actRecover:
+		return "회복"
+	case actBuffDbf:
+		return "버프"
+	case actCC:
+		return "상태이상"
+	}
+	return "스킬"
+}
+
+// buildAction: 스킬의 액션 페이로드(*battle.Skill)를 생성. caster는 스탯 스케일용.
+func (t *Tables) buildAction(sd SkillDef, sl SkillLevel, caster *battle.Dino) (*battle.Skill, error) {
+	name := fmt.Sprintf("%s#%d", actionKor(sd.MainAct), sd.Idx)
+	s := &battle.Skill{Name: name}
+	switch sd.MainAct {
+	case actAttack:
+		s.Action = battle.ActAttack
+		s.Power = sl.Value / 100.0 // value=150 → 1.5배
+		if s.Power <= 0 {
+			s.Power = 1.0
+		}
+	case actRecover:
+		s.Action = battle.ActHeal
+		s.Power = caster.Attack * sl.Value / 100.0 // 시전자 공격력의 value% 회복(근사)
+	case actBuffDbf:
+		bd, ok := t.Buffs[sd.MainActId]
+		if !ok {
+			return nil, fmt.Errorf("SkillBuffTBL %d 없음", sd.MainActId)
+		}
+		if bd.StatType == statCleanse { // res_clear → 클렌즈
+			s.Action = battle.ActCleanse
+			return s, nil
+		}
+		kind, ok := statTypeToKind(bd.StatType)
+		if !ok {
+			return nil, fmt.Errorf("버프 stat_type %d 미지원", bd.StatType)
+		}
+		s.Stat = kind
+		if bd.Calc == 1 || bd.Calc == -1 {
+			s.Op = battle.OpConst
+		} else {
+			s.Op = battle.OpPercent
+		}
+		s.Delta = sl.Value
+		s.Dur = sl.Turn
+		if bd.BuffType == 2 {
+			s.Action = battle.ActDebuff
+		} else {
+			s.Action = battle.ActBuff
+		}
+	case actCC:
+		cd, ok := t.Ccs[sd.MainActId]
+		if !ok {
+			return nil, fmt.Errorf("SkillCcTBL %d 없음", sd.MainActId)
+		}
+		s.Action = battle.ActCC
+		dur := sl.Turn
+		if dur <= 0 {
+			dur = 1
+		}
+		if cd.ActLock == 1 { // 기절/빙결류
+			s.CC = battle.CCSpec{Name: fmt.Sprintf("CC%d", cd.Idx), ActLock: true, Duration: dur}
+		} else { // 비행동제약 + value → 지속피해(중독/출혈)로 근사
+			dot := caster.Attack * sl.Value / 100.0
+			if dot <= 0 {
+				dot = sl.Value
+			}
+			s.CC = battle.CCSpec{Name: fmt.Sprintf("CC%d", cd.Idx), DoT: dot, Duration: dur}
+		}
+	default:
+		return nil, fmt.Errorf("액션 %d 미지원", sd.MainAct)
+	}
+	return s, nil
+}
+
+// BuildSkillOn: skillIdx 스킬을 dino에 장착(액티브=Active, 패시브=Passives 추가).
+// caster 스탯 스케일 반영. 미지원 액션/트리거면 error(호출부에서 폴백).
+func (t *Tables) BuildSkillOn(d *battle.Dino, skillIdx, skillLv int) error {
+	sd, ok := t.Skills[skillIdx]
+	if !ok {
+		return fmt.Errorf("SkillTBL idx %d 없음", skillIdx)
+	}
+	sl, ok := t.pickLevel(skillIdx, skillLv)
+	if !ok {
+		return fmt.Errorf("SkillLevelTBL idx %d 레벨행 없음", skillIdx)
+	}
+	payload, err := t.buildAction(sd, sl, d)
+	if err != nil {
+		return err
+	}
+
+	if sd.Type == skPassive || sd.MainTrigger != 0 { // 패시브(트리거 有)
+		ev, ok := triggerEvent(sd.MainTrigger)
+		if !ok {
+			return fmt.Errorf("트리거 %d 미지원", sd.MainTrigger)
+		}
+		chance := sl.Rate
+		if chance >= 100 {
+			chance = 0 // 100%는 무조건 발동(Chance 0 처리)
+		}
+		d.Passives = append(d.Passives, &battle.Passive{
+			Name: fmt.Sprintf("P:%s", payload.Name), Event: ev, PTarget: mapPTarget(sd.Target),
+			Skill: payload, Chance: chance, MaxCool: sd.Cool,
+		})
+		return nil
+	}
+
+	// 액티브
+	payload.Target = mapTarget(sd.Target)
+	payload.TType = mapTType(sd.TargetType)
+	payload.MaxCool = sd.Cool
+	d.Active = payload
+	return nil
+}
