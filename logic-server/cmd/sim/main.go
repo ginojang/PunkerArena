@@ -115,8 +115,9 @@ func main() {
 	printRoster := func(title string, ds []*battle.Dino) {
 		fmt.Println("--", title)
 		for _, d := range ds {
-			fmt.Printf("   %-9s Lv%-3d %-3s  HP %-6.0f ATK %-5.0f DEF %-5.0f SPD %-5.0f  | %s\n",
-				d.Name, d.Level, attrName(d.Attribute), d.MaxHP, d.Attack, d.Defence, d.Aux, skillLabel(d))
+			fmt.Printf("   %-9s Lv%-3d %-3s  HP %-6.0f ATK %-5.0f DEF %-5.0f SPD %-5.0f  [명중%.0f 회피%.0f 치명%.0f 관통%.0f 저항%.0f 행운%.0f]  | %s\n",
+				d.Name, d.Level, attrName(d.Attribute), d.MaxHP, d.Attack, d.Defence, d.Aux,
+				d.HitRate, d.AvoidRate, d.CritRate, d.PenetRate, d.Resist, d.Luck, skillLabel(d))
 		}
 	}
 	printRoster("편대(side0)", squad)

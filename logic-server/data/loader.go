@@ -14,6 +14,7 @@ import (
 // BaseRow: DinoBaseTBL 한 행(전투에 쓰는 컬럼만).
 type BaseRow struct {
 	Idx       int
+	Class     int     // 파츠 매칭용 클래스
 	Attribute int     // 1=Noon 2=Night 3=Dawn 4=Eclipse
 	Talent    int     // 1 육식 / 2 초식 / 3 잡식
 	Role      int     // 역할(딜러/탱커 등)
@@ -22,7 +23,21 @@ type BaseRow struct {
 	AtkCoef   float64 // 공격 계수
 	DefCoef   float64 // 방어 계수
 	SpdCoef   float64 // 순발력 계수
-	Skill     int     // 대표 스킬 id (SkillTBL — 다음 슬라이스)
+	Skill     int     // 몸통 대표 스킬 id
+}
+
+// PartRow: DinoPartsTBL 한 행. 몸통 계수에 더해지는 계수 + 파츠 전용 부스탯 + 스킬.
+type PartRow struct {
+	Idx, Class, Type                      int
+	InitCoef, HpCoef, AtkCoef, DefCoef, SpdCoef float64
+	HitRate, AvoidRate, CritRate, CritDmg float64
+	ResRate, PenRate, Luck                float64
+	Skill                                 int
+}
+
+// subSum: 이 파츠의 부스탯 총합(기본 파츠셋 선택 기준).
+func (p PartRow) subSum() float64 {
+	return p.HitRate + p.AvoidRate + p.CritRate + p.CritDmg + p.ResRate + p.PenRate + p.Luck
 }
 
 // RankRow: DinoStatGrowthRankTBL 한 행. 성장 랭크별 레벨업 상수 범위.
@@ -36,6 +51,7 @@ type RankRow struct {
 // Tables: 로드된 밸런스 테이블 모음.
 type Tables struct {
 	Bases map[int]BaseRow
+	Parts []PartRow // DinoPartsTBL 전체
 	Ranks []RankRow // Rank 오름차순
 
 	// 스킬 테이블 (skill.go)
@@ -82,11 +98,29 @@ func LoadTables(dir string) (*Tables, error) {
 			continue
 		}
 		b := BaseRow{
-			Idx: atoi(r[0]), Attribute: atoi(r[7]), Talent: atoi(r[8]), Role: atoi(r[9]),
+			Idx: atoi(r[0]), Class: atoi(r[5]), Attribute: atoi(r[7]), Talent: atoi(r[8]), Role: atoi(r[9]),
 			InitCoef: atof(r[10]), HpCoef: atof(r[11]), AtkCoef: atof(r[12]),
 			DefCoef: atof(r[13]), SpdCoef: atof(r[14]), Skill: atoi(r[15]),
 		}
 		t.Bases[b.Idx] = b
+	}
+
+	// DinoPartsTBL: idx,file,name,desc,parts_class,grade,parts_type,init,hp,atk,def,spd,
+	//               hit,avd,cri,cri_dmg,res,def_pen,luk,charm,skill,res_icon
+	partRows, err := readCSV(filepath.Join(dir, "DinoPartsTBL.csv"))
+	if err != nil {
+		return nil, fmt.Errorf("DinoPartsTBL: %w", err)
+	}
+	for _, r := range partRows[1:] {
+		if len(r) < 21 || strings.TrimSpace(r[0]) == "" {
+			continue
+		}
+		t.Parts = append(t.Parts, PartRow{
+			Idx: atoi(r[0]), Class: atoi(r[4]), Type: atoi(r[6]),
+			InitCoef: atof(r[7]), HpCoef: atof(r[8]), AtkCoef: atof(r[9]), DefCoef: atof(r[10]), SpdCoef: atof(r[11]),
+			HitRate: atof(r[12]), AvoidRate: atof(r[13]), CritRate: atof(r[14]), CritDmg: atof(r[15]),
+			ResRate: atof(r[16]), PenRate: atof(r[17]), Luck: atof(r[18]), Skill: atoi(r[20]),
+		})
 	}
 
 	// DinoStatGrowthRankTBL: rank,mark_ref_value,min_const_value,max_const_value
