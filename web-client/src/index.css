@@ -68,6 +68,40 @@ body {
   font-weight: 700;
 }
 
+/* ── 액션 바(플레이어 턴) ── */
+.actionbar {
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  background: #0f1620f2;
+  border: 1px solid #2b3a4a;
+  border-radius: 12px;
+  padding: 10px 14px;
+  box-shadow: 0 8px 30px #0008;
+  max-width: 92%;
+}
+.actionbar .actor { font-size: 13px; font-weight: 700; color: #ffd479; }
+.actionbar .btns { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.act {
+  background: #17212c;
+  color: var(--text);
+  border: 1px solid #2b3a4a;
+  border-radius: 8px;
+  padding: 7px 12px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.12s;
+}
+.act:hover { border-color: #388bfd; background: #1c2a38; }
+.act.sel { border-color: #ff6b6b; background: #2a1c1c; }
+.act.auto { border-color: #3a4a3a; color: #9fe0a5; }
+.act .tgt { color: #ff8b8b; font-weight: 700; }
+
 /* ── 콘솔 ── */
 .console {
   display: flex;

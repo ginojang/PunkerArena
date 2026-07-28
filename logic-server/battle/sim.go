@@ -12,9 +12,18 @@ type Battle struct {
 	Dinos      []*Dino
 	Log        []string
 	Turn       int
-	StageStart bool                    // 이 전투가 스테이지의 첫 웨이브인가(OnStageStart 발동용)
-	OnLog      func(b *Battle, s string) // 로그 1줄마다 호출(전송 스트리밍용). b.Dinos로 현재 상태 조회.
-	inPassive  bool                    // 패시브가 유발한 타격 처리 중 — 패시브 재귀 발동 방지
+	StageStart bool                       // 이 전투가 스테이지의 첫 웨이브인가(OnStageStart 발동용)
+	OnLog      func(b *Battle, s string)  // 로그 1줄마다 호출(전송 스트리밍용). b.Dinos로 현재 상태 조회.
+	Decide     func(b *Battle, a *Dino) Decision // 플레이어 조작 훅(nil=완전 AI)
+	PlayerSide int                        // 조작 대상 진영(Decide가 이 진영에만 적용). 기본 0.
+	inPassive  bool                       // 패시브가 유발한 타격 처리 중 — 패시브 재귀 발동 방지
+}
+
+// Decision: 한 턴의 행동 선택(플레이어 조작 또는 AI 폴백).
+type Decision struct {
+	Auto   bool   // true면 이 턴은 AI가 선택
+	Skill  *Skill // nil = 평타
+	Target *Dino  // 지정 대상(단일 스킬/평타용). nil이면 자동 선택.
 }
 
 func (b *Battle) logf(f string, a ...any) {
@@ -79,7 +88,8 @@ func lowestHPRatio(pool []*Dino) *Dino {
 }
 
 // skillTargets: 스킬 대상 선택. 공격/CC 단일=랜덤 적, 회복/버프 단일=최저 HP 아군.
-func (b *Battle) skillTargets(caster *Dino, s *Skill) []*Dino {
+// forced!=nil이면 단일 스킬에 한해 그 대상을 우선(같은 풀에 살아있을 때).
+func (b *Battle) skillTargets(caster *Dino, s *Skill, forced *Dino) []*Dino {
 	if s.Target == TgtSelf {
 		return []*Dino{caster}
 	}
@@ -94,6 +104,13 @@ func (b *Battle) skillTargets(caster *Dino, s *Skill) []*Dino {
 	}
 	if s.TType == TTAll {
 		return pool
+	}
+	if forced != nil && forced.Alive() { // 지정 대상이 이 스킬 풀에 있으면 사용
+		for _, d := range pool {
+			if d == forced {
+				return []*Dino{forced}
+			}
+		}
 	}
 	switch s.Action {
 	case ActHeal, ActBuff:
@@ -150,13 +167,16 @@ func (b *Battle) resolveHit(a, t *Dino, r AttackResult, label string) {
 	}
 }
 
-// basicAttack: 평타 — 랜덤 적 1명 공격.
-func (b *Battle) basicAttack(a *Dino) {
+// basicAttack: 평타 — 지정 적(forced) 또는 랜덤 적 1명 공격.
+func (b *Battle) basicAttack(a *Dino, forced *Dino) {
 	enemies := b.enemies(a)
 	if len(enemies) == 0 {
 		return
 	}
 	t := enemies[rand.Intn(len(enemies))]
+	if forced != nil && forced.Alive() && forced.Side != a.Side {
+		t = forced
+	}
 	b.resolveHit(a, t, Attack(a, t), "평타")
 }
 
@@ -207,14 +227,35 @@ func (b *Battle) chooseActive(a *Dino) *Skill {
 	return best
 }
 
-// castSkill: 액티브 스킬 시전. 대상이 없으면 평타로 대체.
-func (b *Battle) castSkill(a *Dino, s *Skill) {
-	targets := b.skillTargets(a, s)
+// castSkill: 액티브 스킬 시전. 대상이 없으면 평타로 대체. forced=지정 대상(단일).
+func (b *Battle) castSkill(a *Dino, s *Skill, forced *Dino) {
+	targets := b.skillTargets(a, s, forced)
 	if len(targets) == 0 {
-		b.basicAttack(a)
+		b.basicAttack(a, forced)
 		return
 	}
 	b.applyAction(a, s, targets, s.Name)
+}
+
+// takeTurn: 행동자 a의 한 턴 행동을 결정·실행. Decide 훅+플레이어측이면 조작, 아니면 AI.
+func (b *Battle) takeTurn(a *Dino) {
+	var skill *Skill
+	var forced *Dino
+	useAI := true
+	if b.Decide != nil && a.Side == b.PlayerSide {
+		if dec := b.Decide(b, a); !dec.Auto {
+			useAI, skill, forced = false, dec.Skill, dec.Target
+		}
+	}
+	if useAI {
+		skill = b.chooseActive(a)
+	}
+	if skill != nil {
+		b.castSkill(a, skill, forced)
+		skill.fire()
+	} else {
+		b.basicAttack(a, forced)
+	}
 }
 
 // applyAction: 스킬 액션 1건을 대상들에 적용 + 로그. 액티브·패시브 공용.
@@ -303,7 +344,7 @@ func (b *Battle) applyAction(a *Dino, s *Skill, targets []*Dino, label string) {
 
 	// 2차 효과(라이더): 각자 대상을 다시 잡아 함께 발동(sub_act trig=0). 라이더는 라이더를 갖지 않음.
 	for _, rd := range s.Riders {
-		rt := b.skillTargets(a, rd)
+		rt := b.skillTargets(a, rd, nil)
 		if len(rt) > 0 {
 			b.applyAction(a, rd, rt, rd.Name)
 		}
@@ -369,12 +410,7 @@ func (b *Battle) Run(maxTurns int) int {
 				continue
 			}
 
-			if act := b.chooseActive(a); act != nil {
-				b.castSkill(a, act)
-				act.fire()
-			} else {
-				b.basicAttack(a)
-			}
+			b.takeTurn(a)
 			b.fireEvent(a, nil, OnTurnEnd, 0)
 		}
 	}

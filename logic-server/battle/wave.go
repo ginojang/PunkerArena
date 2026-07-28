@@ -9,9 +9,11 @@ import "fmt"
 type Stage struct {
 	Squad []*Dino   // side 0 — 웨이브 간 지속(생존 HP 이월, 사망 유지)
 	Waves [][]*Dino // 각 원소 = 한 웨이브의 side 1 적 그룹
-	Log   []string
-	Turn  int                       // 스테이지 누적 턴
-	OnLog func(b *Battle, s string) // 각 웨이브 Battle에 전달할 스트리밍 훅
+	Log        []string
+	Turn       int                              // 스테이지 누적 턴
+	OnLog      func(b *Battle, s string)        // 각 웨이브 Battle에 전달할 스트리밍 훅
+	Decide     func(b *Battle, a *Dino) Decision // 플레이어 조작 훅(각 웨이브 Battle에 전달)
+	PlayerSide int                              // 조작 대상 진영
 }
 
 // StageResult: 스테이지 전투 결과
@@ -56,7 +58,7 @@ func (s *Stage) Run(maxTurnsPerWave int) StageResult {
 		s.logf("========================  Wave %d/%d  ========================", wi+1, total)
 
 		// 이 웨이브용 Battle: 편대(현재 HP 이월) + 신규 적. 같은 포인터라 HP가 자연 이월된다.
-		b := &Battle{StageStart: wi == 0, OnLog: s.OnLog} // 첫 웨이브에서만 OnStageStart
+		b := &Battle{StageStart: wi == 0, OnLog: s.OnLog, Decide: s.Decide, PlayerSide: s.PlayerSide} // 첫 웨이브에서만 OnStageStart
 		b.Dinos = append(b.Dinos, s.Squad...)
 		b.Dinos = append(b.Dinos, enemies...)
 
